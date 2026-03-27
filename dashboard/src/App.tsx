@@ -28,6 +28,10 @@ import {
   Copy,
   Check,
   Command,
+  Settings,
+  Table2,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlobeView } from './components/GlobeView';
@@ -43,6 +47,10 @@ import { CommandPalette } from './components/CommandPalette';
 import { PipelineProgress } from './components/PipelineProgress';
 import { ThreatTimeline } from './components/ThreatTimeline';
 import { NetworkGraph } from './components/NetworkGraph';
+import { DataTable } from './components/DataTable';
+import { EvidenceFlow } from './components/EvidenceFlow';
+import { SettingsPanel } from './components/SettingsPanel';
+import type { Settings } from './components/SettingsPanel';
 import type { Action } from './components/CommandPalette';
 import type { Threat } from './components/ThreatMatrix';
 
@@ -103,6 +111,15 @@ export default function App() {
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settings, setSettings] = useState<Settings>({
+    accentColor: '#06b6d4',
+    soundEnabled: false,
+    scanlines: true,
+    density: 'normal',
+    autoRefresh: true,
+    refreshInterval: 10000,
+  });
   const [sparkHistory, setSparkHistory] = useState<{ total: number[]; threats: number[]; confidence: number[] }>({
     total: [], threats: [], confidence: [],
   });
@@ -143,6 +160,21 @@ export default function App() {
         const newBlocks = res.data.distribution?.['BLOCK'] || 0;
         if (newBlocks > 0) {
           addToast(`${newBlocks} BLOCK-level threats detected`, 'threat');
+          // Play alert sound if enabled
+          if (settings.soundEnabled) {
+            try {
+              const ctx = new AudioContext();
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.frequency.value = 800;
+              gain.gain.value = 0.1;
+              osc.start();
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+              osc.stop(ctx.currentTime + 0.3);
+            } catch {}
+          }
         }
       }
       setLastDataHash(hash);
@@ -214,9 +246,10 @@ export default function App() {
   // -- Effects --
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, data ? 10000 : 3000);
+    if (!settings.autoRefresh && data) return;
+    const interval = setInterval(fetchData, data ? settings.refreshInterval : 3000);
     return () => clearInterval(interval);
-  }, [fetchData, !data]);
+  }, [fetchData, !data, settings.autoRefresh, settings.refreshInterval]);
 
   useEffect(() => {
     if (selectedThreat) {
@@ -264,9 +297,10 @@ export default function App() {
       if (e.target instanceof HTMLInputElement) return;
       if (e.key === '1') setActivePage('ov');
       if (e.key === '2') setActivePage('an');
-      if (e.key === '3') setActivePage('fl');
+      if (e.key === '3') setActivePage('dt');
       if (e.key === '4') setActivePage('ng');
       if (e.key === '5') setActivePage('tl');
+      if (e.key === '6') setActivePage('fl');
       if (e.key === 't') setTerminalOpen(t => !t);
       if (e.key === 'p' && !pipelineRunning) runPipeline();
       if (e.key === 'f') setFullscreen(f => !f);
@@ -414,9 +448,17 @@ export default function App() {
   // -- Main Render --
   return (
     <div className="h-screen w-screen flex bg-background overflow-hidden text-gray-200">
-      {/* Scanline + Noise overlay */}
-      <div className="scanline-overlay" />
-      <div className="noise-overlay" />
+      {/* Scanline + Noise overlay (toggleable) */}
+      {settings.scanlines && <div className="scanline-overlay" />}
+      {settings.scanlines && <div className="noise-overlay" />}
+
+      {/* Settings Panel */}
+      <SettingsPanel
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        settings={settings}
+        onChange={setSettings}
+      />
 
       {/* Toast Notifications */}
       <div className="fixed top-24 right-6 z-[200] flex flex-col gap-2 pointer-events-none">
@@ -449,13 +491,15 @@ export default function App() {
         actions={[
           { id: 'nav-overview', label: 'Go to Overview', description: 'Globe + Threat Matrix view', icon: Activity, category: 'Navigation', shortcut: '1', action: () => setActivePage('ov') },
           { id: 'nav-analytics', label: 'Go to Analytics', description: 'Charts and data analysis', icon: BarChart3, category: 'Navigation', shortcut: '2', action: () => setActivePage('an') },
-          { id: 'nav-forensic', label: 'Go to Forensic Lab', description: 'Intelligence report viewer', icon: Microscope, category: 'Navigation', shortcut: '3', action: () => setActivePage('fl') },
+          { id: 'nav-datatable', label: 'Go to Data Table', description: 'Sortable threat table with filters', icon: Table2, category: 'Navigation', shortcut: '3', action: () => setActivePage('dt') },
           { id: 'nav-network', label: 'Go to Network Graph', description: 'User-article relationship graph', icon: GitBranch, category: 'Navigation', shortcut: '4', action: () => setActivePage('ng') },
           { id: 'nav-timeline', label: 'Go to Timeline', description: 'Temporal threat density', icon: Timer, category: 'Navigation', shortcut: '5', action: () => setActivePage('tl') },
+          { id: 'nav-forensic', label: 'Go to Forensic Lab', description: 'Intelligence report viewer', icon: Microscope, category: 'Navigation', shortcut: '6', action: () => setActivePage('fl') },
           { id: 'act-pipeline', label: 'Trigger Pipeline', description: 'Run the 7-stage analysis pipeline', icon: RefreshCw, category: 'Actions', shortcut: 'P', action: () => { if (!pipelineRunning) runPipeline(); } },
           { id: 'act-export', label: 'Export Intelligence Data', description: 'Download JSON intelligence report', icon: Download, category: 'Actions', action: exportData },
           { id: 'act-terminal', label: 'Toggle Terminal', description: 'Show/hide forensic logs', icon: Terminal, category: 'Actions', shortcut: 'T', action: () => setTerminalOpen(t => !t) },
           { id: 'act-fullscreen', label: 'Toggle Fullscreen', description: 'Expand content area', icon: Maximize, category: 'Actions', shortcut: 'F', action: () => setFullscreen(f => !f) },
+          { id: 'act-settings', label: 'Settings', description: 'Accent color, sounds, density', icon: Settings, category: 'Actions', action: () => setSettingsOpen(true) },
           { id: 'act-shortcuts', label: 'Keyboard Shortcuts', description: 'View all shortcuts', icon: Keyboard, category: 'Help', shortcut: '?', action: () => setShowShortcuts(true) },
         ] as Action[]}
       />
@@ -490,9 +534,10 @@ export default function App() {
                   { key: 'Ctrl+K', desc: 'Command palette' },
                   { key: '1', desc: 'Overview' },
                   { key: '2', desc: 'Analytics' },
-                  { key: '3', desc: 'Forensic Lab' },
+                  { key: '3', desc: 'Data Table' },
                   { key: '4', desc: 'Network Graph' },
                   { key: '5', desc: 'Timeline' },
+                  { key: '6', desc: 'Forensic Lab' },
                   { key: 'T', desc: 'Toggle terminal' },
                   { key: 'P', desc: 'Trigger pipeline' },
                   { key: 'F', desc: 'Toggle fullscreen' },
@@ -534,6 +579,7 @@ export default function App() {
           {[
             { id: 'ov', label: 'Overview', icon: Activity },
             { id: 'an', label: 'Analytics', icon: BarChart3 },
+            { id: 'dt', label: 'Data Table', icon: Table2 },
             { id: 'ng', label: 'Network Graph', icon: GitBranch },
             { id: 'tl', label: 'Timeline', icon: Timer },
             { id: 'fl', label: 'Forensic Lab', icon: Microscope },
@@ -606,6 +652,14 @@ export default function App() {
                 <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-mono text-gray-600">Ctrl+K</kbd>
               </div>
             )}
+          </button>
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="w-full flex items-center gap-4 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-white/5 hover:text-gray-400 transition-colors"
+            title="Settings"
+          >
+            <Settings size={18} />
+            {sidebarOpen && <span className="text-xs">Settings</span>}
           </button>
           <button
             onClick={() => setShowShortcuts(true)}
@@ -833,6 +887,23 @@ export default function App() {
           /* ── Analytics ── */
           <motion.div key="an" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-hidden">
             <AnalyticsView data={data} />
+          </motion.div>
+        ) : activePage === 'dt' ? (
+          /* ── Data Table ── */
+          <motion.div key="dt" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-hidden flex flex-col">
+            <div className="px-6 py-3 border-b border-white/5 shrink-0">
+              <h2 className="text-lg font-bold text-white flex items-center gap-3">
+                <Table2 size={20} className="text-cyan-400" /> Intelligence Data Table
+              </h2>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {data.top_threats?.length || 0} threats — sortable, filterable, exportable
+              </p>
+            </div>
+            <DataTable
+              threats={data.top_threats || []}
+              onSelect={(t) => setSelectedThreat(t)}
+              onExport={exportData}
+            />
           </motion.div>
         ) : activePage === 'ng' ? (
           /* ── Network Graph ── */
@@ -1109,6 +1180,11 @@ export default function App() {
                       ))}
                     </div>
                   </div>
+
+                  {/* Evidence Flow Diagram */}
+                  {selectedThreat.mass_sources && (
+                    <EvidenceFlow threat={selectedThreat} />
+                  )}
 
                   {/* Pignistic Probability + Mass Sources (if available) */}
                   {selectedThreat.pignistic && (
