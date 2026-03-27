@@ -21,6 +21,13 @@ import {
   AlertTriangle,
   Clock,
   Keyboard,
+  GitBranch,
+  Timer,
+  Maximize,
+  Minimize,
+  Copy,
+  Check,
+  Command,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlobeView } from './components/GlobeView';
@@ -32,6 +39,11 @@ import { ActivityTicker } from './components/ActivityTicker';
 import { Sparkline } from './components/Sparkline';
 import { MassSourceChart } from './components/MassSourceChart';
 import { PignisticGauge } from './components/PignisticGauge';
+import { CommandPalette } from './components/CommandPalette';
+import { PipelineProgress } from './components/PipelineProgress';
+import { ThreatTimeline } from './components/ThreatTimeline';
+import { NetworkGraph } from './components/NetworkGraph';
+import type { Action } from './components/CommandPalette';
 import type { Threat } from './components/ThreatMatrix';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
@@ -88,6 +100,9 @@ export default function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [lastDataHash, setLastDataHash] = useState('');
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [sparkHistory, setSparkHistory] = useState<{ total: number[]; threats: number[]; confidence: number[] }>({
     total: [], threats: [], confidence: [],
   });
@@ -216,12 +231,31 @@ export default function App() {
     if (activePage === 'fl' && !report) fetchReport();
   }, [activePage]);
 
+  // -- Dynamic Tab Title --
+  useEffect(() => {
+    if (!data) return;
+    const blocks = data.distribution?.['BLOCK'] || 0;
+    const flags = data.distribution?.['FLAG'] || 0;
+    const total = blocks + flags;
+    document.title = total > 0
+      ? `(${total}) Wiki-Stream Intelligence`
+      : 'Wiki-Stream Intelligence Dashboard';
+  }, [data]);
+
   // -- Keyboard Shortcuts --
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      // Ctrl+K / Cmd+K for command palette
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setCmdPaletteOpen(o => !o);
+        return;
+      }
       if (e.key === 'Escape') {
+        if (cmdPaletteOpen) { setCmdPaletteOpen(false); return; }
         if (showShortcuts) { setShowShortcuts(false); return; }
         if (detail) { setDetail(null); return; }
+        if (fullscreen) { setFullscreen(false); return; }
       }
       if (e.key === '?' && !e.ctrlKey && !e.metaKey && !(e.target instanceof HTMLInputElement)) {
         setShowShortcuts(s => !s);
@@ -231,12 +265,15 @@ export default function App() {
       if (e.key === '1') setActivePage('ov');
       if (e.key === '2') setActivePage('an');
       if (e.key === '3') setActivePage('fl');
+      if (e.key === '4') setActivePage('ng');
+      if (e.key === '5') setActivePage('tl');
       if (e.key === 't') setTerminalOpen(t => !t);
       if (e.key === 'p' && !pipelineRunning) runPipeline();
+      if (e.key === 'f') setFullscreen(f => !f);
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [detail, pipelineRunning, showShortcuts]);
+  }, [detail, pipelineRunning, showShortcuts, cmdPaletteOpen, fullscreen]);
 
   // -- Boot Sequence --
   useEffect(() => {
@@ -405,6 +442,24 @@ export default function App() {
         </AnimatePresence>
       </div>
 
+      {/* Command Palette */}
+      <CommandPalette
+        open={cmdPaletteOpen}
+        onClose={() => setCmdPaletteOpen(false)}
+        actions={[
+          { id: 'nav-overview', label: 'Go to Overview', description: 'Globe + Threat Matrix view', icon: Activity, category: 'Navigation', shortcut: '1', action: () => setActivePage('ov') },
+          { id: 'nav-analytics', label: 'Go to Analytics', description: 'Charts and data analysis', icon: BarChart3, category: 'Navigation', shortcut: '2', action: () => setActivePage('an') },
+          { id: 'nav-forensic', label: 'Go to Forensic Lab', description: 'Intelligence report viewer', icon: Microscope, category: 'Navigation', shortcut: '3', action: () => setActivePage('fl') },
+          { id: 'nav-network', label: 'Go to Network Graph', description: 'User-article relationship graph', icon: GitBranch, category: 'Navigation', shortcut: '4', action: () => setActivePage('ng') },
+          { id: 'nav-timeline', label: 'Go to Timeline', description: 'Temporal threat density', icon: Timer, category: 'Navigation', shortcut: '5', action: () => setActivePage('tl') },
+          { id: 'act-pipeline', label: 'Trigger Pipeline', description: 'Run the 7-stage analysis pipeline', icon: RefreshCw, category: 'Actions', shortcut: 'P', action: () => { if (!pipelineRunning) runPipeline(); } },
+          { id: 'act-export', label: 'Export Intelligence Data', description: 'Download JSON intelligence report', icon: Download, category: 'Actions', action: exportData },
+          { id: 'act-terminal', label: 'Toggle Terminal', description: 'Show/hide forensic logs', icon: Terminal, category: 'Actions', shortcut: 'T', action: () => setTerminalOpen(t => !t) },
+          { id: 'act-fullscreen', label: 'Toggle Fullscreen', description: 'Expand content area', icon: Maximize, category: 'Actions', shortcut: 'F', action: () => setFullscreen(f => !f) },
+          { id: 'act-shortcuts', label: 'Keyboard Shortcuts', description: 'View all shortcuts', icon: Keyboard, category: 'Help', shortcut: '?', action: () => setShowShortcuts(true) },
+        ] as Action[]}
+      />
+
       {/* Keyboard Shortcuts Modal */}
       <AnimatePresence>
         {showShortcuts && (
@@ -432,11 +487,15 @@ export default function App() {
               </div>
               <div className="space-y-2">
                 {[
+                  { key: 'Ctrl+K', desc: 'Command palette' },
                   { key: '1', desc: 'Overview' },
                   { key: '2', desc: 'Analytics' },
                   { key: '3', desc: 'Forensic Lab' },
+                  { key: '4', desc: 'Network Graph' },
+                  { key: '5', desc: 'Timeline' },
                   { key: 'T', desc: 'Toggle terminal' },
                   { key: 'P', desc: 'Trigger pipeline' },
+                  { key: 'F', desc: 'Toggle fullscreen' },
                   { key: 'Esc', desc: 'Close panel / modal' },
                   { key: '?', desc: 'Show shortcuts' },
                 ].map((s, i) => (
@@ -456,8 +515,8 @@ export default function App() {
       {/* Sidebar */}
       <motion.nav
         initial={false}
-        animate={{ width: sidebarOpen ? 260 : 80 }}
-        className="h-full border-r border-white/5 bg-[#0f0f13] flex flex-col z-50 p-4 shrink-0"
+        animate={{ width: fullscreen ? 0 : sidebarOpen ? 260 : 80, opacity: fullscreen ? 0 : 1 }}
+        className={`h-full border-r border-white/5 bg-[#0f0f13] flex flex-col z-50 p-4 shrink-0 ${fullscreen ? 'overflow-hidden pointer-events-none' : ''}`}
       >
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.5)] cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -475,6 +534,8 @@ export default function App() {
           {[
             { id: 'ov', label: 'Overview', icon: Activity },
             { id: 'an', label: 'Analytics', icon: BarChart3 },
+            { id: 'ng', label: 'Network Graph', icon: GitBranch },
+            { id: 'tl', label: 'Timeline', icon: Timer },
             { id: 'fl', label: 'Forensic Lab', icon: Microscope },
           ].map((item) => {
             const isActive = activePage === item.id;
@@ -534,6 +595,19 @@ export default function App() {
         {/* Sidebar footer */}
         <div className="space-y-1">
           <button
+            onClick={() => setCmdPaletteOpen(true)}
+            className="w-full flex items-center gap-4 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-white/5 hover:text-gray-400 transition-colors"
+            title="Command palette (Ctrl+K)"
+          >
+            <Command size={18} />
+            {sidebarOpen && (
+              <div className="flex-1 flex items-center justify-between">
+                <span className="text-xs">Search</span>
+                <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-mono text-gray-600">Ctrl+K</kbd>
+              </div>
+            )}
+          </button>
+          <button
             onClick={() => setShowShortcuts(true)}
             className="w-full flex items-center gap-4 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-white/5 hover:text-gray-400 transition-colors"
             title="Keyboard shortcuts"
@@ -583,6 +657,15 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-3">
+            {fullscreen && (
+              <button
+                onClick={() => setFullscreen(false)}
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
+                title="Exit fullscreen (F)"
+              >
+                <Minimize size={14} />
+              </button>
+            )}
             <button
               onClick={exportData}
               className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
@@ -615,9 +698,15 @@ export default function App() {
           </div>
         </header>
 
+        {/* Pipeline Progress Tracker */}
+        <AnimatePresence>
+          {pipelineRunning && <PipelineProgress running={pipelineRunning} />}
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
         {activePage === 'ov' ? (
           /* ── Overview: Globe + Threat Matrix ── */
-          <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+          <motion.div key="ov" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 flex flex-col overflow-hidden min-h-0">
             <div className="flex-1 flex overflow-hidden min-h-0">
             {/* 3D Globe Section */}
             <section className="flex-[3] relative overflow-hidden border-r border-white/5">
@@ -739,13 +828,44 @@ export default function App() {
             </div>
             {/* Activity Ticker */}
             <ActivityTicker threats={data.top_threats || []} />
-          </div>
+          </motion.div>
         ) : activePage === 'an' ? (
           /* ── Analytics ── */
-          <AnalyticsView data={data} />
+          <motion.div key="an" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-hidden">
+            <AnalyticsView data={data} />
+          </motion.div>
+        ) : activePage === 'ng' ? (
+          /* ── Network Graph ── */
+          <motion.div key="ng" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-hidden relative">
+            <NetworkGraph
+              threats={data.top_threats || []}
+              onNodeClick={(user, title) => {
+                const found = data.top_threats.find((t: any) => t.user === user && t.title === title);
+                if (found) setSelectedThreat(found);
+              }}
+            />
+          </motion.div>
+        ) : activePage === 'tl' ? (
+          /* ── Timeline ── */
+          <motion.div key="tl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-hidden flex flex-col">
+            <div className="px-8 py-4 border-b border-white/5 shrink-0">
+              <h2 className="text-lg font-bold text-white flex items-center gap-3">
+                <Timer size={20} className="text-cyan-400" /> Threat Timeline
+              </h2>
+              <p className="text-xs text-gray-500 mt-1">
+                Temporal distribution of {data.top_threats?.length || 0} analyzed edits — stacked by action verdict
+              </p>
+            </div>
+            <div className="flex-1 min-h-0">
+              <ThreatTimeline
+                threats={data.top_threats || []}
+                onSelect={(t) => setSelectedThreat(t)}
+              />
+            </div>
+          </motion.div>
         ) : (
           /* ── Forensic Lab: Intelligence Report ── */
-          <div className="flex-1 overflow-y-auto p-8">
+          <motion.div key="fl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-y-auto p-8">
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-cyan-400 flex items-center gap-3">
@@ -870,8 +990,9 @@ export default function App() {
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
 
         {/* Case Analysis — Slide-over panel */}
         <AnimatePresence>
@@ -1127,13 +1248,26 @@ export default function App() {
                   <button className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 rounded-xl transition-all text-sm shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                     BLOCK USER
                   </button>
+                  <button
+                    onClick={() => {
+                      const evidence = `WIKI-STREAM EVIDENCE — ${selectedThreat.title}\nUser: ${selectedThreat.user}\nAction: ${selectedThreat.action} (${selectedThreat.score.toFixed(1)}%)\nDS Belief: ${(selectedThreat.ds_belief * 100).toFixed(1)}%\nLLM: ${selectedThreat.signals.llm || 'N/A'}\nAnomaly: ${selectedThreat.signals.anomaly}%\nReputation: ${selectedThreat.signals.reputation}%`;
+                      navigator.clipboard.writeText(evidence);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                      addToast('Evidence copied to clipboard', 'success');
+                    }}
+                    className="px-4 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all flex items-center gap-2 text-xs text-gray-400"
+                  >
+                    {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
+                    {copied ? 'Copied!' : 'Copy Evidence'}
+                  </button>
                   <a
                     href={detail.wiki_url || `https://en.wikipedia.org/wiki/${encodeURIComponent(selectedThreat.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-4 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all flex items-center gap-2 text-xs text-gray-400"
                   >
-                    <ExternalLink size={14} /> View on Wikipedia
+                    <ExternalLink size={14} /> Wikipedia
                   </a>
                 </div>
               </motion.div>
