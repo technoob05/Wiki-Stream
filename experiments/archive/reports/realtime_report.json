@@ -1,0 +1,219 @@
+{
+  "generated_at": "2026-03-25T09:38:57.896584",
+  "mode": "real-time streaming",
+  "total_processed": 10,
+  "elapsed_seconds": 13.7,
+  "rate_per_minute": 43.8,
+  "avg_latency_ms": 0.21,
+  "verdict_distribution": {
+    "🟢 SAFE": 10
+  },
+  "top_suspicious_users": [
+    {
+      "user": "DareshMohan",
+      "reputation": 80.0
+    },
+    {
+      "user": "Quinntropy",
+      "reputation": 80.0
+    },
+    {
+      "user": "~2026-18601-19",
+      "reputation": 10.0
+    }
+  ],
+  "hot_articles": [
+    {
+      "article": "Dan Caldwell (defense official)",
+      "edit_count": 1
+    },
+    {
+      "article": "Neeraj Vora",
+      "edit_count": 1
+    },
+    {
+      "article": "Therian subculture",
+      "edit_count": 1
+    },
+    {
+      "article": "Royal Victorian Aero Club",
+      "edit_count": 1
+    },
+    {
+      "article": "Sankaet Pathak",
+      "edit_count": 1
+    },
+    {
+      "article": "List of Colombian departments by Human Development Index",
+      "edit_count": 1
+    },
+    {
+      "article": "2015 Parapan American Games",
+      "edit_count": 1
+    },
+    {
+      "article": "2025 NCAA Division I men's basketball tournament",
+      "edit_count": 1
+    },
+    {
+      "article": "YIMBY",
+      "edit_count": 1
+    },
+    {
+      "article": "MTV Hustle",
+      "edit_count": 1
+    }
+  ],
+  "top_threats": [
+    {
+      "user": "DareshMohan",
+      "title": "Neeraj Vora",
+      "domain": "en.wikipedia.org",
+      "rule_score": 3.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.33,
+      "belief_safe": 0.449,
+      "uncertainty": 0.221,
+      "verdict": 26.5,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.12,
+      "delta": -6357
+    },
+    {
+      "user": "Quinntropy",
+      "title": "Therian subculture",
+      "domain": "en.wikipedia.org",
+      "rule_score": 3.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.33,
+      "belief_safe": 0.449,
+      "uncertainty": 0.221,
+      "verdict": 26.5,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.19,
+      "delta": 151
+    },
+    {
+      "user": "~2026-18601-19",
+      "title": "2025 NCAA Division I men's basketball tournament",
+      "domain": "en.wikipedia.org",
+      "rule_score": 1.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.128,
+      "belief_safe": 0.602,
+      "uncertainty": 0.27,
+      "verdict": 9.5,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.15,
+      "delta": 30
+    },
+    {
+      "user": "Heroeswithmetaphors",
+      "title": "Dan Caldwell (defense official)",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.57,
+      "delta": -41
+    },
+    {
+      "user": "~2026-18619-19",
+      "title": "Royal Victorian Aero Club",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.11,
+      "delta": 229
+    },
+    {
+      "user": "Ldm1954",
+      "title": "Sankaet Pathak",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.15,
+      "delta": 424
+    },
+    {
+      "user": "Juandvegu",
+      "title": "List of Colombian departments by Human Development Index",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.24,
+      "delta": 0
+    },
+    {
+      "user": "Sportsfan 1234",
+      "title": "2015 Parapan American Games",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.12,
+      "delta": -4
+    },
+    {
+      "user": "Saucy",
+      "title": "YIMBY",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.2,
+      "delta": 4
+    },
+    {
+      "user": "~2026-18462-81",
+      "title": "MTV Hustle",
+      "domain": "en.wikipedia.org",
+      "rule_score": 0.0,
+      "nlp_score": 0.0,
+      "reputation": 0,
+      "belief_vandal": 0.047,
+      "belief_safe": 0.725,
+      "uncertainty": 0.228,
+      "verdict": 1.6,
+      "action": "🟢 SAFE",
+      "latency_ms": 0.21,
+      "delta": 0
+    }
+  ]
+}

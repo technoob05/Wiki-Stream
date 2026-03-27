@@ -1,0 +1,1101 @@
+{
+  "generated_at": "2026-03-25T09:45:27.229768",
+  "total_edits": 556,
+  "temporal": {
+    "bursts": [],
+    "heatmap": {}
+  },
+  "signal_correlation": {
+    "total_edits": 556,
+    "total_flagged": 105,
+    "full_consensus": 3,
+    "partial_consensus": 27,
+    "single_signal": 75,
+    "consensus_rate": 28.6,
+    "signal_pairs": {
+      "NLP+LLM": 18,
+      "Rule+LLM": 7,
+      "Rule+NLP": 2
+    },
+    "strongest_pair": "NLP+LLM",
+    "signal_stats": {
+      "rule": 12,
+      "nlp": 25,
+      "llm": 101
+    },
+    "threat_profiles": [
+      {
+        "user": "TheAmazingPeanuts",
+        "edits": 2,
+        "rule_flags": 1,
+        "nlp_flags": 1,
+        "llm_flags": 2,
+        "total_flags": 4,
+        "threat": "HIGH"
+      },
+      {
+        "user": "Sugarbump",
+        "edits": 4,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 2,
+        "total_flags": 3,
+        "threat": "HIGH"
+      },
+      {
+        "user": "Mixinlord",
+        "edits": 1,
+        "rule_flags": 1,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 3,
+        "threat": "HIGH"
+      },
+      {
+        "user": "IceWelder",
+        "edits": 2,
+        "rule_flags": 1,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 3,
+        "threat": "HIGH"
+      },
+      {
+        "user": "~2026-17241-74",
+        "edits": 3,
+        "rule_flags": 0,
+        "nlp_flags": 0,
+        "llm_flags": 3,
+        "total_flags": 3,
+        "threat": "HIGH"
+      },
+      {
+        "user": "Brainiac242",
+        "edits": 1,
+        "rule_flags": 1,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 3,
+        "threat": "HIGH"
+      },
+      {
+        "user": "LionmerterTHE",
+        "edits": 37,
+        "rule_flags": 1,
+        "nlp_flags": 1,
+        "llm_flags": 0,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "~2026-18498-98",
+        "edits": 1,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Mellamelina",
+        "edits": 1,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "~2026-18395-07",
+        "edits": 2,
+        "rule_flags": 0,
+        "nlp_flags": 0,
+        "llm_flags": 2,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Owenerotrot",
+        "edits": 2,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Phlogiston Enthusiast",
+        "edits": 1,
+        "rule_flags": 1,
+        "nlp_flags": 0,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Lithopsian",
+        "edits": 5,
+        "rule_flags": 0,
+        "nlp_flags": 0,
+        "llm_flags": 2,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Stationsation",
+        "edits": 8,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Loytra",
+        "edits": 1,
+        "rule_flags": 1,
+        "nlp_flags": 0,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "edits": 1,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Jangalia",
+        "edits": 1,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "~2026-17976-32",
+        "edits": 1,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "Sharon Cunningham",
+        "edits": 1,
+        "rule_flags": 1,
+        "nlp_flags": 0,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      },
+      {
+        "user": "PuppyMonkey",
+        "edits": 1,
+        "rule_flags": 0,
+        "nlp_flags": 1,
+        "llm_flags": 1,
+        "total_flags": 2,
+        "threat": "MEDIUM"
+      }
+    ]
+  },
+  "graph": {
+    "graph_stats": {
+      "total_nodes": 823,
+      "user_nodes": 346,
+      "article_nodes": 477,
+      "total_edges": 483,
+      "projection_edges": 6,
+      "projection_connected": 9
+    },
+    "top_users": [
+      {
+        "user": "LionmerterTHE",
+        "suspicion_rank": 100.0,
+        "degree": 37,
+        "vandal_count": 1
+      },
+      {
+        "user": "Lithopsian",
+        "suspicion_rank": 78.6,
+        "degree": 5,
+        "vandal_count": 2
+      },
+      {
+        "user": "The Squirrel Game",
+        "suspicion_rank": 78.0,
+        "degree": 4,
+        "vandal_count": 1
+      },
+      {
+        "user": "Stationsation",
+        "suspicion_rank": 77.3,
+        "degree": 3,
+        "vandal_count": 1
+      },
+      {
+        "user": "~2026-82775-4",
+        "suspicion_rank": 77.3,
+        "degree": 3,
+        "vandal_count": 1
+      },
+      {
+        "user": "Crow Basket",
+        "suspicion_rank": 77.3,
+        "degree": 3,
+        "vandal_count": 1
+      },
+      {
+        "user": "Sugarbump",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 2
+      },
+      {
+        "user": "Bs1jac",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 1
+      },
+      {
+        "user": "Owenerotrot",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 1
+      },
+      {
+        "user": "IceWelder",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 1
+      },
+      {
+        "user": "Happypenguins82",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 1
+      },
+      {
+        "user": "~2026-18461-84",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 1
+      },
+      {
+        "user": "~2026-17241-74",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 3
+      },
+      {
+        "user": "Necrothesp",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 2
+      },
+      {
+        "user": "MKP2020",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 2
+      },
+      {
+        "user": "Arcane17",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 2
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "suspicion_rank": 76.6,
+        "degree": 2,
+        "vandal_count": 2
+      },
+      {
+        "user": "MrTallink",
+        "suspicion_rank": 76.0,
+        "degree": 1,
+        "vandal_count": 1
+      },
+      {
+        "user": "~2026-18325-14",
+        "suspicion_rank": 76.0,
+        "degree": 1,
+        "vandal_count": 1
+      },
+      {
+        "user": "~2026-18445-64",
+        "suspicion_rank": 76.0,
+        "degree": 1,
+        "vandal_count": 1
+      }
+    ],
+    "communities": [
+      {
+        "user_count": 5,
+        "vandal_ratio": 60.0,
+        "threat": "🔴 SOCKPUPPET RING",
+        "shared_articles": [
+          "Mana Shankara Vara Prasad Garu",
+          "Negro National League (1920–1931)",
+          "Kolby Koloff",
+          "Morarji Desai"
+        ],
+        "top_users": [
+          {
+            "name": "TonySt",
+            "score": 4.64
+          },
+          {
+            "name": "M0NKEYMADNESS765787728",
+            "score": 4.11
+          },
+          {
+            "name": "Bonaldo ronaldo",
+            "score": 4.11
+          },
+          {
+            "name": "~2026-18434-81",
+            "score": 4.11
+          },
+          {
+            "name": "~2026-18357-94",
+            "score": 0.36
+          }
+        ]
+      },
+      {
+        "user_count": 2,
+        "vandal_ratio": 0.0,
+        "threat": "🟡 CO-EDITING GROUP",
+        "shared_articles": [
+          "2026 Tamil Nadu Legislative Assembly election"
+        ],
+        "top_users": [
+          {
+            "name": "Kalpanasundar",
+            "score": 0.1
+          },
+          {
+            "name": "Santhosharu",
+            "score": 0.06
+          }
+        ]
+      },
+      {
+        "user_count": 2,
+        "vandal_ratio": 0.0,
+        "threat": "🟡 CO-EDITING GROUP",
+        "shared_articles": [
+          "Air Canada Express Flight 8646"
+        ],
+        "top_users": [
+          {
+            "name": "Borgenland",
+            "score": 0.14
+          },
+          {
+            "name": "Tigerdude9",
+            "score": 0.07
+          }
+        ]
+      }
+    ],
+    "label_propagation": {
+      "newly_flagged": 0,
+      "details": []
+    }
+  },
+  "dempster_shafer": {
+    "classifications": {
+      "HIGH_CONFIDENCE_SAFE": 396,
+      "LIKELY_SAFE": 82,
+      "LIKELY_VANDAL": 53,
+      "HIGH_CONFIDENCE_VANDAL": 25
+    },
+    "top_vandals": [
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "2014 Forest Hills Drive",
+        "belief": 0.9099,
+        "plausibility": 0.9331,
+        "uncertainty": 0.0232,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Goldenlane",
+        "title": "Azerbaijan",
+        "belief": 0.9064,
+        "plausibility": 0.9453,
+        "uncertainty": 0.0389,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Wickkeypedia",
+        "title": "Miguel Rojas (baseball)",
+        "belief": 0.9064,
+        "plausibility": 0.9453,
+        "uncertainty": 0.0389,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of sovereign states",
+        "belief": 0.8989,
+        "plausibility": 0.9390000000000001,
+        "uncertainty": 0.0401,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "IceWelder",
+        "title": "Mojang Studios",
+        "belief": 0.8487,
+        "plausibility": 0.9052,
+        "uncertainty": 0.0565,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Necrothesp",
+        "title": "Roger Elliott (British Army officer)",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Bs1jac",
+        "title": "Seychelles national cricket team",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Crow Basket",
+        "title": "Chess in Utah",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Necrothesp",
+        "title": "Arthur Ellis (British Army officer)",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "MKP2020",
+        "title": "2025–26 Quinnipiac Bobcats men's ice hockey season",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Sugarbump",
+        "title": "Gerald Smith",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "MKP2020",
+        "title": "2025–26 Dartmouth Big Green men's ice hockey season",
+        "belief": 0.8465,
+        "plausibility": 0.8835000000000001,
+        "uncertainty": 0.037,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "title": "Kolby Koloff",
+        "belief": 0.8271,
+        "plausibility": 0.8914,
+        "uncertainty": 0.0643,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Rtkat3",
+        "title": "Bernie the Dolphin",
+        "belief": 0.8271,
+        "plausibility": 0.8914,
+        "uncertainty": 0.0643,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-18377-38",
+        "title": "Murad Ali Shah",
+        "belief": 0.8271,
+        "plausibility": 0.8914,
+        "uncertainty": 0.0643,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Stationsation",
+        "title": "Vincent Vargas",
+        "belief": 0.8268,
+        "plausibility": 0.8982,
+        "uncertainty": 0.0714,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Sugarbump",
+        "title": "Sophia (given name)",
+        "belief": 0.8268,
+        "plausibility": 0.8982,
+        "uncertainty": 0.0714,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "Because the Internet",
+        "belief": 0.8268,
+        "plausibility": 0.8982,
+        "uncertainty": 0.0714,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-82775-4",
+        "title": "Barbara of Portugal",
+        "belief": 0.8268,
+        "plausibility": 0.8982,
+        "uncertainty": 0.0714,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Whitelyne",
+        "title": "Summer Walker discography",
+        "belief": 0.7852,
+        "plausibility": 0.8384,
+        "uncertainty": 0.0532,
+        "class": "HIGH_CONFIDENCE_VANDAL"
+      }
+    ]
+  },
+  "isolation_forest": {
+    "total": 556,
+    "anomalies_count": 56,
+    "anomaly_rate": 10.1,
+    "top_anomalies": [
+      {
+        "user": "LionmerterTHE",
+        "title": "List of journalists killed in Russia",
+        "anomaly_score": -0.1834,
+        "rule_score": 4.0,
+        "llm_class": "SAFE"
+      },
+      {
+        "user": "Dreamyshade",
+        "title": "Brookside, New Jersey",
+        "anomaly_score": -0.1824,
+        "rule_score": 3.0,
+        "llm_class": "SAFE"
+      },
+      {
+        "user": "Alexandermcnabb",
+        "title": "Al-Balushi",
+        "anomaly_score": -0.1719,
+        "rule_score": 1.0,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "Brightkingdom",
+        "title": "Padeh-ye Musa Khan",
+        "anomaly_score": -0.1586,
+        "rule_score": 0.0,
+        "llm_class": ""
+      },
+      {
+        "user": "Mixinlord",
+        "title": "Cabinet of Morocco",
+        "anomaly_score": -0.1492,
+        "rule_score": 3.5,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "IceWelder",
+        "title": "Mojang Studios",
+        "anomaly_score": -0.139,
+        "rule_score": 3.5,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "HeraclesReborn",
+        "title": "Budapest Honvéd FC",
+        "anomaly_score": -0.1326,
+        "rule_score": 2.0,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of sovereign states",
+        "anomaly_score": -0.1176,
+        "rule_score": 3.0,
+        "llm_class": "VANDALISM"
+      },
+      {
+        "user": "~2026-82775-4",
+        "title": "Barbara of Portugal",
+        "anomaly_score": -0.1128,
+        "rule_score": 1.0,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "Rtkat3",
+        "title": "Bernie the Dolphin",
+        "anomaly_score": -0.1001,
+        "rule_score": 1.0,
+        "llm_class": "VANDALISM"
+      },
+      {
+        "user": "~2026-17976-32",
+        "title": "Treasure Planet",
+        "anomaly_score": -0.0989,
+        "rule_score": 1.0,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "Plantdrew",
+        "title": "Basidiobolomyceta",
+        "anomaly_score": -0.0946,
+        "rule_score": 0.0,
+        "llm_class": ""
+      },
+      {
+        "user": "KoldunMakaron",
+        "title": "Martynas Echodas",
+        "anomaly_score": -0.0938,
+        "rule_score": 1.0,
+        "llm_class": "SUSPICIOUS"
+      },
+      {
+        "user": "~2026-16988-70",
+        "title": "List of unnumbered minor planets: 2002 L–O",
+        "anomaly_score": -0.0916,
+        "rule_score": 0.0,
+        "llm_class": ""
+      },
+      {
+        "user": "~2026-18368-91",
+        "title": "Language identification",
+        "anomaly_score": -0.0907,
+        "rule_score": 2.0,
+        "llm_class": "SUSPICIOUS"
+      }
+    ]
+  },
+  "cross_method": {
+    "all_three_agree": 4,
+    "ds_vandals": 20,
+    "if_anomalies": 15,
+    "ensemble_flags": 94,
+    "ds_new_discoveries": 0,
+    "if_new_discoveries": 5
+  },
+  "verdict": {
+    "distribution": {
+      "🟢 SAFE": 508,
+      "🟡 REVIEW": 37,
+      "🟠 FLAG": 11
+    },
+    "top_verdicts": [
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of sovereign states",
+        "verdict_score": 77.4,
+        "action": "🟠 FLAG",
+        "confidence": 100,
+        "signals": {
+          "rule": 60.0,
+          "nlp": 76.7,
+          "llm": 100,
+          "ds": 89.9,
+          "graph": 0,
+          "if": 11.8
+        }
+      },
+      {
+        "user": "Goldenlane",
+        "title": "Azerbaijan",
+        "verdict_score": 75.7,
+        "action": "🟠 FLAG",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 100.0,
+          "llm": 100,
+          "ds": 90.6,
+          "graph": 0,
+          "if": 0
+        }
+      },
+      {
+        "user": "Wickkeypedia",
+        "title": "Miguel Rojas (baseball)",
+        "verdict_score": 75.7,
+        "action": "🟠 FLAG",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 100.0,
+          "llm": 100,
+          "ds": 90.6,
+          "graph": 0,
+          "if": 0
+        }
+      },
+      {
+        "user": "Rtkat3",
+        "title": "Bernie the Dolphin",
+        "verdict_score": 70.8,
+        "action": "🟠 FLAG",
+        "confidence": 100.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 83.3,
+          "llm": 100,
+          "ds": 82.7,
+          "graph": 0,
+          "if": 10.0
+        }
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "title": "Kolby Koloff",
+        "verdict_score": 67.0,
+        "action": "🟠 FLAG",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 66.7,
+          "llm": 100,
+          "ds": 82.7,
+          "graph": 0,
+          "if": 0
+        }
+      },
+      {
+        "user": "~2026-18377-38",
+        "title": "Murad Ali Shah",
+        "verdict_score": 67.0,
+        "action": "🟠 FLAG",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 66.7,
+          "llm": 100,
+          "ds": 82.7,
+          "graph": 0,
+          "if": 0
+        }
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "2014 Forest Hills Drive",
+        "verdict_score": 65.6,
+        "action": "🟠 FLAG",
+        "confidence": 100.0,
+        "signals": {
+          "rule": 60.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 91.0,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "~2026-82775-4",
+        "title": "Barbara of Portugal",
+        "verdict_score": 62.8,
+        "action": "🟠 FLAG",
+        "confidence": 100,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 83.3,
+          "llm": 60,
+          "ds": 82.7,
+          "graph": 77.3,
+          "if": 11.3
+        }
+      },
+      {
+        "user": "Stationsation",
+        "title": "Vincent Vargas",
+        "verdict_score": 62.2,
+        "action": "🟠 FLAG",
+        "confidence": 100.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 83.3,
+          "llm": 60,
+          "ds": 82.7,
+          "graph": 77.3,
+          "if": 0
+        }
+      },
+      {
+        "user": "Sugarbump",
+        "title": "Sophia (given name)",
+        "verdict_score": 62.2,
+        "action": "🟠 FLAG",
+        "confidence": 100.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 83.3,
+          "llm": 60,
+          "ds": 82.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "Because the Internet",
+        "verdict_score": 62.2,
+        "action": "🟠 FLAG",
+        "confidence": 100.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 83.3,
+          "llm": 60,
+          "ds": 82.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "Whitelyne",
+        "title": "Summer Walker discography",
+        "verdict_score": 58.6,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 60.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 78.5,
+          "graph": 0,
+          "if": 0
+        }
+      },
+      {
+        "user": "IceWelder",
+        "title": "Mojang Studios",
+        "verdict_score": 58.2,
+        "action": "🟡 REVIEW",
+        "confidence": 100,
+        "signals": {
+          "rule": 70.0,
+          "nlp": 20.0,
+          "llm": 60,
+          "ds": 84.9,
+          "graph": 76.6,
+          "if": 13.9
+        }
+      },
+      {
+        "user": "Necrothesp",
+        "title": "Roger Elliott (British Army officer)",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "Bs1jac",
+        "title": "Seychelles national cricket team",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "Crow Basket",
+        "title": "Chess in Utah",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 77.3,
+          "if": 0
+        }
+      },
+      {
+        "user": "Necrothesp",
+        "title": "Arthur Ellis (British Army officer)",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "MKP2020",
+        "title": "2025–26 Quinnipiac Bobcats men's ice hockey season",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "Sugarbump",
+        "title": "Gerald Smith",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "MKP2020",
+        "title": "2025–26 Dartmouth Big Green men's ice hockey season",
+        "verdict_score": 58.0,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 0.0,
+          "llm": 100,
+          "ds": 84.7,
+          "graph": 76.6,
+          "if": 0
+        }
+      },
+      {
+        "user": "Mixinlord",
+        "title": "Cabinet of Morocco",
+        "verdict_score": 46.6,
+        "action": "🟡 REVIEW",
+        "confidence": 100.0,
+        "signals": {
+          "rule": 70.0,
+          "nlp": 86.7,
+          "llm": 60,
+          "ds": 0,
+          "graph": 0,
+          "if": 14.9
+        }
+      },
+      {
+        "user": "HeraclesReborn",
+        "title": "Budapest Honvéd FC",
+        "verdict_score": 43.3,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 40.0,
+          "nlp": 93.3,
+          "llm": 60,
+          "ds": 0,
+          "graph": 0,
+          "if": 13.3
+        }
+      },
+      {
+        "user": "Alexandermcnabb",
+        "title": "Al-Balushi",
+        "verdict_score": 41.9,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 100,
+          "llm": 60,
+          "ds": 0,
+          "graph": 0,
+          "if": 17.2
+        }
+      },
+      {
+        "user": "KoldunMakaron",
+        "title": "Martynas Echodas",
+        "verdict_score": 41.5,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 100,
+          "llm": 60,
+          "ds": 0,
+          "graph": 0,
+          "if": 9.4
+        }
+      },
+      {
+        "user": "~2026-17976-32",
+        "title": "Treasure Planet",
+        "verdict_score": 40.2,
+        "action": "🟡 REVIEW",
+        "confidence": 75.0,
+        "signals": {
+          "rule": 20.0,
+          "nlp": 93.3,
+          "llm": 60,
+          "ds": 0,
+          "graph": 0,
+          "if": 9.9
+        }
+      }
+    ],
+    "total": 556,
+    "ground_truth": {
+      "tp": 0,
+      "fp": 48,
+      "fn": 0,
+      "tn": 508,
+      "precision": 0.0,
+      "recall": 0,
+      "f1": 0,
+      "note": "Ground truth = Wikipedia revert data (revert latency 5-30min may cause FN)"
+    }
+  }
+}

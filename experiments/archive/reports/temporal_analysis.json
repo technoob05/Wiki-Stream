@@ -1,0 +1,590 @@
+{
+  "timestamp": "2026-03-25T02:38:02.962816",
+  "burst_detection": {
+    "total_bursts": 88,
+    "critical": 3,
+    "high": 11,
+    "details": [
+      {
+        "user": "ToxicOJ",
+        "edit_count": 3,
+        "duration_sec": 122,
+        "rate_per_min": 1.5,
+        "avg_rule_score": 1.0,
+        "vandal_in_burst": 3,
+        "articles_targeted": [
+          "Flat Top Mountain, Tennessee",
+          "Fairmount, Tennessee",
+          "Falling Water, Tennessee"
+        ],
+        "threat_level": "🔴 CRITICAL",
+        "start_time": 1774377051,
+        "end_time": 1774377173
+      },
+      {
+        "user": "~2026-18420-70",
+        "edit_count": 3,
+        "duration_sec": 39,
+        "rate_per_min": 4.6,
+        "avg_rule_score": 1.0,
+        "vandal_in_burst": 3,
+        "articles_targeted": [
+          "Racism in Vietnam"
+        ],
+        "threat_level": "🔴 CRITICAL",
+        "start_time": 1774377399,
+        "end_time": 1774377438
+      },
+      {
+        "user": "MarketFruit",
+        "edit_count": 3,
+        "duration_sec": 106,
+        "rate_per_min": 1.7,
+        "avg_rule_score": 0.67,
+        "vandal_in_burst": 2,
+        "articles_targeted": [
+          "Government of Ebrahim Raisi"
+        ],
+        "threat_level": "🔴 CRITICAL",
+        "start_time": 1774377673,
+        "end_time": 1774377779
+      },
+      {
+        "user": "Finn Shipley",
+        "edit_count": 6,
+        "duration_sec": 167,
+        "rate_per_min": 2.2,
+        "avg_rule_score": 0.67,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Tim Monroe",
+          "Nate Moeller"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377027,
+        "end_time": 1774377194
+      },
+      {
+        "user": "Harushiga",
+        "edit_count": 5,
+        "duration_sec": 173,
+        "rate_per_min": 1.7,
+        "avg_rule_score": 1.5,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "I Want to End This Love Game",
+          "I Made Friends with the Second Prettiest Girl in My Class",
+          "An Observation Log of My Fiancée Who Calls Herself a Villainess",
+          "Scenes from Awajima",
+          "Ghost Concert"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377288,
+        "end_time": 1774377461
+      },
+      {
+        "user": "~2026-18343-50",
+        "edit_count": 4,
+        "duration_sec": 138,
+        "rate_per_min": 1.7,
+        "avg_rule_score": 0.75,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Southern Pacific 5021"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377085,
+        "end_time": 1774377223
+      },
+      {
+        "user": "~2026-72976-5",
+        "edit_count": 4,
+        "duration_sec": 153,
+        "rate_per_min": 1.6,
+        "avg_rule_score": 1.0,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Time Masters (game show)"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377574,
+        "end_time": 1774377727
+      },
+      {
+        "user": "Dcw2003",
+        "edit_count": 4,
+        "duration_sec": 166,
+        "rate_per_min": 1.4,
+        "avg_rule_score": 0.75,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Herb Vollmer"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377823,
+        "end_time": 1774377989
+      },
+      {
+        "user": "Upton Liptrot",
+        "edit_count": 4,
+        "duration_sec": 160,
+        "rate_per_min": 1.5,
+        "avg_rule_score": 0.25,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Doug Collins (politician)",
+          "Susie Wiles",
+          "Order of precedence in the United States"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377653,
+        "end_time": 1774377813
+      },
+      {
+        "user": "Mohammed Filali Fassi",
+        "edit_count": 4,
+        "duration_sec": 131,
+        "rate_per_min": 1.8,
+        "avg_rule_score": 0.25,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Ministry of Foreign Affairs, African Cooperation and Moroccan Expatriates",
+          "Mounia Boucetta"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377699,
+        "end_time": 1774377830
+      },
+      {
+        "user": "Crow Basket",
+        "edit_count": 3,
+        "duration_sec": 72,
+        "rate_per_min": 2.5,
+        "avg_rule_score": 0.67,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Chess in Utah",
+          "Blarney Stone",
+          "Cheaper by the Dozen 2"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774371851,
+        "end_time": 1774371923
+      },
+      {
+        "user": "Rugbyfan22",
+        "edit_count": 3,
+        "duration_sec": 126,
+        "rate_per_min": 1.4,
+        "avg_rule_score": 0.67,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Jayden Seales",
+          "Welsh Fire",
+          "Hampshire County Cricket Club"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377183,
+        "end_time": 1774377309
+      },
+      {
+        "user": "Rht bd",
+        "edit_count": 3,
+        "duration_sec": 121,
+        "rate_per_min": 1.5,
+        "avg_rule_score": 1.17,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Motiur Rahman Nizami"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377381,
+        "end_time": 1774377502
+      },
+      {
+        "user": "Ytfc23",
+        "edit_count": 3,
+        "duration_sec": 76,
+        "rate_per_min": 2.4,
+        "avg_rule_score": 0.33,
+        "vandal_in_burst": 1,
+        "articles_targeted": [
+          "Spencer Johnson (cricketer)",
+          "Ben Duckett"
+        ],
+        "threat_level": "🟠 HIGH",
+        "start_time": 1774377678,
+        "end_time": 1774377754
+      },
+      {
+        "user": "Mill 1",
+        "edit_count": 23,
+        "duration_sec": 120,
+        "rate_per_min": 11.5,
+        "avg_rule_score": 0.0,
+        "vandal_in_burst": 0,
+        "articles_targeted": [
+          "Aspasmichthys",
+          "Chromis verater",
+          "Bluestreak drum",
+          "Araeosteus",
+          "Cobitis biwae",
+          "Alisea",
+          "Cockerellites",
+          "Crystallias",
+          "Blacktail buckbill eel",
+          "Cantherhines verecundus",
+          "Alvord cutthroat trout",
+          "Ariosoma meeki",
+          "Atherinomorus insularum",
+          "Chapalichthys",
+          "Chirolophis nugator",
+          "Dastilbe",
+          "Bolbocara",
+          "Arcos (fish)"
+        ],
+        "threat_level": "🟡 MEDIUM",
+        "start_time": 1774366167,
+        "end_time": 1774366287
+      },
+      {
+        "user": "BD2412",
+        "edit_count": 13,
+        "duration_sec": 115,
+        "rate_per_min": 6.8,
+        "avg_rule_score": 0.0,
+        "vandal_in_burst": 0,
+        "articles_targeted": [
+          "Kim Bobo",
+          "Kisvejke",
+          "Kisumimi",
+          "Kim Carpenter",
+          "Kisurra",
+          "Kim Dermott",
+          "Kim Conley",
+          "Kim Brandstrup",
+          "Kisvárda FC",
+          "Kings of Suburbia",
+          "Kisumu",
+          "Kim Dale",
+          "Kim Byung-chul (businessman)"
+        ],
+        "threat_level": "🟡 MEDIUM",
+        "start_time": 1774371892,
+        "end_time": 1774372007
+      },
+      {
+        "user": "TonySt",
+        "edit_count": 6,
+        "duration_sec": 107,
+        "rate_per_min": 3.4,
+        "avg_rule_score": 0.33,
+        "vandal_in_burst": 0,
+        "articles_targeted": [
+          "Harvey Elliott",
+          "Drum memory",
+          "Reanimated collaboration",
+          "Kolby Koloff",
+          "Curtain",
+          "Negro National League (1920–1931)"
+        ],
+        "threat_level": "🟡 MEDIUM",
+        "start_time": 1774366151,
+        "end_time": 1774366258
+      },
+      {
+        "user": "DareshMohan",
+        "edit_count": 6,
+        "duration_sec": 131,
+        "rate_per_min": 2.7,
+        "avg_rule_score": 0.0,
+        "vandal_in_burst": 0,
+        "articles_targeted": [
+          "Sangeeta (Telugu actress)",
+          "Kanal Kannan",
+          "Sudha (actress)",
+          "Ramesh Khanna",
+          "Sirpy"
+        ],
+        "threat_level": "🟡 MEDIUM",
+        "start_time": 1774371765,
+        "end_time": 1774371896
+      },
+      {
+        "user": "Monster Iestyn",
+        "edit_count": 6,
+        "duration_sec": 178,
+        "rate_per_min": 2.0,
+        "avg_rule_score": 1.0,
+        "vandal_in_burst": 0,
+        "articles_targeted": [
+          "Geopinus",
+          "Geopinus incrassatus",
+          "Guyanica",
+          "Hemisphaerota",
+          "Exoplectra",
+          "Glyptoscelis"
+        ],
+        "threat_level": "🟡 MEDIUM",
+        "start_time": 1774376984,
+        "end_time": 1774377162
+      },
+      {
+        "user": "Ivtue",
+        "edit_count": 6,
+        "duration_sec": 102,
+        "rate_per_min": 3.5,
+        "avg_rule_score": 0.25,
+        "vandal_in_burst": 0,
+        "articles_targeted": [
+          "AMC-18",
+          "AMC-3",
+          "AMC-2",
+          "AMC-1",
+          "AMC-8",
+          "AMC-7"
+        ],
+        "threat_level": "🟡 MEDIUM",
+        "start_time": 1774377069,
+        "end_time": 1774377171
+      }
+    ]
+  },
+  "velocity_analysis": {
+    "total_alerts": 2,
+    "mass_deletions": 0,
+    "details": [
+      {
+        "user": "Fiction Fanatic III",
+        "total_deleted_chars": 7243,
+        "total_added_chars": 0,
+        "net_change": -7243,
+        "delete_rate_per_min": 1153.0,
+        "duration_min": 6.3,
+        "articles_affected": [
+          "Texas Fight",
+          "Atrocitus"
+        ],
+        "edit_count": 2,
+        "assessment": "🟠 HIGH DELETION"
+      },
+      {
+        "user": "JoyfullySmile",
+        "total_deleted_chars": 6074,
+        "total_added_chars": 10,
+        "net_change": -6064,
+        "delete_rate_per_min": 1981.0,
+        "duration_min": 3.1,
+        "articles_affected": [
+          "List of Ex on the Beach cast members",
+          "Celebrity Ex on the Beach",
+          "List of Celebrity Ex on the Beach cast members"
+        ],
+        "edit_count": 3,
+        "assessment": "🟠 HIGH DELETION"
+      }
+    ]
+  },
+  "periodicity_detection": {
+    "total_patterns": 162,
+    "bot_like": 145,
+    "scripted": 14,
+    "details": [
+      {
+        "user": "~2026-17241-74",
+        "total_edits": 3,
+        "peak_hour_utc": "17:00-17:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "17": 3
+        }
+      },
+      {
+        "user": "Surajr7",
+        "total_edits": 5,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 5,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 5
+        }
+      },
+      {
+        "user": "ToxicOJ",
+        "total_edits": 5,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 5,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 5
+        }
+      },
+      {
+        "user": "Lincolning",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "~2026-18415-93",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "TalkTuahLunchly",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "~2026-18420-70",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "Vincelord",
+        "total_edits": 4,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 4,
+        "vandal_ratio": 100.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 4
+        }
+      },
+      {
+        "user": "~2026-12083-3",
+        "total_edits": 5,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 5,
+        "vandal_ratio": 80.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 5
+        }
+      },
+      {
+        "user": "Monster Iestyn",
+        "total_edits": 30,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 30,
+        "vandal_ratio": 76.7,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 30
+        }
+      },
+      {
+        "user": "Centurion Seraph",
+        "total_edits": 4,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 4,
+        "vandal_ratio": 75.0,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 4
+        }
+      },
+      {
+        "user": "~2026-18608-65",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 66.7,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "Moneytoes",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 66.7,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "Haddad Maia fan",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 66.7,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      },
+      {
+        "user": "Teknologi Exprt",
+        "total_edits": 3,
+        "peak_hour_utc": "18:00-18:59",
+        "concentration": 100.0,
+        "peak_weekday": "Tuesday",
+        "peak_day_count": 3,
+        "vandal_ratio": 66.7,
+        "pattern_type": "🔴 BOT-LIKE",
+        "hour_distribution": {
+          "18": 3
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,99 @@
+{
+    "total_edits": 252,
+    "flagged_edits": 61,
+    "lang_dist": {
+        "en": 246,
+        "vi": 6
+    },
+    "top_articles": [
+        [
+            "List of dates predicted for apocalyptic events",
+            1
+        ],
+        [
+            "Cabinet of Morocco",
+            1
+        ],
+        [
+            "Rectal douching",
+            1
+        ],
+        [
+            "Edward Kessler",
+            1
+        ]
+    ],
+    "top_users": [
+        [
+            "Phlogiston Enthusiast",
+            1
+        ],
+        [
+            "Mixinlord",
+            1
+        ],
+        [
+            "Loytra",
+            1
+        ],
+        [
+            "TonySt",
+            1
+        ],
+        [
+            "Sharon Cunningham",
+            1
+        ]
+    ],
+    "vandalism_count": 5,
+    "suspicious_count": 36,
+    "safe_count": 20,
+    "vandalism_details": [
+        {
+            "title": "Province of the Anglican Church of the Congo",
+            "user": "Iulian Sendrea",
+            "reason": "Inserting incorrect information about the leader of the Anglican Church of the Congo. The Pope is the head of the Catholic Church, not the Anglican Church.",
+            "category": "UNKNOWN",
+            "confidence": "0.95",
+            "time": "1774365128",
+            "lang": "en"
+        },
+        {
+            "title": "Kolby Koloff",
+            "user": "M0NKEYMADNESS765787728",
+            "reason": "Insertion of nonsensical text ('LEBRONNNNN') and alteration of article title suggests deliberate vandalism.",
+            "category": "UNKNOWN",
+            "confidence": "0.95",
+            "time": "1774366201",
+            "lang": "en"
+        },
+        {
+            "title": "Negro National League (1920–1931)",
+            "user": "Bonaldo ronaldo",
+            "reason": "The edit replaces 'Negro National League' with a racist slur, indicating deliberate vandalism.",
+            "category": "UNKNOWN",
+            "confidence": "1.0",
+            "time": "1774366213",
+            "lang": "en"
+        },
+        {
+            "title": "Tri-West Hendricks High School",
+            "user": "Padgriffin",
+            "reason": "Replaced factual principal name with fictional character.",
+            "category": "UNKNOWN",
+            "confidence": "1.0",
+            "time": "1774366220",
+            "lang": "en"
+        },
+        {
+            "title": "Không giới hạn (phim truyền hình Việt Nam)",
+            "user": "Wonyoung3108",
+            "reason": "Người dùng đã thêm một đoạn văn mới vào bài viết nhưng đồng thời xóa đi toàn bộ nội dung cũ của bài viết. Điều này cho thấy rõ ràng là hành động cố ý làm hỏng nội dung.",
+            "category": "BLANKING",
+            "confidence": "0.95",
+            "time": "1774368466",
+            "lang": "vi"
+        }
+    ],
+    "attribution_matches": []
+}

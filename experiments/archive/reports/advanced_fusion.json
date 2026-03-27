@@ -1,0 +1,426 @@
+{
+  "generated_at": "2026-03-25T08:37:45.352630",
+  "methods": [
+    "Dempster-Shafer Evidence Fusion",
+    "Isolation Forest",
+    "Cross-Method Analysis"
+  ],
+  "dempster_shafer": {
+    "classifications": {
+      "HIGH_CONFIDENCE_VANDAL": 26,
+      "LIKELY_VANDAL": 38,
+      "UNCERTAIN": 0,
+      "LIKELY_SAFE": 42,
+      "HIGH_CONFIDENCE_SAFE": 450
+    },
+    "top_vandals": [
+      {
+        "user": "Goldenlane",
+        "title": "Azerbaijan",
+        "belief_vandal": 0.9064,
+        "plausibility_vandal": 0.9453,
+        "belief_safe": 0.0549,
+        "uncertainty": 0.0389,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Wickkeypedia",
+        "title": "Miguel Rojas (baseball)",
+        "belief_vandal": 0.9064,
+        "plausibility_vandal": 0.9453,
+        "belief_safe": 0.0549,
+        "uncertainty": 0.0389,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of sovereign states",
+        "belief_vandal": 0.8989,
+        "plausibility_vandal": 0.9390000000000001,
+        "belief_safe": 0.061,
+        "uncertainty": 0.0401,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "title": "Kolby Koloff",
+        "belief_vandal": 0.8271,
+        "plausibility_vandal": 0.8914,
+        "belief_safe": 0.1084,
+        "uncertainty": 0.0643,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Rtkat3",
+        "title": "Bernie the Dolphin",
+        "belief_vandal": 0.8271,
+        "plausibility_vandal": 0.8914,
+        "belief_safe": 0.1084,
+        "uncertainty": 0.0643,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-18377-38",
+        "title": "Murad Ali Shah",
+        "belief_vandal": 0.8271,
+        "plausibility_vandal": 0.8914,
+        "belief_safe": 0.1084,
+        "uncertainty": 0.0643,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Whitelyne",
+        "title": "Summer Walker discography",
+        "belief_vandal": 0.7852,
+        "plausibility_vandal": 0.8384,
+        "belief_safe": 0.1616,
+        "uncertainty": 0.0532,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "2014 Forest Hills Drive",
+        "belief_vandal": 0.7852,
+        "plausibility_vandal": 0.8384,
+        "belief_safe": 0.1616,
+        "uncertainty": 0.0532,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "TheDoctorWho",
+        "title": "Line of Duty",
+        "belief_vandal": 0.7852,
+        "plausibility_vandal": 0.8384,
+        "belief_safe": 0.1616,
+        "uncertainty": 0.0532,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Ronineditor",
+        "title": "Lyari Town",
+        "belief_vandal": 0.7852,
+        "plausibility_vandal": 0.8384,
+        "belief_safe": 0.1616,
+        "uncertainty": 0.0532,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Alexandermcnabb",
+        "title": "Al-Balushi",
+        "belief_vandal": 0.7719,
+        "plausibility_vandal": 0.8727,
+        "belief_safe": 0.1273,
+        "uncertainty": 0.1008,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "KoldunMakaron",
+        "title": "Martynas Echodas",
+        "belief_vandal": 0.7719,
+        "plausibility_vandal": 0.8727,
+        "belief_safe": 0.1273,
+        "uncertainty": 0.1008,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Iulian Sendrea",
+        "title": "Province of the Anglican Church of the Congo",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Padgriffin",
+        "title": "Tri-West Hendricks High School",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-18467-24",
+        "title": "2026 EUT20 Belgium",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Yerfdog71",
+        "title": "Ilaisa Tuiaki",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-10462-67",
+        "title": "St Peter's Catholic School, Guildford",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "Necrothesp",
+        "title": "Roger Elliott (British Army officer)",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-18381-70",
+        "title": "Yamaha YZ125",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      },
+      {
+        "user": "~2026-18399-10",
+        "title": "Chatha Pacha",
+        "belief_vandal": 0.7574,
+        "plausibility_vandal": 0.8139,
+        "belief_safe": 0.1861,
+        "uncertainty": 0.0565,
+        "ds_classification": "HIGH_CONFIDENCE_VANDAL"
+      }
+    ],
+    "theory": "Belief functions combine evidence from Rule+NLP+LLM+Graph signals using Dempster's Rule of Combination, providing belief, plausibility, and uncertainty intervals instead of point estimates."
+  },
+  "isolation_forest": {
+    "stats": {
+      "total": 556,
+      "anomalies": 56,
+      "normal": 500,
+      "anomaly_rate": 10.1,
+      "features_used": [
+        "rule_score",
+        "nlp_score",
+        "llm_numeric",
+        "abs_delta",
+        "abs_delta_ratio",
+        "graph_score",
+        "is_anon",
+        "is_serial"
+      ]
+    },
+    "top_anomalies": [
+      {
+        "user": "Dreamyshade",
+        "title": "Brookside, New Jersey",
+        "anomaly_score": -0.1792,
+        "rule_score": 3.0,
+        "nlp_score": 2.6,
+        "llm_classification": "SAFE",
+        "length_delta": 2016
+      },
+      {
+        "user": "Alexandermcnabb",
+        "title": "Al-Balushi",
+        "anomaly_score": -0.1611,
+        "rule_score": 1.0,
+        "nlp_score": 4.0,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": -3229
+      },
+      {
+        "user": "Brightkingdom",
+        "title": "Padeh-ye Musa Khan",
+        "anomaly_score": -0.1557,
+        "rule_score": 0.0,
+        "nlp_score": 0.0,
+        "llm_classification": "",
+        "length_delta": 5222
+      },
+      {
+        "user": "LionmerterTHE",
+        "title": "List of journalists killed in Russia",
+        "anomaly_score": -0.1455,
+        "rule_score": 4.0,
+        "nlp_score": 2.8,
+        "llm_classification": "SAFE",
+        "length_delta": 32
+      },
+      {
+        "user": "Mixinlord",
+        "title": "Cabinet of Morocco",
+        "anomaly_score": -0.1443,
+        "rule_score": 3.5,
+        "nlp_score": 2.6,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": -1418
+      },
+      {
+        "user": "Harushiga",
+        "title": "Ponkotsu Fūkiin to Skirt Take ga Futekisetsu na JK no Hanashi",
+        "anomaly_score": -0.1415,
+        "rule_score": 1.0,
+        "nlp_score": 2.5,
+        "llm_classification": "SAFE",
+        "length_delta": 365
+      },
+      {
+        "user": "HeraclesReborn",
+        "title": "Budapest Honvéd FC",
+        "anomaly_score": -0.1238,
+        "rule_score": 2.0,
+        "nlp_score": 2.8,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": 1749
+      },
+      {
+        "user": "Mailien115",
+        "title": "Phêrô Nguyễn Viết Hồng",
+        "anomaly_score": -0.1139,
+        "rule_score": 2.0,
+        "nlp_score": 0.4,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": -2164
+      },
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of sovereign states",
+        "anomaly_score": -0.1119,
+        "rule_score": 3.0,
+        "nlp_score": 2.3,
+        "llm_classification": "VANDALISM",
+        "length_delta": 380
+      },
+      {
+        "user": "Rtkat3",
+        "title": "Bernie the Dolphin",
+        "anomaly_score": -0.1039,
+        "rule_score": 1.0,
+        "nlp_score": 2.5,
+        "llm_classification": "VANDALISM",
+        "length_delta": 494
+      },
+      {
+        "user": "~2026-18368-91",
+        "title": "Language identification",
+        "anomaly_score": -0.0933,
+        "rule_score": 2.0,
+        "nlp_score": 1.1,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": 313
+      },
+      {
+        "user": "~2026-18467-24",
+        "title": "2026 EUT20 Belgium",
+        "anomaly_score": -0.0917,
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm_classification": "VANDALISM",
+        "length_delta": 75
+      },
+      {
+        "user": "~2026-16988-70",
+        "title": "List of unnumbered minor planets: 2002 L–O",
+        "anomaly_score": -0.09,
+        "rule_score": 0.0,
+        "nlp_score": 0.0,
+        "llm_classification": "",
+        "length_delta": -3770
+      },
+      {
+        "user": "~2026-17976-32",
+        "title": "Treasure Planet",
+        "anomaly_score": -0.0899,
+        "rule_score": 1.0,
+        "nlp_score": 2.8,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": 107
+      },
+      {
+        "user": "IceWelder",
+        "title": "Mojang Studios",
+        "anomaly_score": -0.0877,
+        "rule_score": 3.5,
+        "nlp_score": 0.6,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": 840
+      },
+      {
+        "user": "Rif Winfield",
+        "title": "Waigeo",
+        "anomaly_score": -0.082,
+        "rule_score": 0.0,
+        "nlp_score": 0.0,
+        "llm_classification": "",
+        "length_delta": 4645
+      },
+      {
+        "user": "~2026-18377-38",
+        "title": "Murad Ali Shah",
+        "anomaly_score": -0.0801,
+        "rule_score": 1.0,
+        "nlp_score": 2.0,
+        "llm_classification": "VANDALISM",
+        "length_delta": -9
+      },
+      {
+        "user": "KoldunMakaron",
+        "title": "Martynas Echodas",
+        "anomaly_score": -0.0763,
+        "rule_score": 1.0,
+        "nlp_score": 3.1,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": 447
+      },
+      {
+        "user": "Sharon Cunningham",
+        "title": "Edward Kessler",
+        "anomaly_score": -0.0702,
+        "rule_score": 3.5,
+        "nlp_score": 0.0,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": 515
+      },
+      {
+        "user": "~2026-82775-4",
+        "title": "Barbara of Portugal",
+        "anomaly_score": -0.0621,
+        "rule_score": 1.0,
+        "nlp_score": 2.5,
+        "llm_classification": "SUSPICIOUS",
+        "length_delta": -10
+      }
+    ],
+    "theory": "Unsupervised anomaly detection using Isolation Forest. Edits are represented as 8-dimensional feature vectors and anomalies are identified by their isolation depth in random trees."
+  },
+  "cross_method": {
+    "dempster_shafer_vandals": 61,
+    "isolation_forest_anomalies": 29,
+    "ensemble_vandals": 94,
+    "ds_and_if": 23,
+    "ds_and_ensemble": 60,
+    "if_and_ensemble": 22,
+    "all_three_agree": 22,
+    "ds_new_discoveries": 1,
+    "if_new_discoveries": 7,
+    "new_discovery_details": {
+      "ds_unique": [
+        "Harushiga:Ponkotsu Fūkiin to Skirt Take ga Futekisetsu na JK no Hanashi"
+      ],
+      "if_unique": [
+        "~2026-16988-70:List of unnumbered minor planets: 2002 L–O",
+        "Rif Winfield:Waigeo",
+        "LionmerterTHE:List of journalists killed in Russia",
+        "Plantdrew:Basidiobolomyceta",
+        "Harushiga:Ponkotsu Fūkiin to Skirt Take ga Futekisetsu na JK no Hanashi",
+        "Brightkingdom:Padeh-ye Musa Khan",
+        "Dreamyshade:Brookside, New Jersey"
+      ]
+    }
+  }
+}

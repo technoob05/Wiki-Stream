@@ -1,0 +1,115 @@
+[01:29:36] ============================================================
+[01:29:36] 🌙 OVERNIGHT PIPELINE STARTED
+[01:29:36]    Target: 3000 edits
+[01:29:36]    Stages: 12
+[01:29:36] ============================================================
+[01:29:36] 
+📡 Phase 1: Collecting 3000 edits (this takes 1-2 hours)...
+[01:29:36] ▶ Starting 01_collect_data.py...
+[01:29:37] ❌ 01_collect_data.py FAILED (exit code 1) after 0.2s
+[01:29:37]    ERR: print(f"\U0001f517 \u0110ang k\u1ebft n\u1ed1i t\u1edbi Wikipedia SSE stream...")
+[01:29:37]    ERR: File "D:\Downloads\Tools\Anaconda\Lib\encodings\cp1252.py", line 19, in encode
+[01:29:37]    ERR: return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+[01:29:37]    ERR: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[01:29:37]    ERR: UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f517' in position 0: character maps to <undefined>
+[01:29:37]    (Restored original TARGET_COUNT = 300)
+[01:29:37] ❌ Data collection failed. Aborting pipeline.
+[01:30:01] ============================================================
+[01:30:01] 🌙 OVERNIGHT PIPELINE STARTED
+[01:30:01]    Target: 3000 edits
+[01:30:01]    Stages: 12
+[01:30:01] ============================================================
+[01:30:01] 
+📡 Phase 1: Collecting 3000 edits (this takes 1-2 hours)...
+[01:30:01] ▶ Starting 01_collect_data.py...
+[01:48:20] ✅ 01_collect_data.py completed in 1098.2s
+[01:48:20]    [en] Barksdale Air Force Base                 | Foxtrot1296          |  +1017
+[01:48:20]    [en] 2025–26 Syracuse Orange men's basketball | Lincolning           |  +1103
+[01:48:20]    [en] Rachel Kaly                              | ~2026-18368-03       |  -1035
+[01:48:20]    
+[01:48:20]    ============================================================
+[01:48:20]    (Restored original TARGET_COUNT = 300)
+[01:48:20] 
+🔬 Phase 2: Running analysis pipeline (02-12)...
+[01:48:20] ▶ Starting 02_rule_engine.py...
+[01:48:20] ✅ 02_rule_engine.py completed in 0.2s
+[01:48:20]    
+[01:48:20]    ============================================================
+[01:48:20]    ✅ Xong! Kết quả lưu trong processed/ folder bài bản.
+[01:48:20]    → Bước tiếp: 03_diff_fetcher.py
+[01:48:20]    ============================================================
+[01:48:20] ▶ Starting 03_diff_fetcher.py...
+[01:59:33] ✅ 03_diff_fetcher.py completed in 673.1s
+[01:59:33]    
+[01:59:33]    ============================================================
+[01:59:33]    ✅ Xong! Diff data đã được lưu vào các file _03_enriched.csv
+[01:59:33]    → Bước tiếp: 04_nlp_analysis.py
+[01:59:33]    ============================================================
+[01:59:33] ▶ Starting 04_nlp_analysis.py...
+[01:59:33] ✅ 04_nlp_analysis.py completed in 0.2s
+[01:59:33]    
+[01:59:33]    ============================================================
+[01:59:33]    ✅ Xong! Kết quả final lưu trong các file _04_final.csv
+[01:59:33]    → Bước tiếp: 05_revert_check.py
+[01:59:33]    ============================================================
+[01:59:33] ▶ Starting 05_revert_check.py...
+[02:10:33] ✅ 05_revert_check.py completed in 659.8s
+[02:10:33]    
+[02:10:33]    ============================================================
+[02:10:33]    ✅ Verification hoàn tất!
+[02:10:33]    Kết quả lưu trong các file _05_verified.csv
+[02:10:33]    ============================================================
+[02:10:33] ▶ Starting 06_llm_verification.py...
+[02:38:02] ✅ 06_llm_verification.py completed in 1649.2s
+[02:38:02]    
+[02:38:02]    ============================================================
+[02:38:02]    ✅ LLM Verification hoàn tất!
+[02:38:02]    Kết quả lưu trong các file _06_llm.csv
+[02:38:02]    ============================================================
+[02:38:02] ▶ Starting 07_vandal_fingerprinting.py...
+[02:38:02] ✅ 07_vandal_fingerprinting.py completed in 0.1s
+[02:38:02]    🕵️ Đang tạo Vandal Fingerprints...
+[02:38:02]    ✅ Đã tạo 134 signatures trong vandal_fingerprints.json
+[02:38:02] ▶ Starting 08_attribution_engine.py...
+[02:38:02] ✅ 08_attribution_engine.py completed in 0.2s
+[02:38:02]    ⏩ Skipping 20260324_223205_06_llm.csv (already attributed)
+[02:38:02]    ⏩ Skipping 20260324_230827_06_llm.csv (already attributed)
+[02:38:02]    ⏩ Skipping 20260324_235253_06_llm.csv (already attributed)
+[02:38:02]    🕵️ Matching: 20260325_014820_06_llm.csv
+[02:38:02]    ✅ Done: vi | Found 3 matches.
+[02:38:02] ▶ Starting 09_intelligence_aggregator.py...
+[02:38:02] ✅ 09_intelligence_aggregator.py completed in 0.1s
+[02:38:02]    🧠 Intelligence Aggregator (VIP Master) Running...
+[02:38:02]    📊 Temporal data found — integrating into report.
+[02:38:02]    🔬 Deep insights found — integrating into report.
+[02:38:02]    🕸️ Graph intelligence found — integrating into report.
+[02:38:02]    ✅ Master Report generated at: D:\IntelligenceAnalysis\wiki-stream\experiments\reports\insights.md
+[02:38:02] ▶ Starting 10_temporal_clustering.py...
+[02:38:02] ✅ 10_temporal_clustering.py completed in 0.1s
+[02:38:02]    🔴 BOT-LIKE ToxicOJ: 100.0% active at UTC 18:00-18:59 (5 edits, 100.0% suspicious)
+[02:38:02]    🔴 BOT-LIKE Lincolning: 100.0% active at UTC 18:00-18:59 (3 edits, 100.0% suspicious)
+[02:38:02]    🔴 BOT-LIKE ~2026-18415-93: 100.0% active at UTC 18:00-18:59 (3 edits, 100.0% suspicious)
+[02:38:02]    
+[02:38:02]    ✅ Temporal report saved to: D:\IntelligenceAnalysis\wiki-stream\experiments\reports\temporal_analysis.json
+[02:38:02] ▶ Starting 11_deep_insights.py...
+[02:38:03] ✅ 11_deep_insights.py completed in 0.1s
+[02:38:03]    2 of 3 agree:        125 edits
+[02:38:03]    Consensus Rate:      31.9%
+[02:38:03]    Strongest Pair:      NLP+LLM (96 co-detections)
+[02:38:03]    
+[02:38:03]    ✅ Deep insights saved to: D:\IntelligenceAnalysis\wiki-stream\experiments\reports\deep_insights.json
+[02:38:03] ▶ Starting 12_graph_intelligence.py...
+[02:38:04] ✅ 12_graph_intelligence.py completed in 1.3s
+[02:38:04]    ⚠️ Enbi (iter 1, 50.0% vandal neighbors)
+[02:38:04]    ⚠️ Patriots90 (iter 1, 50.0% vandal neighbors)
+[02:38:04]    ⚠️ Scoutguy138 (iter 1, 66.7% vandal neighbors)
+[02:38:04]    
+[02:38:04]    ✅ Graph intelligence saved to: D:\IntelligenceAnalysis\wiki-stream\experiments\reports\graph_intelligence.json
+[02:38:04] 
+============================================================
+[02:38:04] 🌅 OVERNIGHT PIPELINE COMPLETE!
+[02:38:04]    Total time: 1.1 hours (4083s)
+[02:38:04]    Check: reports/insights.md
+[02:38:04]    Check: reports/graph_intelligence.json
+[02:38:04]    Check: reports/graph_vandal_network.png
+[02:38:04] ============================================================

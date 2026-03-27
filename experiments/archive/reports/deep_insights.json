@@ -1,0 +1,703 @@
+{
+  "generated_at": "2026-03-25T10:27:21.024003",
+  "total": 556,
+  "behavioral_profiles": {
+    "total_users": 346,
+    "archetype_distribution": {
+      "🔴 Serial Vandal": 3,
+      "🟠 Hit-and-Run": 24,
+      "🟡 Careless Editor": 4,
+      "🟢 Trusted Contributor": 315,
+      "🔵 Bot/Automated": 0
+    },
+    "serial_vandals": [
+      {
+        "user": "~2026-18467-24",
+        "archetype": "🔴 Serial Vandal",
+        "edits": 2,
+        "vandal_edits": 2,
+        "vandal_ratio": 100.0,
+        "avg_delta": 38.5,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": true
+      },
+      {
+        "user": "Necrothesp",
+        "archetype": "🔴 Serial Vandal",
+        "edits": 2,
+        "vandal_edits": 2,
+        "vandal_ratio": 100.0,
+        "avg_delta": 58.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 2,
+        "is_anon": false
+      },
+      {
+        "user": "MKP2020",
+        "archetype": "🔴 Serial Vandal",
+        "edits": 2,
+        "vandal_edits": 2,
+        "vandal_ratio": 100.0,
+        "avg_delta": 7.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 2,
+        "is_anon": false
+      }
+    ],
+    "hit_and_run": [
+      {
+        "user": "Iulian Sendrea",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 33.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": false
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": -6.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": false
+      },
+      {
+        "user": "Bonaldo ronaldo",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 4.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": false
+      },
+      {
+        "user": "Padgriffin",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 6.0,
+        "avg_comment_len": 130.0,
+        "unique_articles": 1,
+        "is_anon": false
+      },
+      {
+        "user": "Yerfdog71",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 2.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": false
+      },
+      {
+        "user": "~2026-10462-67",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 0.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": true
+      },
+      {
+        "user": "~2026-18381-70",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 12.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": true
+      },
+      {
+        "user": "~2026-18399-10",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 7.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": true
+      },
+      {
+        "user": "Atomus23",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": 111.0,
+        "avg_comment_len": 0.0,
+        "unique_articles": 1,
+        "is_anon": false
+      },
+      {
+        "user": "Whitelyne",
+        "archetype": "🟠 Hit-and-Run",
+        "edits": 1,
+        "vandal_edits": 1,
+        "vandal_ratio": 100.0,
+        "avg_delta": -22.0,
+        "avg_comment_len": 206.0,
+        "unique_articles": 1,
+        "is_anon": false
+      }
+    ]
+  },
+  "temporal_patterns": {
+    "hourly": [
+      {
+        "hour": 0,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 1,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 2,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 3,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 4,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 5,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 6,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 7,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 8,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 9,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 10,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 11,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 12,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 13,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 14,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 15,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 16,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 17,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 18,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 19,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 20,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 21,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 22,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 23,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      }
+    ],
+    "peak_vandal_hours": [
+      {
+        "hour": 0,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 1,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 2,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 3,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      },
+      {
+        "hour": 4,
+        "vandal": 0,
+        "safe": 0,
+        "vandal_pct": 0
+      }
+    ],
+    "vandal_edit_count": 0,
+    "avg_interval_seconds": 0,
+    "min_interval_seconds": 0,
+    "insight": "Vandalism peaks at hour 0:00 UTC (0% vandal rate)"
+  },
+  "cross_method": {
+    "signal_counts": {
+      "consensus_safe": 449,
+      "only_llm": 65,
+      "consensus_vandal": 38,
+      "only_rule": 2,
+      "only_nlp": 2
+    },
+    "interesting_disagreements": [
+      {
+        "user": "MrTallink",
+        "title": "Latvia men's national basketba",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "~2026-18325-14",
+        "title": "List of Columbia Pictures film",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "~2026-18445-64",
+        "title": "Tallinn Hippodrome",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "Iulian Sendrea",
+        "title": "Province of the Anglican Churc",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "VANDALISM"
+      },
+      {
+        "user": "Loyal luz",
+        "title": "2026 Bangladeshi general elect",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "~2026-18283-46",
+        "title": "Nika Futterman",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "Bradyzzz34",
+        "title": "Pride",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.1,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "~2026-15593-97",
+        "title": "PAOK BC",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "Fatimah Bello",
+        "title": "Sitta min Shawwāl",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      },
+      {
+        "user": "~2026-18395-07",
+        "title": "James O'Connor (footballer, bo",
+        "type": "LLM-only (semantic vandalism, not pattern-based)",
+        "rule_score": 1.0,
+        "nlp_score": 0.0,
+        "llm": "SUSPICIOUS"
+      }
+    ],
+    "total_with_all_signals": 143,
+    "consensus_rate": 26.6
+  },
+  "target_analysis": {
+    "most_vandalized": [
+      {
+        "title": "2026 EUT20 Belgium",
+        "vandal_edits": 2,
+        "total_edits": 2,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "Province of the Anglican Church of the Congo",
+        "vandal_edits": 1,
+        "total_edits": 1,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "Kolby Koloff",
+        "vandal_edits": 1,
+        "total_edits": 2,
+        "vandal_ratio": 50.0,
+        "unique_vandals": 1,
+        "unique_editors": 2
+      },
+      {
+        "title": "Negro National League (1920–1931)",
+        "vandal_edits": 1,
+        "total_edits": 2,
+        "vandal_ratio": 50.0,
+        "unique_vandals": 1,
+        "unique_editors": 2
+      },
+      {
+        "title": "Tri-West Hendricks High School",
+        "vandal_edits": 1,
+        "total_edits": 1,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "Bernie the Dolphin",
+        "vandal_edits": 1,
+        "total_edits": 2,
+        "vandal_ratio": 50.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "Ilaisa Tuiaki",
+        "vandal_edits": 1,
+        "total_edits": 1,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "St Peter's Catholic School, Guildford",
+        "vandal_edits": 1,
+        "total_edits": 1,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "Roger Elliott (British Army officer)",
+        "vandal_edits": 1,
+        "total_edits": 1,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      },
+      {
+        "title": "Yamaha YZ125",
+        "vandal_edits": 1,
+        "total_edits": 1,
+        "vandal_ratio": 100.0,
+        "unique_vandals": 1,
+        "unique_editors": 1
+      }
+    ],
+    "topic_breakdown": {
+      "Other": 29,
+      "Sports": 3,
+      "Education": 2
+    },
+    "total_targeted_articles": 33
+  },
+  "anonymity": {
+    "anonymous": {
+      "edits": 88,
+      "vandal": 8,
+      "rate": 9.1,
+      "unique_users": 70
+    },
+    "registered": {
+      "edits": 468,
+      "vandal": 26,
+      "rate": 5.6,
+      "unique_users": 276
+    },
+    "insight": "Anonymous editors: 9% vandal rate vs Registered: 6% → Anon MORE dangerous"
+  },
+  "ml_risk": {
+    "honest_metrics": {
+      "accuracy": 74.8,
+      "precision": 78.8,
+      "recall": 88.1,
+      "f1": 83.2,
+      "training_samples": 143,
+      "validation": "5-fold stratified cross-validation"
+    },
+    "feature_importance": [
+      {
+        "feature": "article_length",
+        "importance": 0.4342
+      },
+      {
+        "feature": "username_len",
+        "importance": 0.1356
+      },
+      {
+        "feature": "abs_delta",
+        "importance": 0.0913
+      },
+      {
+        "feature": "delta_ratio",
+        "importance": 0.0776
+      },
+      {
+        "feature": "nlp_score",
+        "importance": 0.0695
+      },
+      {
+        "feature": "is_minor",
+        "importance": 0.0688
+      },
+      {
+        "feature": "has_numbers",
+        "importance": 0.0513
+      },
+      {
+        "feature": "rule_score",
+        "importance": 0.0275
+      }
+    ],
+    "high_risk_edits": [
+      {
+        "user": "Goldenlane",
+        "title": "Azerbaijan",
+        "ml_risk": 99.9,
+        "llm": "VANDALISM",
+        "has_llm": true
+      },
+      {
+        "user": "~2026-17976-32",
+        "title": "Treasure Planet",
+        "ml_risk": 99.8,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      },
+      {
+        "user": "1isall",
+        "title": "Bagman (disambiguation)",
+        "ml_risk": 99.8,
+        "llm": "not_processed",
+        "has_llm": false
+      },
+      {
+        "user": "1isall",
+        "title": "The Man with the Bag",
+        "ml_risk": 99.7,
+        "llm": "not_processed",
+        "has_llm": false
+      },
+      {
+        "user": "PresN",
+        "title": "List of primates",
+        "ml_risk": 99.5,
+        "llm": "not_processed",
+        "has_llm": false
+      },
+      {
+        "user": "Arcane17",
+        "title": "Eos (Terje Rypdal & David Darl",
+        "ml_risk": 99.5,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      },
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of so",
+        "ml_risk": 99.5,
+        "llm": "VANDALISM",
+        "has_llm": true
+      },
+      {
+        "user": "Arcane17",
+        "title": "The Singles Collection (Terje ",
+        "ml_risk": 99.5,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      },
+      {
+        "user": "Dibacluot123",
+        "title": "Không giới hạn",
+        "ml_risk": 99.5,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      },
+      {
+        "user": "~2026-18445-64",
+        "title": "Tallinn Hippodrome",
+        "ml_risk": 99.4,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      },
+      {
+        "user": "~2026-18498-98",
+        "title": "Abhidnya Bhave",
+        "ml_risk": 99.4,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      },
+      {
+        "user": "Family27390",
+        "title": "Sham and Buchi",
+        "ml_risk": 99.4,
+        "llm": "not_processed",
+        "has_llm": false
+      },
+      {
+        "user": "Family27390",
+        "title": "Kuromarimo",
+        "ml_risk": 99.4,
+        "llm": "not_processed",
+        "has_llm": false
+      },
+      {
+        "user": "Tigerdude9",
+        "title": "Air Canada Express Flight 8646",
+        "ml_risk": 99.4,
+        "llm": "not_processed",
+        "has_llm": false
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "Because the Internet",
+        "ml_risk": 99.4,
+        "llm": "SUSPICIOUS",
+        "has_llm": true
+      }
+    ],
+    "ml_only_discoveries": 256,
+    "total_high_risk": 357
+  },
+  "key_insights": [
+    "🔴 Serial vandal '~2026-18467-24' made 2 vandal edits across 1 articles",
+    "👻 Anonymous editors 4x more likely to vandalize (9.1% vs 5.6%)",
+    "🤖 ML (F1=83.2%) found 256 vandals that LLM never processed (coverage gap)",
+    "🔀 26.6% consensus when Rule+NLP+LLM all available",
+    "⏰ Peak vandalism at 0:00 UTC (0% vandal rate)"
+  ]
+}

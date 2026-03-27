@@ -1,0 +1,798 @@
+{
+  "generated_at": "2026-03-25T02:38:04.344202",
+  "graph_stats": {
+    "total_nodes": 2600,
+    "user_nodes": 975,
+    "article_nodes": 1625,
+    "total_edges": 1691,
+    "density": 0.0005,
+    "components": 911,
+    "projection_edges": 75,
+    "projection_connected": 90,
+    "projection_density": 0.000158
+  },
+  "suspicion_rank": {
+    "top_users": [
+      {
+        "user": "Monster Iestyn",
+        "suspicion_rank": 100.0,
+        "edit_count": 30,
+        "vandal_count": 1,
+        "degree": 30
+      },
+      {
+        "user": "Hughbe98",
+        "suspicion_rank": 92.68,
+        "edit_count": 26,
+        "vandal_count": 2,
+        "degree": 25
+      },
+      {
+        "user": "John Adams 362",
+        "suspicion_rank": 92.43,
+        "edit_count": 27,
+        "vandal_count": 3,
+        "degree": 21
+      },
+      {
+        "user": "Harushiga",
+        "suspicion_rank": 76.05,
+        "edit_count": 12,
+        "vandal_count": 4,
+        "degree": 12
+      },
+      {
+        "user": "ToxicOJ",
+        "suspicion_rank": 71.14,
+        "edit_count": 5,
+        "vandal_count": 5,
+        "degree": 5
+      },
+      {
+        "user": "Necrothesp",
+        "suspicion_rank": 36.66,
+        "edit_count": 2,
+        "vandal_count": 2,
+        "degree": 2
+      },
+      {
+        "user": "MKP2020",
+        "suspicion_rank": 36.66,
+        "edit_count": 2,
+        "vandal_count": 2,
+        "degree": 2
+      },
+      {
+        "user": "Eranistis1908",
+        "suspicion_rank": 36.66,
+        "edit_count": 2,
+        "vandal_count": 2,
+        "degree": 2
+      },
+      {
+        "user": "Bean49",
+        "suspicion_rank": 36.66,
+        "edit_count": 2,
+        "vandal_count": 2,
+        "degree": 2
+      },
+      {
+        "user": "~2026-18491-29",
+        "suspicion_rank": 36.66,
+        "edit_count": 2,
+        "vandal_count": 2,
+        "degree": 2
+      },
+      {
+        "user": "Hildreth gazzard",
+        "suspicion_rank": 27.09,
+        "edit_count": 7,
+        "vandal_count": 1,
+        "degree": 7
+      },
+      {
+        "user": "~2026-18415-93",
+        "suspicion_rank": 25.98,
+        "edit_count": 3,
+        "vandal_count": 2,
+        "degree": 2
+      },
+      {
+        "user": "Iulian Sendrea",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      },
+      {
+        "user": "Padgriffin",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      },
+      {
+        "user": "~2026-18467-24",
+        "suspicion_rank": 25.17,
+        "edit_count": 2,
+        "vandal_count": 2,
+        "degree": 1
+      },
+      {
+        "user": "Yerfdog71",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      },
+      {
+        "user": "~2026-10462-67",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      },
+      {
+        "user": "~2026-18381-70",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      },
+      {
+        "user": "~2026-18399-10",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      },
+      {
+        "user": "Atomus23",
+        "suspicion_rank": 25.17,
+        "edit_count": 1,
+        "vandal_count": 1,
+        "degree": 1
+      }
+    ],
+    "top_articles": [
+      {
+        "article": "Jackson Memorial Hospital",
+        "risk_rank": 33.24,
+        "vandal_count": 3,
+        "unique_editors": 3
+      },
+      {
+        "article": "Miss Supranational 2026",
+        "risk_rank": 29.8,
+        "vandal_count": 2,
+        "unique_editors": 2
+      },
+      {
+        "article": "Sonic Solutions",
+        "risk_rank": 28.08,
+        "vandal_count": 3,
+        "unique_editors": 3
+      },
+      {
+        "article": "St. James's Church, Rothenburg ob der Tauber",
+        "risk_rank": 26.97,
+        "vandal_count": 2,
+        "unique_editors": 2
+      },
+      {
+        "article": "Province of the Anglican Church of the Congo",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Tri-West Hendricks High School",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "2026 EUT20 Belgium",
+        "risk_rank": 25.17,
+        "vandal_count": 2,
+        "unique_editors": 1
+      },
+      {
+        "article": "Ilaisa Tuiaki",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "St Peter's Catholic School, Guildford",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Yamaha YZ125",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Chatha Pacha",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Long Expedition",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Summer Walker discography",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Ryomen Sukuna",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      },
+      {
+        "article": "Azerbaijan",
+        "risk_rank": 25.17,
+        "vandal_count": 1,
+        "unique_editors": 1
+      }
+    ]
+  },
+  "communities": [
+    {
+      "community_id": 21,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 2,
+      "vandal_users": 2,
+      "vandal_ratio": 100.0,
+      "avg_suspicion_rank": 15.9,
+      "total_edits": 3,
+      "shared_articles": [
+        "Miss Supranational 2026"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-16779-31",
+          "rank": 18.42,
+          "vandal": 1,
+          "edits": 2
+        },
+        {
+          "name": "Sciencefish",
+          "rank": 13.32,
+          "vandal": 1,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 6,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 12,
+      "vandal_users": 8,
+      "vandal_ratio": 66.7,
+      "avg_suspicion_rank": 13.3,
+      "total_edits": 28,
+      "shared_articles": [
+        "Roy Butler (American politician)",
+        "Contemporary Works I",
+        "John Layfield",
+        "Extraterrestrial life",
+        "Racism in Vietnam",
+        "Toni LaSelle",
+        "Rachel Kaly",
+        "La Malinche"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-18420-70",
+          "rank": 22.3,
+          "vandal": 3,
+          "edits": 3
+        },
+        {
+          "name": "~2026-18504-95",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18426-66",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18414-91",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "Kaidojetblack",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 39,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 12.3,
+      "total_edits": 5,
+      "shared_articles": [
+        "Tuukka Kuru"
+      ],
+      "top_users": [
+        {
+          "name": "Vincelord",
+          "rank": 19.31,
+          "vandal": 0,
+          "edits": 4
+        },
+        {
+          "name": "TechTok2",
+          "rank": 5.21,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 13,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 3,
+      "vandal_users": 2,
+      "vandal_ratio": 66.7,
+      "avg_suspicion_rank": 12.1,
+      "total_edits": 4,
+      "shared_articles": [
+        "St. James's Church, Rothenburg ob der Tauber",
+        "Sun, Moon, and Talia"
+      ],
+      "top_users": [
+        {
+          "name": "LithyLithium",
+          "rank": 21.56,
+          "vandal": 1,
+          "edits": 2
+        },
+        {
+          "name": "~2026-18322-96",
+          "rank": 14.66,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18370-43",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 18,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 5,
+      "vandal_users": 3,
+      "vandal_ratio": 60.0,
+      "avg_suspicion_rank": 11.3,
+      "total_edits": 12,
+      "shared_articles": [
+        "Lindsay Ellis",
+        "Sea",
+        "Artabanus II of Parthia"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-18417-01",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "Dr. Harvey James",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18413-41",
+          "rank": 17.53,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "ClueBot NG",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 7
+        },
+        {
+          "name": "Meatnotme",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 2
+        }
+      ]
+    },
+    {
+      "community_id": 10,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 10,
+      "vandal_users": 6,
+      "vandal_ratio": 60.0,
+      "avg_suspicion_rank": 11.2,
+      "total_edits": 28,
+      "shared_articles": [
+        "Madison, South Dakota",
+        "Schlieffen Plan",
+        "Kolby Koloff",
+        "Jackson Memorial Hospital",
+        "Negro National League (1920–1931)",
+        "John Winthrop",
+        "Mana Shankara Vara Prasad Garu"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-18376-54",
+          "rank": 23.38,
+          "vandal": 2,
+          "edits": 2
+        },
+        {
+          "name": "Bonaldo ronaldo",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18434-81",
+          "rank": 19.44,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "M0NKEYMADNESS765787728",
+          "rank": 15.45,
+          "vandal": 1,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18378-94",
+          "rank": 12.97,
+          "vandal": 1,
+          "edits": 2
+        }
+      ]
+    },
+    {
+      "community_id": 16,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 2,
+      "vandal_users": 1,
+      "vandal_ratio": 50.0,
+      "avg_suspicion_rank": 9.3,
+      "total_edits": 6,
+      "shared_articles": [
+        "Esteri Tebandeke"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-12083-3",
+          "rank": 18.61,
+          "vandal": 4,
+          "edits": 5
+        },
+        {
+          "name": "Lacika455",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 7,
+      "threat": "🔴 SOCKPUPPET RING",
+      "user_count": 6,
+      "vandal_users": 3,
+      "vandal_ratio": 50.0,
+      "avg_suspicion_rank": 6.4,
+      "total_edits": 12,
+      "shared_articles": [
+        "United States Secretary of Homeland Security",
+        "Markwayne Mullin"
+      ],
+      "top_users": [
+        {
+          "name": "ElijahPepe",
+          "rank": 17.21,
+          "vandal": 2,
+          "edits": 2
+        },
+        {
+          "name": "MinerPix",
+          "rank": 10.64,
+          "vandal": 1,
+          "edits": 3
+        },
+        {
+          "name": "Jdavi333",
+          "rank": 10.32,
+          "vandal": 1,
+          "edits": 3
+        },
+        {
+          "name": "Drdpw",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        },
+        {
+          "name": "Patriots90",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 2
+        }
+      ]
+    },
+    {
+      "community_id": 31,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 5.2,
+      "total_edits": 3,
+      "shared_articles": [
+        "European Golden Shoe"
+      ],
+      "top_users": [
+        {
+          "name": "Annh07",
+          "rank": 10.35,
+          "vandal": 0,
+          "edits": 2
+        },
+        {
+          "name": "~2026-18432-27",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 30,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 3.6,
+      "total_edits": 3,
+      "shared_articles": [
+        "Chainsaw Man"
+      ],
+      "top_users": [
+        {
+          "name": "Xexerss",
+          "rank": 7.14,
+          "vandal": 0,
+          "edits": 2
+        },
+        {
+          "name": "~2026-18338-34",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 4,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 3.3,
+      "total_edits": 2,
+      "shared_articles": [
+        "2026 Slovenian parliamentary election"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-18490-69",
+          "rank": 6.5,
+          "vandal": 0,
+          "edits": 1
+        },
+        {
+          "name": "Gladiator1997",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 22,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 3.3,
+      "total_edits": 2,
+      "shared_articles": [
+        "Gerald Cooper"
+      ],
+      "top_users": [
+        {
+          "name": "Yeshivish613",
+          "rank": 6.5,
+          "vandal": 0,
+          "edits": 1
+        },
+        {
+          "name": "~2026-18375-39",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 37,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 3.3,
+      "total_edits": 2,
+      "shared_articles": [
+        "List of Columbia Pictures films (2020–2029)"
+      ],
+      "top_users": [
+        {
+          "name": "~2026-18325-14",
+          "rank": 6.5,
+          "vandal": 0,
+          "edits": 1
+        },
+        {
+          "name": "LouisToonsFan456",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    },
+    {
+      "community_id": 14,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 2.7,
+      "total_edits": 5,
+      "shared_articles": [
+        "Josephine Ahikire"
+      ],
+      "top_users": [
+        {
+          "name": "Sandra Aceng",
+          "rank": 5.35,
+          "vandal": 0,
+          "edits": 1
+        },
+        {
+          "name": "OKWE DARIOUS",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 4
+        }
+      ]
+    },
+    {
+      "community_id": 1,
+      "threat": "🟢 NORMAL",
+      "user_count": 2,
+      "vandal_users": 0,
+      "vandal_ratio": 0.0,
+      "avg_suspicion_rank": 0.2,
+      "total_edits": 6,
+      "shared_articles": [
+        "Joker (2019 film)"
+      ],
+      "top_users": [
+        {
+          "name": "AnomieBOT",
+          "rank": 0.31,
+          "vandal": 0,
+          "edits": 5
+        },
+        {
+          "name": "Iacowriter",
+          "rank": 0.01,
+          "vandal": 0,
+          "edits": 1
+        }
+      ]
+    }
+  ],
+  "label_propagation": {
+    "newly_flagged": 8,
+    "details": [
+      {
+        "user": "TonySt",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 40.0,
+        "total_neighbors": 15,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "Cicada1010",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 58.3,
+        "total_neighbors": 12,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "Enbi",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 50.0,
+        "total_neighbors": 2,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "Patriots90",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 50.0,
+        "total_neighbors": 2,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "Scoutguy138",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 66.7,
+        "total_neighbors": 3,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "Lacika455",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 100.0,
+        "total_neighbors": 1,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "Drdpw",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 50.0,
+        "total_neighbors": 2,
+        "original_label": "CLEAN"
+      },
+      {
+        "user": "~2026-18370-43",
+        "iteration": 1,
+        "vandal_neighbor_ratio": 100.0,
+        "total_neighbors": 1,
+        "original_label": "CLEAN"
+      }
+    ]
+  }
+}

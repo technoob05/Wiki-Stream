@@ -1,0 +1,154 @@
+{
+  "generated_at": "2026-03-25T09:47:11.673273",
+  "comparison": {
+    "total_edits": 556,
+    "llm_coverage": 25.7,
+    "hybrid_coverage": 100.0,
+    "ml_model": "GradientBoosting",
+    "ml_f1": 83.2,
+    "agreement_rate": 100.0,
+    "both_agree_vandal": 101,
+    "both_agree_safe": 42,
+    "llm_only_flags": 0,
+    "ml_only_flags": 0,
+    "ml_new_discoveries": 312,
+    "ml_high_confidence_new": 224
+  },
+  "hybrid_verdict": {
+    "distribution": {
+      "🟠 FLAG": 238,
+      "🟡 REVIEW": 100,
+      "🔴 BLOCK": 94,
+      "🟢 SAFE": 124
+    },
+    "top_threats": [
+      {
+        "user": "Goldenlane",
+        "title": "Azerbaijan",
+        "hybrid_score": 96.9,
+        "llm": "VANDALISM",
+        "ml_prob": 99.9,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Brainiac242",
+        "title": "List of current monarchs of so",
+        "hybrid_score": 96.8,
+        "llm": "VANDALISM",
+        "ml_prob": 99.5,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Yerfdog71",
+        "title": "Ilaisa Tuiaki",
+        "hybrid_score": 96.7,
+        "llm": "VANDALISM",
+        "ml_prob": 99.2,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "~2026-18377-38",
+        "title": "Murad Ali Shah",
+        "hybrid_score": 96.6,
+        "llm": "VANDALISM",
+        "ml_prob": 99.0,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "title": "2014 Forest Hills Drive",
+        "hybrid_score": 96.6,
+        "llm": "VANDALISM",
+        "ml_prob": 99.0,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "MKP2020",
+        "title": "2025–26 Quinnipiac Bobcats men",
+        "hybrid_score": 96.5,
+        "llm": "VANDALISM",
+        "ml_prob": 98.8,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Wickkeypedia",
+        "title": "Miguel Rojas (baseball)",
+        "hybrid_score": 96.5,
+        "llm": "VANDALISM",
+        "ml_prob": 98.8,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "~2026-18302-86",
+        "title": "Fort Mose",
+        "hybrid_score": 96.4,
+        "llm": "VANDALISM",
+        "ml_prob": 98.5,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "TheDoctorWho",
+        "title": "Line of Duty",
+        "hybrid_score": 96.3,
+        "llm": "VANDALISM",
+        "ml_prob": 98.2,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "title": "Kolby Koloff",
+        "hybrid_score": 96.2,
+        "llm": "VANDALISM",
+        "ml_prob": 97.9,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "~2026-18399-10",
+        "title": "Chatha Pacha",
+        "hybrid_score": 96.2,
+        "llm": "VANDALISM",
+        "ml_prob": 97.9,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Umutdyb",
+        "title": "Stan Berry",
+        "hybrid_score": 96.1,
+        "llm": "VANDALISM",
+        "ml_prob": 97.8,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Atomus23",
+        "title": "Long Expedition",
+        "hybrid_score": 96.0,
+        "llm": "VANDALISM",
+        "ml_prob": 97.4,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Ronineditor",
+        "title": "Lyari Town",
+        "hybrid_score": 96.0,
+        "llm": "VANDALISM",
+        "ml_prob": 97.5,
+        "action": "🔴 BLOCK"
+      },
+      {
+        "user": "Rtkat3",
+        "title": "Bernie the Dolphin",
+        "hybrid_score": 95.8,
+        "llm": "VANDALISM",
+        "ml_prob": 97.0,
+        "action": "🔴 BLOCK"
+      }
+    ]
+  },
+  "insights": [
+    "LLM coverage: 26% → Hybrid coverage: 100%",
+    "ML F1 vs LLM labels: 83.2%",
+    "Agreement rate when both available: 100.0%",
+    "ML discovered 224 high-conf vandals LLM never saw",
+    "Strongest ML features: article_length, nlp_score, username_len"
+  ]
+}

@@ -1,0 +1,519 @@
+{
+  "generated_at": "2026-03-25T09:43:19.237708",
+  "total_edits": 556,
+  "knowledge_distillation": {
+    "best_model": "AdaBoost",
+    "best_f1": 82.8,
+    "all_models": {
+      "RandomForest": {
+        "f1": 80.9,
+        "std": 5.0
+      },
+      "GradientBoosting": {
+        "f1": 82.2,
+        "std": 3.4
+      },
+      "AdaBoost": {
+        "f1": 82.8,
+        "std": 4.6
+      },
+      "LogisticRegression": {
+        "f1": 72.9,
+        "std": 7.7
+      }
+    },
+    "feature_importance": [
+      {
+        "feature": "original_length",
+        "importance": 0.3282
+      },
+      {
+        "feature": "nlp_score",
+        "importance": 0.1927
+      },
+      {
+        "feature": "username_len",
+        "importance": 0.1559
+      },
+      {
+        "feature": "abs_delta_ratio",
+        "importance": 0.0898
+      },
+      {
+        "feature": "rule_score",
+        "importance": 0.0749
+      },
+      {
+        "feature": "has_numbers_in_name",
+        "importance": 0.0516
+      },
+      {
+        "feature": "abs_delta",
+        "importance": 0.0485
+      },
+      {
+        "feature": "is_minor",
+        "importance": 0.0442
+      },
+      {
+        "feature": "is_anon",
+        "importance": 0.0141
+      },
+      {
+        "feature": "comment_len",
+        "importance": 0.0
+      }
+    ],
+    "predictions": {
+      "FLAGGED": 476,
+      "SAFE": 80
+    },
+    "new_discoveries": 354,
+    "high_confidence_new": 0,
+    "confusion_matrix": [
+      [
+        15,
+        27
+      ],
+      [
+        6,
+        95
+      ]
+    ],
+    "training_size": 143,
+    "total_predicted": 556,
+    "model_saved": "D:\\IntelligenceAnalysis\\wiki-stream\\experiments\\reports\\distilled_model.joblib"
+  },
+  "comment_forensics": {
+    "total_comments": 556,
+    "clusters": [
+      {
+        "cluster_id": 4,
+        "size": 471,
+        "unique_users": 332,
+        "vandal_ratio": 21.7,
+        "avg_comment_length": 37.8,
+        "empty_ratio": 25.5,
+        "top_terms": [
+          "added",
+          "2026",
+          "updated",
+          "link",
+          "add"
+        ],
+        "sample_comments": [
+          "Added content",
+          "ref list",
+          "/* Charts */ Added peak."
+        ],
+        "threat": "🟢 NORMAL"
+      },
+      {
+        "cluster_id": 3,
+        "size": 37,
+        "unique_users": 1,
+        "vandal_ratio": 2.7,
+        "avg_comment_length": 70.5,
+        "empty_ratio": 0.0,
+        "top_terms": [
+          "wp awb",
+          "clean wp",
+          "awb typo",
+          "awb",
+          "typo fixed"
+        ],
+        "sample_comments": [
+          "clean up, [[WP:AWB/T|typo(s) fixed]]: Meanwhile → Meanwhile,, Tamilnadu → Tamil Nadu",
+          "clean up, [[WP:AWB/T|typo(s) fixed]]: 27-40 → 27–40, 76-87 → 76–87",
+          "/* Hi */ clean up, [[WP:AWB/T|typo(s) fixed]]: 38-39 → 38–39"
+        ],
+        "threat": "🟢 NORMAL"
+      },
+      {
+        "cluster_id": 0,
+        "size": 8,
+        "unique_users": 1,
+        "vandal_ratio": 0.0,
+        "avg_comment_length": 110.6,
+        "empty_ratio": 0.0,
+        "top_terms": [
+          "cvpi",
+          "2026",
+          "cvpi cvpi",
+          "wp cvpi",
+          "cvpi reverting"
+        ],
+        "sample_comments": [
+          "[[WP:CVPI|CVPI]]: Reverting non-[[WP:NPOV|neutral]] content by [[Special:Contributions/~2026-18438-22|~2026-18438-22]]",
+          "[[WP:CVPI|CVPI]]: Reverting unsourced content added by [[Special:Contributions/~2026-18340-50|~2026-18340-50]]",
+          "[[WP:CVPI|CVPI]]: Reverting non-constructive edits by [[Special:Contributions/Bonaldo ronaldo|Bonaldo ronaldo]]"
+        ],
+        "threat": "🟢 NORMAL"
+      },
+      {
+        "cluster_id": 1,
+        "size": 21,
+        "unique_users": 9,
+        "vandal_ratio": 0.0,
+        "avg_comment_length": 58.6,
+        "empty_ratio": 0.0,
+        "top_terms": [
+          "category",
+          "added category",
+          "added",
+          "wp hc",
+          "hc hotcat"
+        ],
+        "sample_comments": [
+          "added [[Category:Film producers from Colorado]] using [[WP:HC|HotCat]]",
+          "added [[Category:Paintings by Alexander Nasmyth]] using [[WP:HC|HotCat]]",
+          "added [[Category:Film producers from Montana]] using [[WP:HC|HotCat]]"
+        ],
+        "threat": "🟢 NORMAL"
+      },
+      {
+        "cluster_id": 2,
+        "size": 12,
+        "unique_users": 1,
+        "vandal_ratio": 0.0,
+        "avg_comment_length": 41.0,
+        "empty_ratio": 0.0,
+        "top_terms": [
+          "david starr",
+          "wiki link",
+          "david",
+          "starr jordan",
+          "starr"
+        ],
+        "sample_comments": [
+          "Added wiki link to [[David Starr Jordan]]",
+          "Added wiki link to [[David Starr Jordan]]",
+          "Added wiki link to [[David Starr Jordan]]"
+        ],
+        "threat": "🟢 NORMAL"
+      },
+      {
+        "cluster_id": 5,
+        "size": 7,
+        "unique_users": 7,
+        "vandal_ratio": 0.0,
+        "avg_comment_length": 37.7,
+        "empty_ratio": 0.0,
+        "top_terms": [
+          "references",
+          "adding",
+          "reference",
+          "link"
+        ],
+        "sample_comments": [
+          "adding and removing spaces",
+          "/* References */",
+          "/* References */"
+        ],
+        "threat": "🟢 NORMAL"
+      }
+    ],
+    "comment_patterns": {
+      "empty": 120,
+      "very_short": 10,
+      "has_test": 1,
+      "has_revert": 19,
+      "section_edit": 192,
+      "automated": 67
+    },
+    "tfidf_features": 200
+  },
+  "bayesian_reputation": {
+    "total_users": 346,
+    "distribution": {
+      "🔴 UNTRUSTED": 3,
+      "🟠 LOW TRUST": 32,
+      "🟡 NEUTRAL": 72,
+      "🟢 TRUSTED": 239
+    },
+    "lowest_reputation": [
+      {
+        "user": "~2026-18467-24",
+        "reputation": 28.6,
+        "confidence": 85.7,
+        "credible_interval": [
+          0,
+          59.9
+        ],
+        "edits": 2,
+        "good": 0,
+        "bad": 2,
+        "suspicious": 0,
+        "threat": "🔴 UNTRUSTED"
+      },
+      {
+        "user": "Necrothesp",
+        "reputation": 28.6,
+        "confidence": 85.7,
+        "credible_interval": [
+          0,
+          59.9
+        ],
+        "edits": 2,
+        "good": 0,
+        "bad": 2,
+        "suspicious": 0,
+        "threat": "🔴 UNTRUSTED"
+      },
+      {
+        "user": "MKP2020",
+        "reputation": 28.6,
+        "confidence": 85.7,
+        "credible_interval": [
+          0,
+          59.9
+        ],
+        "edits": 2,
+        "good": 0,
+        "bad": 2,
+        "suspicious": 0,
+        "threat": "🔴 UNTRUSTED"
+      },
+      {
+        "user": "~2026-18302-86",
+        "reputation": 36.4,
+        "confidence": 81.8,
+        "credible_interval": [
+          0,
+          73.3
+        ],
+        "edits": 2,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 1,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "TheAmazingPeanuts",
+        "reputation": 36.4,
+        "confidence": 81.8,
+        "credible_interval": [
+          0,
+          73.3
+        ],
+        "edits": 2,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 1,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Umutdyb",
+        "reputation": 36.4,
+        "confidence": 81.8,
+        "credible_interval": [
+          0,
+          73.3
+        ],
+        "edits": 2,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 1,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Iulian Sendrea",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Phlogiston Enthusiast",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Mixinlord",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Loytra",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "M0NKEYMADNESS765787728",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Bonaldo ronaldo",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Padgriffin",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Sharon Cunningham",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      },
+      {
+        "user": "Yerfdog71",
+        "reputation": 40.0,
+        "confidence": 80.0,
+        "credible_interval": [
+          0.8,
+          79.2
+        ],
+        "edits": 1,
+        "good": 0,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟠 LOW TRUST"
+      }
+    ],
+    "highest_reputation": [
+      {
+        "user": "Plantdrew",
+        "reputation": 88.9,
+        "confidence": 88.9,
+        "credible_interval": [
+          69.4,
+          100
+        ],
+        "edits": 6,
+        "good": 6,
+        "bad": 0,
+        "suspicious": 0,
+        "threat": "🟢 TRUSTED"
+      },
+      {
+        "user": "DareshMohan",
+        "reputation": 90.0,
+        "confidence": 90.0,
+        "credible_interval": [
+          72.3,
+          100
+        ],
+        "edits": 7,
+        "good": 7,
+        "bad": 0,
+        "suspicious": 0,
+        "threat": "🟢 TRUSTED"
+      },
+      {
+        "user": "LionmerterTHE",
+        "reputation": 92.7,
+        "confidence": 97.6,
+        "credible_interval": [
+          84.8,
+          100
+        ],
+        "edits": 37,
+        "good": 36,
+        "bad": 1,
+        "suspicious": 0,
+        "threat": "🟢 TRUSTED"
+      },
+      {
+        "user": "BD2412",
+        "reputation": 93.8,
+        "confidence": 93.8,
+        "credible_interval": [
+          82.2,
+          100
+        ],
+        "edits": 13,
+        "good": 13,
+        "bad": 0,
+        "suspicious": 0,
+        "threat": "🟢 TRUSTED"
+      },
+      {
+        "user": "Mill 1",
+        "reputation": 96.2,
+        "confidence": 96.2,
+        "credible_interval": [
+          88.9,
+          100
+        ],
+        "edits": 23,
+        "good": 23,
+        "bad": 0,
+        "suspicious": 0,
+        "threat": "🟢 TRUSTED"
+      }
+    ]
+  }
+}

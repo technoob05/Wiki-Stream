@@ -1,0 +1,25 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:wwvc1="http://www.uni-weimar.de/medien/webis/research/misuse/vandalism"
+			targetNamespace="http://www.uni-weimar.de/medien/webis/research/misuse/vandalism"
+			elementFormDefault="unqualified"
+			attributeFormDefault="unqualified">
+
+	<xsd:element name="edits">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="edit" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="edit">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="oldRevisionID" type="xsd:integer"/>
+				<xsd:element name="newRevisionID" type="xsd:integer"/>
+				<xsd:element name="vandalism" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
