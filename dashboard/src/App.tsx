@@ -14,13 +14,62 @@ import {
   RefreshCw,
   Database,
   Brain,
+  BarChart3,
+  Download,
+  Zap,
+  Fingerprint,
+  AlertTriangle,
+  Clock,
+  Keyboard,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlobeView } from './components/GlobeView';
 import { ThreatMatrix } from './components/ThreatMatrix';
+import { AnalyticsView } from './components/AnalyticsView';
+import { SignalRadar } from './components/SignalRadar';
+import { StatusBar } from './components/StatusBar';
+import { ActivityTicker } from './components/ActivityTicker';
+import { Sparkline } from './components/Sparkline';
+import { MassSourceChart } from './components/MassSourceChart';
+import { PignisticGauge } from './components/PignisticGauge';
 import type { Threat } from './components/ThreatMatrix';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+
+// -- Notification Toast System --
+interface Toast {
+  id: number;
+  message: string;
+  type: 'threat' | 'info' | 'success';
+  exiting?: boolean;
+}
+
+let toastId = 0;
+
+// -- Animated Number Counter --
+const AnimatedNumber: React.FC<{ value: number; className?: string }> = ({ value, className }) => {
+  const [display, setDisplay] = useState(0);
+  const prev = useRef(0);
+
+  useEffect(() => {
+    const start = prev.current;
+    const diff = value - start;
+    if (diff === 0) return;
+    const duration = 600;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setDisplay(Math.round(start + diff * eased));
+      if (progress < 1) requestAnimationFrame(animate);
+      else prev.current = value;
+    };
+    requestAnimationFrame(animate);
+  }, [value]);
+
+  return <span className={className}>{display.toLocaleString()}</span>;
+};
 
 export default function App() {
   const [data, setData] = useState<any>(null);
@@ -34,23 +83,69 @@ export default function App() {
   const [activePage, setActivePage] = useState('ov');
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [threatPanelOpen, setThreatPanelOpen] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [bootComplete, setBootComplete] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [lastDataHash, setLastDataHash] = useState('');
+  const [sparkHistory, setSparkHistory] = useState<{ total: number[]; threats: number[]; confidence: number[] }>({
+    total: [], threats: [], confidence: [],
+  });
 
-  // Ref to avoid stale closure in interval
   const selectedThreatRef = useRef(selectedThreat);
   selectedThreatRef.current = selectedThreat;
+
+  // -- Toast System --
+  const addToast = useCallback((message: string, type: Toast['type'] = 'info') => {
+    const id = ++toastId;
+    setToasts(prev => [...prev.slice(-4), { id, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.map(t => t.id === id ? { ...t, exiting: true } : t));
+      setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 300);
+    }, 4000);
+  }, []);
 
   // -- Data Fetching --
   const fetchData = useCallback(async () => {
     try {
-      const res = await axios.get(`${API_BASE}/threats`);
+      const res = await axios.get(`${API_BASE}/threats`, { timeout: 5000 });
       setData(res.data);
-      // Don't auto-select — let user click to open case analysis
-    } catch (err) {
+      setApiError(null);
+
+      // Track sparkline history
+      const d = res.data;
+      const threats = (d.distribution?.['BLOCK'] || 0) + (d.distribution?.['FLAG'] || 0);
+      const conf = d.statistics?.avg_uncertainty != null ? Math.round((1 - d.statistics.avg_uncertainty) * 100) : 0;
+      setSparkHistory(prev => ({
+        total: [...prev.total.slice(-19), d.total || 0],
+        threats: [...prev.threats.slice(-19), threats],
+        confidence: [...prev.confidence.slice(-19), conf],
+      }));
+
+      // Notify on new high-severity threats
+      const hash = JSON.stringify(res.data.distribution);
+      if (lastDataHash && hash !== lastDataHash) {
+        const newBlocks = res.data.distribution?.['BLOCK'] || 0;
+        if (newBlocks > 0) {
+          addToast(`${newBlocks} BLOCK-level threats detected`, 'threat');
+        }
+      }
+      setLastDataHash(hash);
+    } catch (err: any) {
+      if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+        setApiError('Connection timed out. Is the API server running?');
+      } else if (err.response?.status === 404) {
+        setApiError('No intelligence data found. Run the pipeline first to generate reports.');
+      } else if (!err.response) {
+        setApiError(`Cannot reach API at ${API_BASE}. Start the server: python experiments/api_service.py`);
+      } else {
+        setApiError(`API error: ${err.response?.status} — ${err.response?.statusText}`);
+      }
       console.error("Failed to fetch data", err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [lastDataHash, addToast]);
 
   const fetchReport = async () => {
     try {
@@ -63,9 +158,9 @@ export default function App() {
 
   const runPipeline = async () => {
     setPipelineRunning(true);
+    addToast('Pipeline started — analyzing incoming edits...', 'info');
     try {
       await axios.post(`${API_BASE}/pipeline/run`);
-      // Poll for completion instead of fixed timeout
       const pollInterval = setInterval(async () => {
         try {
           const status = await axios.get(`${API_BASE}/status`);
@@ -74,10 +169,10 @@ export default function App() {
             clearInterval(pollInterval);
             fetchData();
             setPipelineRunning(false);
+            addToast('Pipeline complete! Intelligence updated.', 'success');
           }
         } catch { /* keep polling */ }
       }, 5000);
-      // Safety timeout: stop polling after 10 minutes
       setTimeout(() => {
         clearInterval(pollInterval);
         setPipelineRunning(false);
@@ -85,15 +180,28 @@ export default function App() {
       }, 600000);
     } catch {
       setPipelineRunning(false);
+      addToast('Pipeline failed to start.', 'threat');
     }
+  };
+
+  const exportData = () => {
+    if (!data) return;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `wikistream_intelligence_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addToast('Intelligence data exported', 'success');
   };
 
   // -- Effects --
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 10000);
+    const interval = setInterval(fetchData, data ? 10000 : 3000);
     return () => clearInterval(interval);
-  }, [fetchData]);
+  }, [fetchData, !data]);
 
   useEffect(() => {
     if (selectedThreat) {
@@ -104,10 +212,37 @@ export default function App() {
     }
   }, [selectedThreat]);
 
-  // Auto-fetch report when switching to Forensic Lab
   useEffect(() => {
     if (activePage === 'fl' && !report) fetchReport();
   }, [activePage]);
+
+  // -- Keyboard Shortcuts --
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (showShortcuts) { setShowShortcuts(false); return; }
+        if (detail) { setDetail(null); return; }
+      }
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey && !(e.target instanceof HTMLInputElement)) {
+        setShowShortcuts(s => !s);
+        return;
+      }
+      if (e.target instanceof HTMLInputElement) return;
+      if (e.key === '1') setActivePage('ov');
+      if (e.key === '2') setActivePage('an');
+      if (e.key === '3') setActivePage('fl');
+      if (e.key === 't') setTerminalOpen(t => !t);
+      if (e.key === 'p' && !pipelineRunning) runPipeline();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [detail, pipelineRunning, showShortcuts]);
+
+  // -- Boot Sequence --
+  useEffect(() => {
+    const timer = setTimeout(() => setBootComplete(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // -- Derived State --
   const filteredThreats = data ? data.top_threats.filter((t: any) => {
@@ -116,27 +251,56 @@ export default function App() {
     return true;
   }) : [];
 
-  // Distribution keys match actual JSON: "BLOCK", "FLAG", "REVIEW", "SAFE" (no emoji prefix)
   const activeThreats = data
     ? (data.distribution['BLOCK'] || 0) + (data.distribution['FLAG'] || 0)
     : 0;
 
-  // Pre-compute filter counts
   const suspCount = data ? data.top_threats.filter((t: any) =>
     t.action.includes('BLOCK') || t.action.includes('FLAG') || t.action.includes('REVIEW')
   ).length : 0;
   const safeCount = data ? data.top_threats.length - suspCount : 0;
 
-  // Compute AI confidence from data statistics
   const aiConfidence = data?.statistics?.avg_uncertainty != null
-    ? `${Math.round((1 - data.statistics.avg_uncertainty) * 100)}%`
-    : 'N/A';
+    ? Math.round((1 - data.statistics.avg_uncertainty) * 100)
+    : null;
 
-  // -- Loading State --
+  // -- Loading / Boot Sequence --
   if (loading && !data) {
+    const bootLines = [
+      { text: 'WIKI-STREAM INTELLIGENCE PLATFORM v2.0', delay: 0 },
+      { text: 'Initializing Dempster-Shafer fusion engine...', delay: 200 },
+      { text: 'Loading Isolation Forest anomaly detector...', delay: 400 },
+      { text: 'Connecting to Wikimedia SSE stream...', delay: 600 },
+      { text: 'Bootstrapping Beta-Bayesian reputation model...', delay: 800 },
+      { text: 'Authenticating forensic pipeline modules...', delay: 1000 },
+      { text: `Connecting to API: ${API_BASE}`, delay: 1200 },
+      { text: 'SYSTEM READY.', delay: 1500 },
+    ];
+
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-background text-cyan-400 font-mono">
-        <RefreshCw className="animate-spin mr-3" /> INITIALIZING SYSTEMS...
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-background font-mono">
+        <div className="w-full max-w-lg space-y-1 px-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+              <Shield size={22} className="text-white" />
+            </div>
+            <span className="font-bold text-white text-lg tracking-tight">WIKI-STREAM</span>
+          </div>
+          {bootLines.map((line, i) => (
+            <div
+              key={i}
+              className="boot-line text-xs"
+              style={{ animationDelay: `${line.delay}ms`, color: i === bootLines.length - 1 ? '#22c55e' : '#06b6d4' }}
+            >
+              <span className="text-gray-600 mr-2">[{String(i).padStart(2, '0')}]</span>
+              {line.text}
+              {i === bootLines.length - 1 && <span className="cursor-blink ml-1" />}
+            </div>
+          ))}
+          <div className="mt-6 flex items-center gap-2 text-gray-500 text-xs">
+            <RefreshCw size={12} className="animate-spin" /> Establishing connection...
+          </div>
+        </div>
       </div>
     );
   }
@@ -145,63 +309,61 @@ export default function App() {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-background text-red-400 font-mono gap-4">
         <Shield size={48} />
-        <p>Failed to connect to API.</p>
+        <p className="text-lg font-bold">Failed to connect to API</p>
+        <p className="text-sm text-gray-400 max-w-md text-center">
+          {apiError || `Cannot reach ${API_BASE}. Make sure the backend is running.`}
+        </p>
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <RefreshCw size={12} className="animate-spin" /> Auto-retrying every 3s...
+        </div>
         <button onClick={fetchData} className="px-4 py-2 bg-cyan-500 text-black rounded-lg font-bold">
-          RETRY
+          RETRY NOW
         </button>
       </div>
     );
   }
 
-  // -- Helper: strip wiki markup for readable display --
+  // -- Helpers --
   const stripMarkup = (text: string) => {
     if (!text) return '';
     return text
-      .replace(/https?:\/\/\S+/g, '')           // URLs
-      .replace(/\{\{[^}]*\}\}/g, '')            // {{templates}}
-      .replace(/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/g, '$1') // [[links]] -> display text
-      .replace(/<[^>]+>/g, '')                   // <html tags>
-      .replace(/[{}\[\]|='#*]/g, '')             // leftover markup chars
-      .replace(/\s+/g, ' ')                      // collapse whitespace
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/\{\{[^}]*\}\}/g, '')
+      .replace(/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/g, '$1')
+      .replace(/<[^>]+>/g, '')
+      .replace(/[{}\[\]|='#*]/g, '')
+      .replace(/\s+/g, ' ')
       .trim();
   };
 
-  // -- Helper: word-level diff using LCS (Longest Common Subsequence) --
-  const wordDiff = (removed: string, added: string): { removedParts: {text: string, changed: boolean}[], addedParts: {text: string, changed: boolean}[] } => {
+  const wordDiff = (removed: string, added: string) => {
     const rWords = removed.split(/\s+/).filter(Boolean);
     const aWords = added.split(/\s+/).filter(Boolean);
-
-    // Build LCS table
     const m = rWords.length, n = aWords.length;
-    const dp: number[][] = Array.from({length: m + 1}, () => Array(n + 1).fill(0));
+    const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
     for (let i = 1; i <= m; i++)
       for (let j = 1; j <= n; j++)
-        dp[i][j] = rWords[i-1] === aWords[j-1] ? dp[i-1][j-1] + 1 : Math.max(dp[i-1][j], dp[i][j-1]);
-
-    // Backtrack to find common words
+        dp[i][j] = rWords[i - 1] === aWords[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
     const rCommon = new Set<number>();
     const aCommon = new Set<number>();
     let i = m, j = n;
     while (i > 0 && j > 0) {
-      if (rWords[i-1] === aWords[j-1]) { rCommon.add(i-1); aCommon.add(j-1); i--; j--; }
-      else if (dp[i-1][j] > dp[i][j-1]) i--;
+      if (rWords[i - 1] === aWords[j - 1]) { rCommon.add(i - 1); aCommon.add(j - 1); i--; j--; }
+      else if (dp[i - 1][j] > dp[i][j - 1]) i--;
       else j--;
     }
-
     return {
       removedParts: rWords.map((w, idx) => ({ text: w + ' ', changed: !rCommon.has(idx) })),
       addedParts: aWords.map((w, idx) => ({ text: w + ' ', changed: !aCommon.has(idx) })),
     };
   };
 
-  // -- Helper: format signal for display --
   const formatSignal = (val: any, suffix = '%') => {
     if (val == null || val === '') return 'N/A';
     const num = Number(val);
     return isNaN(num) ? String(val) : `${num.toFixed(0)}${suffix}`;
   };
 
-  // -- AI justification text based on actual signals --
   const getJustification = (threat: Threat) => {
     const s = threat.signals;
     if (s.llm === 'VANDALISM') return "LLM semantic analysis classifies this edit as VANDALISM with high confidence. Content shows clear signs of malicious modification.";
@@ -215,22 +377,104 @@ export default function App() {
   // -- Main Render --
   return (
     <div className="h-screen w-screen flex bg-background overflow-hidden text-gray-200">
+      {/* Scanline + Noise overlay */}
+      <div className="scanline-overlay" />
+      <div className="noise-overlay" />
+
+      {/* Toast Notifications */}
+      <div className="fixed top-24 right-6 z-[200] flex flex-col gap-2 pointer-events-none">
+        <AnimatePresence>
+          {toasts.map((toast) => (
+            <motion.div
+              key={toast.id}
+              initial={{ opacity: 0, x: 80, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 80, scale: 0.95 }}
+              className={`pointer-events-auto px-4 py-3 rounded-xl border backdrop-blur-md shadow-xl flex items-center gap-3 text-xs font-bold ${
+                toast.type === 'threat' ? 'bg-red-500/15 border-red-500/30 text-red-400' :
+                toast.type === 'success' ? 'bg-green-500/15 border-green-500/30 text-green-400' :
+                'bg-cyan-500/15 border-cyan-500/30 text-cyan-400'
+              }`}
+            >
+              {toast.type === 'threat' && <AlertTriangle size={14} />}
+              {toast.type === 'success' && <Zap size={14} />}
+              {toast.type === 'info' && <Activity size={14} />}
+              {toast.message}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Keyboard Shortcuts Modal */}
+      <AnimatePresence>
+        {showShortcuts && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowShortcuts(false)}
+            className="fixed inset-0 z-[300] bg-black/60 backdrop-blur-sm flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={e => e.stopPropagation()}
+              className="bg-[#0f0f13] border border-white/10 rounded-2xl p-6 w-[420px] shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <Keyboard size={16} className="text-cyan-400" /> Keyboard Shortcuts
+                </h3>
+                <button onClick={() => setShowShortcuts(false)} className="p-1 hover:bg-white/10 rounded-lg">
+                  <X size={14} className="text-gray-400" />
+                </button>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { key: '1', desc: 'Overview' },
+                  { key: '2', desc: 'Analytics' },
+                  { key: '3', desc: 'Forensic Lab' },
+                  { key: 'T', desc: 'Toggle terminal' },
+                  { key: 'P', desc: 'Trigger pipeline' },
+                  { key: 'Esc', desc: 'Close panel / modal' },
+                  { key: '?', desc: 'Show shortcuts' },
+                ].map((s, i) => (
+                  <div key={i} className="flex items-center justify-between py-1.5">
+                    <span className="text-xs text-gray-400">{s.desc}</span>
+                    <kbd className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-mono text-cyan-400 font-bold">
+                      {s.key}
+                    </kbd>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
       <motion.nav
         initial={false}
         animate={{ width: sidebarOpen ? 260 : 80 }}
         className="h-full border-r border-white/5 bg-[#0f0f13] flex flex-col z-50 p-4 shrink-0"
       >
-        <div className="flex items-center gap-3 mb-12 px-2">
+        <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.5)] cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)}>
             <Shield size={22} className="text-white" />
           </div>
-          {sidebarOpen && <span className="font-bold tracking-tight text-white text-lg">WIKI-STREAM</span>}
+          {sidebarOpen && (
+            <div>
+              <span className="font-bold tracking-tight text-white text-lg">WIKI-STREAM</span>
+              <div className="text-[9px] text-cyan-500/60 font-mono tracking-widest">INTELLIGENCE v2.0</div>
+            </div>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col gap-1">
           {[
             { id: 'ov', label: 'Overview', icon: Activity },
+            { id: 'an', label: 'Analytics', icon: BarChart3 },
             { id: 'fl', label: 'Forensic Lab', icon: Microscope },
           ].map((item) => {
             const isActive = activePage === item.id;
@@ -246,43 +490,106 @@ export default function App() {
                 }`}
               >
                 <item.icon size={22} className={isActive ? 'text-cyan-400' : ''} />
-                {sidebarOpen && <span className={`text-sm font-medium ${isActive ? 'text-cyan-400' : ''}`}>{item.label}</span>}
+                {sidebarOpen && (
+                  <span className={`text-sm font-medium ${isActive ? 'text-cyan-400' : ''}`}>{item.label}</span>
+                )}
                 {sidebarOpen && isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />}
               </button>
             );
           })}
         </div>
 
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-3.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white mt-auto flex items-center justify-center transition-colors"
-          title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-        >
-          {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {/* Mini Distribution */}
+        {sidebarOpen && data && (
+          <div className="px-2 mb-4">
+            <div className="text-[9px] text-gray-600 font-bold uppercase tracking-widest mb-2">Distribution</div>
+            <div className="space-y-1.5">
+              {[
+                { label: 'BLK', value: data.distribution['BLOCK'] || 0, color: '#ef4444' },
+                { label: 'FLG', value: data.distribution['FLAG'] || 0, color: '#f97316' },
+                { label: 'REV', value: data.distribution['REVIEW'] || 0, color: '#facc15' },
+                { label: 'SAFE', value: data.distribution['SAFE'] || 0, color: '#22c55e' },
+              ].map((item) => {
+                const pct = data.total > 0 ? (item.value / data.total) * 100 : 0;
+                return (
+                  <div key={item.label} className="flex items-center gap-2">
+                    <span className="text-[9px] font-mono text-gray-500 w-7">{item.label}</span>
+                    <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${pct}%` }}
+                        transition={{ duration: 0.8 }}
+                        className="h-full rounded-full"
+                        style={{ backgroundColor: item.color }}
+                      />
+                    </div>
+                    <span className="text-[9px] font-mono text-gray-600 w-6 text-right">{item.value}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Sidebar footer */}
+        <div className="space-y-1">
+          <button
+            onClick={() => setShowShortcuts(true)}
+            className="w-full flex items-center gap-4 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-white/5 hover:text-gray-400 transition-colors"
+            title="Keyboard shortcuts"
+          >
+            <Keyboard size={18} />
+            {sidebarOpen && <span className="text-xs">Shortcuts</span>}
+          </button>
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="w-full p-3.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-colors"
+            title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+          >
+            {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </motion.nav>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden relative">
+      <main className="flex-1 flex flex-col overflow-hidden relative grid-bg">
         {/* Top Header */}
-        <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-background/50 backdrop-blur-md z-40 shrink-0">
-          <div className="flex gap-12">
+        <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-background/80 backdrop-blur-md z-40 shrink-0">
+          <div className="flex gap-6">
             {[
-              { label: 'Total Edits', value: data.total, icon: Database },
-              { label: 'Active Threats', value: activeThreats, icon: Shield, color: 'text-red-500' },
-              { label: 'AI Confidence', value: aiConfidence, icon: Brain, color: 'text-purple-400' },
+              { label: 'Total Edits', value: data.total, icon: Database, animated: true, spark: sparkHistory.total, sparkColor: '#06b6d4' },
+              { label: 'Active Threats', value: activeThreats, icon: Shield, color: 'text-red-500', animated: true, spark: sparkHistory.threats, sparkColor: '#ef4444' },
+              { label: 'AI Confidence', value: aiConfidence != null ? `${aiConfidence}%` : 'N/A', icon: Brain, color: 'text-purple-400', spark: sparkHistory.confidence, sparkColor: '#a855f7' },
+              { label: 'Entropy', value: data.statistics?.avg_deng_entropy?.toFixed(2) || 'N/A', icon: Fingerprint, color: 'text-blue-400' },
+              { label: 'Blocked', value: data.distribution['BLOCK'] || 0, icon: AlertTriangle, color: 'text-red-400', animated: true },
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-white/5"><stat.icon size={16} className="text-gray-400" /></div>
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">{stat.label}</div>
-                  <div className={`font-mono font-bold ${stat.color || 'text-white'}`}>{stat.value}</div>
+                  <div className="flex items-center gap-2">
+                    <div className={`font-mono font-bold ${stat.color || 'text-white'}`}>
+                      {stat.animated && typeof stat.value === 'number'
+                        ? <AnimatedNumber value={stat.value} />
+                        : stat.value}
+                    </div>
+                    {stat.spark && stat.spark.length > 1 && (
+                      <Sparkline data={stat.spark} width={48} height={16} color={stat.sparkColor} />
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={exportData}
+              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
+              title="Export intelligence data"
+            >
+              <Download size={14} />
+            </button>
             <button
               id="btn-trigger-pipeline"
               onClick={runPipeline}
@@ -297,19 +604,24 @@ export default function App() {
               {pipelineRunning ? 'RUNNING...' : 'TRIGGER PIPELINE'}
             </button>
             <div className="px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">System Online</span>
+              <div className="w-2 h-2 rounded-full bg-green-500 pulse-ring" />
+              <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Live</span>
+            </div>
+            {/* Uptime */}
+            <div className="text-[10px] text-gray-600 font-mono flex items-center gap-1.5">
+              <Clock size={10} />
+              {data.timestamp ? new Date(data.timestamp).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '--:--'}
             </div>
           </div>
         </header>
 
         {activePage === 'ov' ? (
           /* ── Overview: Globe + Threat Matrix ── */
-          <div className="flex-1 flex overflow-hidden min-h-0">
+          <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+            <div className="flex-1 flex overflow-hidden min-h-0">
             {/* 3D Globe Section */}
             <section className="flex-[3] relative overflow-hidden border-r border-white/5">
               <GlobeView safeCount={data.distribution['SAFE'] || 0} onThreatClick={(user, title) => {
-                // Find threat in data and select it to open case analysis
                 const found = data.top_threats.find((t: any) => t.user === user && t.title === title);
                 if (found) setSelectedThreat(found);
               }} />
@@ -318,27 +630,44 @@ export default function App() {
               <button
                 onClick={() => setTerminalOpen(!terminalOpen)}
                 className="absolute bottom-6 left-6 z-10 p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors"
-                title={terminalOpen ? 'Hide logs' : 'Show logs'}
+                title={terminalOpen ? 'Hide logs (T)' : 'Show logs (T)'}
               >
                 <Terminal size={16} className="text-cyan-400" />
               </button>
 
               {/* Live Terminal HUD */}
-              {terminalOpen && (
-                <div className="absolute bottom-16 left-6 w-[33%] h-48 glass-panel overflow-hidden flex flex-col z-10">
-                  <div className="h-10 border-b border-white/5 bg-white/5 px-4 flex items-center gap-2">
-                    <Terminal size={16} className="text-cyan-400" />
-                    <span className="text-xs font-mono text-gray-400 tracking-wide">FORENSIC LOGS</span>
-                  </div>
-                  <div className="flex-1 p-4 font-mono text-xs text-gray-400 space-y-1.5 overflow-y-auto">
-                    <p><span className="text-cyan-600">[INFO]</span> Connected to stream.wikimedia.org...</p>
-                    <p><span className="text-cyan-600">[INFO]</span> Analyzing {data.total} edits across bipartite graph.</p>
-                    <p><span className="text-purple-600">[DS]</span> Dempster-Shafer fusion: {data.statistics?.high_conflict_edits || 0} high-conflict edits detected.</p>
-                    <p><span className="text-yellow-600">[IF]</span> IsolationForest: anomaly detection on {data.total} feature vectors.</p>
-                    <p><span className="text-cyan-600">[INFO]</span> Avg uncertainty width: {data.statistics?.avg_uncertainty?.toFixed(3) || 'N/A'}</p>
-                  </div>
-                </div>
-              )}
+              <AnimatePresence>
+                {terminalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="absolute bottom-16 left-6 w-[33%] h-56 glass-panel overflow-hidden flex flex-col z-10"
+                  >
+                    <div className="h-10 border-b border-white/5 bg-white/5 px-4 flex items-center gap-2 shrink-0">
+                      <Terminal size={16} className="text-cyan-400" />
+                      <span className="text-xs font-mono text-gray-400 tracking-wide">FORENSIC LOGS</span>
+                      <div className="ml-auto flex gap-1">
+                        <div className="w-2 h-2 rounded-full bg-red-500/60" />
+                        <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
+                        <div className="w-2 h-2 rounded-full bg-green-500/60" />
+                      </div>
+                    </div>
+                    <div className="flex-1 p-4 font-mono text-xs text-gray-400 space-y-1.5 overflow-y-auto">
+                      <p><span className="text-green-500">[OK]</span> System boot complete — all modules loaded</p>
+                      <p><span className="text-cyan-600">[SSE]</span> Connected to stream.wikimedia.org</p>
+                      <p><span className="text-cyan-600">[DATA]</span> Analyzing {data.total.toLocaleString()} edits across bipartite graph</p>
+                      <p><span className="text-purple-600">[DS]</span> Dempster-Shafer fusion: {data.statistics?.high_conflict_edits || 0} high-conflict edits</p>
+                      <p><span className="text-yellow-600">[IF]</span> IsolationForest: anomaly detection on {data.total.toLocaleString()} vectors</p>
+                      <p><span className="text-blue-600">[REP]</span> Beta-Bayesian reputation: tracking {data.top_threats?.length || 0} unique entities</p>
+                      <p><span className="text-cyan-600">[STAT]</span> Avg uncertainty: {data.statistics?.avg_uncertainty?.toFixed(4) || 'N/A'}</p>
+                      <p><span className="text-cyan-600">[STAT]</span> Deng entropy: {data.statistics?.avg_deng_entropy?.toFixed(4) || 'N/A'}</p>
+                      <p><span className="text-red-500">[ALERT]</span> {data.distribution?.['BLOCK'] || 0} BLOCK verdicts | {data.distribution?.['FLAG'] || 0} FLAG verdicts</p>
+                      <p><span className="text-green-500">[OK]</span> Intelligence pipeline: nominal <span className="cursor-blink" /></p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </section>
 
             {/* Threat Matrix toggle button (when panel hidden) */}
@@ -353,55 +682,67 @@ export default function App() {
             )}
 
             {/* Threat Matrix Feed */}
-            {threatPanelOpen && (<section className="flex-[2] flex flex-col p-6 bg-[#0c0c10] overflow-hidden">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  Threat Matrix <span className="text-xs bg-white/10 px-2 py-0.5 rounded-md text-gray-400">LIVE</span>
-                </h2>
-                <button onClick={() => setThreatPanelOpen(false)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors" title="Hide panel">
-                  <ArrowRight size={16} className="text-gray-400" />
-                </button>
-              </div>
+            {threatPanelOpen && (
+              <section className="flex-[2] flex flex-col p-6 bg-[#0c0c10] overflow-hidden">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-bold flex items-center gap-2">
+                    Threat Matrix
+                    <span className="text-xs bg-white/10 px-2 py-0.5 rounded-md text-gray-400 flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                      LIVE
+                    </span>
+                  </h2>
+                  <button onClick={() => setThreatPanelOpen(false)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors" title="Hide panel">
+                    <ArrowRight size={16} className="text-gray-400" />
+                  </button>
+                </div>
 
-              {/* Filter Tabs */}
-              <div className="flex gap-2 mb-4 shrink-0">
-                {(['SUSPICIOUS', 'SAFE'] as const).map((f) => {
-                  const count = f === 'SUSPICIOUS' ? suspCount : safeCount;
-                  const isActive = filter === f;
-                  return (
-                    <button
-                      key={f}
-                      onClick={() => setFilter(f)}
-                      className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-200 tracking-wide ${
-                        isActive
-                          ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.15)]'
-                          : 'bg-white/5 text-gray-500 border border-white/5 hover:bg-white/10 hover:text-gray-300'
-                      }`}
-                    >
-                      {f} ({count})
-                    </button>
-                  );
-                })}
-              </div>
+                {/* Filter Tabs */}
+                <div className="flex gap-2 mb-4 shrink-0">
+                  {(['SUSPICIOUS', 'SAFE'] as const).map((f) => {
+                    const count = f === 'SUSPICIOUS' ? suspCount : safeCount;
+                    const isActive = filter === f;
+                    return (
+                      <button
+                        key={f}
+                        onClick={() => setFilter(f)}
+                        className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-200 tracking-wide ${
+                          isActive
+                            ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.15)]'
+                            : 'bg-white/5 text-gray-500 border border-white/5 hover:bg-white/10 hover:text-gray-300'
+                        }`}
+                      >
+                        {f} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
 
-              {/* Scrollable Threat List */}
-              <div className="flex-1 overflow-y-auto min-h-0">
-                {filteredThreats.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full text-gray-600 gap-3">
-                    <Shield size={32} />
-                    <p className="text-xs font-mono">No items in this category</p>
-                  </div>
-                ) : (
-                  <ThreatMatrix
-                    threats={filteredThreats}
-                    onSelect={setSelectedThreat}
-                    selectedUser={selectedThreat?.user}
-                    selectedTitle={selectedThreat?.title}
-                  />
-                )}
-              </div>
-            </section>)}
+                {/* Scrollable Threat List */}
+                <div className="flex-1 overflow-y-auto min-h-0">
+                  {filteredThreats.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-gray-600 gap-3">
+                      <Shield size={32} />
+                      <p className="text-xs font-mono">No items in this category</p>
+                    </div>
+                  ) : (
+                    <ThreatMatrix
+                      threats={filteredThreats}
+                      onSelect={setSelectedThreat}
+                      selectedUser={selectedThreat?.user}
+                      selectedTitle={selectedThreat?.title}
+                    />
+                  )}
+                </div>
+              </section>
+            )}
+            </div>
+            {/* Activity Ticker */}
+            <ActivityTicker threats={data.top_threats || []} />
           </div>
+        ) : activePage === 'an' ? (
+          /* ── Analytics ── */
+          <AnalyticsView data={data} />
         ) : (
           /* ── Forensic Lab: Intelligence Report ── */
           <div className="flex-1 overflow-y-auto p-8">
@@ -410,25 +751,73 @@ export default function App() {
                 <h2 className="text-xl font-bold text-cyan-400 flex items-center gap-3">
                   <Microscope size={22} /> Forensic Intelligence Report
                 </h2>
-                <button
-                  onClick={() => { if (!report) fetchReport(); }}
-                  className="px-4 py-2 text-xs font-bold rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 transition-all flex items-center gap-2"
-                >
-                  <RefreshCw size={14} /> Reload Report
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => { setReport(null); fetchReport(); }}
+                    className="px-4 py-2 text-xs font-bold rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 transition-all flex items-center gap-2"
+                  >
+                    <RefreshCw size={14} /> Reload Report
+                  </button>
+                  {report && (
+                    <button
+                      onClick={() => {
+                        const blob = new Blob([report], { type: 'text/markdown' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `forensic_report_${new Date().toISOString().slice(0, 10)}.md`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        addToast('Report exported as Markdown', 'success');
+                      }}
+                      className="px-4 py-2 text-xs font-bold rounded-lg bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 transition-all flex items-center gap-2"
+                    >
+                      <Download size={14} /> Export .md
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* Methodology Summary */}
+              {/* Methodology Summary - from actual data */}
+              {data.methodology && (
+                <div className="rounded-xl bg-white/[0.03] border border-white/10 p-5 mb-6">
+                  <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-3">Pipeline Methodology</div>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {Object.entries(data.methodology as Record<string, string>).map(([key, value], i) => (
+                      <motion.div
+                        key={key}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="p-3 rounded-lg bg-white/[0.03] border border-white/5"
+                      >
+                        <div className="text-[9px] text-gray-600 font-bold uppercase tracking-widest mb-1">
+                          {key.replace(/_/g, ' ')}
+                        </div>
+                        <div className="text-[11px] font-mono text-cyan-400 leading-tight">{value}</div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Stats Row */}
               <div className="grid grid-cols-3 gap-4 mb-6">
                 {[
-                  { label: 'Fusion Method', value: 'Dempster-Shafer', color: 'text-green-400' },
+                  { label: 'Fusion Method', value: data.methodology?.fusion?.split(' ')[0] || 'Dempster-Shafer', color: 'text-green-400' },
                   { label: 'Anomaly Detection', value: 'Isolation Forest', color: 'text-yellow-400' },
                   { label: 'Reputation Model', value: 'Beta-Bayesian', color: 'text-blue-400' },
                 ].map((m, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="p-4 rounded-xl bg-white/5 border border-white/10 gradient-border"
+                  >
                     <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{m.label}</div>
                     <div className={`font-mono font-bold text-sm ${m.color}`}>{m.value}</div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -440,10 +829,18 @@ export default function App() {
                   { label: 'Flagged', value: data.distribution['FLAG'] || 0, color: 'text-orange-400' },
                   { label: 'Under Review', value: data.distribution['REVIEW'] || 0, color: 'text-yellow-400' },
                 ].map((s, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="p-4 rounded-xl bg-white/5 border border-white/10 text-center"
+                  >
                     <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{s.label}</div>
-                    <div className={`font-mono font-bold text-2xl ${s.color}`}>{s.value}</div>
-                  </div>
+                    <div className={`font-mono font-bold text-2xl ${s.color}`}>
+                      <AnimatedNumber value={s.value as number} />
+                    </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -455,7 +852,6 @@ export default function App() {
                     className="prose prose-invert prose-sm max-w-none prose-headings:text-cyan-400 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-strong:text-white prose-td:text-gray-300 prose-th:text-gray-400 prose-a:text-cyan-400 [&_td]:py-2 [&_th]:py-2"
                     ref={(el) => {
                       if (!el) return;
-                      // Color-code table cells after render
                       el.querySelectorAll('td').forEach((td) => {
                         const t = td.textContent?.trim() || '';
                         if (t === 'BLOCK') { td.style.color = '#f87171'; td.style.fontWeight = 'bold'; }
@@ -468,8 +864,8 @@ export default function App() {
                     <Markdown remarkPlugins={[remarkGfm]}>{report}</Markdown>
                   </div>
                 ) : (
-                  <div className="text-gray-500 text-sm">
-                    <p>Loading report...</p>
+                  <div className="text-gray-500 text-sm flex items-center gap-2">
+                    <RefreshCw size={14} className="animate-spin" /> Loading report...
                   </div>
                 )}
               </div>
@@ -481,7 +877,6 @@ export default function App() {
         <AnimatePresence>
           {detail && selectedThreat && (
             <>
-              {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -490,7 +885,6 @@ export default function App() {
                 className="absolute inset-0 z-[80] bg-black/40 backdrop-blur-sm"
                 style={{ top: '5rem' }}
               />
-              {/* Panel */}
               <motion.div
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
@@ -505,9 +899,12 @@ export default function App() {
                     <Microscope size={16} className="text-cyan-400" />
                     Case Analysis
                   </h3>
-                  <button onClick={() => setDetail(null)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
-                    <X size={16} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-gray-500 font-mono">ESC to close</span>
+                    <button onClick={() => setDetail(null)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
+                      <X size={16} />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Scrollable Content */}
@@ -525,6 +922,11 @@ export default function App() {
                       }`}>
                         {selectedThreat.action} — {selectedThreat.score.toFixed(1)}%
                       </span>
+                      {selectedThreat.timestamp && (
+                        <span className="text-[10px] text-gray-600 font-mono">
+                          {new Date(Number(selectedThreat.timestamp) * 1000).toLocaleString()}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -534,21 +936,31 @@ export default function App() {
                     <span>{getJustification(selectedThreat)}</span>
                   </div>
 
-                  {/* Signals Grid */}
-                  <div>
-                    <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Forensic Signals</div>
-                    <div className="grid grid-cols-4 gap-2">
-                      {[
-                        { label: 'RULE', value: formatSignal(selectedThreat.signals.rule, ''), color: 'text-cyan-400' },
-                        { label: 'NLP', value: formatSignal(selectedThreat.signals.nlp, ''), color: 'text-orange-400' },
-                        { label: 'LLM', value: selectedThreat.signals.llm || 'N/A', color: 'text-purple-400' },
-                        { label: 'REP', value: formatSignal(selectedThreat.signals.reputation), color: 'text-blue-400' },
-                      ].map((s, i) => (
-                        <div key={i} className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-center">
-                          <div className="text-[10px] text-gray-500 mb-0.5">{s.label}</div>
-                          <div className={`font-mono font-bold text-sm ${s.color}`}>{s.value}</div>
-                        </div>
-                      ))}
+                  {/* Signal Radar + Signals Grid side by side */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Signal Radar</div>
+                      <div className="rounded-xl bg-white/[0.03] border border-white/10 p-2">
+                        <SignalRadar signals={selectedThreat.signals} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Forensic Signals</div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          { label: 'RULE', value: formatSignal(selectedThreat.signals.rule, ''), color: 'text-cyan-400' },
+                          { label: 'NLP', value: formatSignal(selectedThreat.signals.nlp, ''), color: 'text-orange-400' },
+                          { label: 'LLM', value: selectedThreat.signals.llm || 'N/A', color: 'text-purple-400' },
+                          { label: 'LLM CONF', value: formatSignal(selectedThreat.signals.llm_conf), color: 'text-purple-300' },
+                          { label: 'ANOMALY', value: formatSignal(selectedThreat.signals.anomaly), color: 'text-yellow-400' },
+                          { label: 'REPUTATION', value: formatSignal(selectedThreat.signals.reputation), color: 'text-blue-400' },
+                        ].map((s, i) => (
+                          <div key={i} className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-center">
+                            <div className="text-[9px] text-gray-500 mb-0.5">{s.label}</div>
+                            <div className={`font-mono font-bold text-sm ${s.color}`}>{s.value}</div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
@@ -557,17 +969,106 @@ export default function App() {
                     <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Dempster-Shafer Evidence</div>
                     <div className="grid grid-cols-3 gap-2">
                       {[
-                        { label: 'BELIEF', value: `${(selectedThreat.ds_belief * 100).toFixed(1)}%`, color: 'text-green-400' },
-                        { label: 'PLAUSIBILITY', value: `${(selectedThreat.ds_plausibility * 100).toFixed(1)}%`, color: 'text-yellow-400' },
-                        { label: 'CONFLICT (k)', value: `${(selectedThreat.ds_conflict * 100).toFixed(1)}%`, color: 'text-red-400' },
+                        { label: 'BELIEF', value: `${(selectedThreat.ds_belief * 100).toFixed(1)}%`, color: 'text-green-400', bar: selectedThreat.ds_belief },
+                        { label: 'PLAUSIBILITY', value: `${(selectedThreat.ds_plausibility * 100).toFixed(1)}%`, color: 'text-yellow-400', bar: selectedThreat.ds_plausibility },
+                        { label: 'CONFLICT (k)', value: `${(selectedThreat.ds_conflict * 100).toFixed(1)}%`, color: 'text-red-400', bar: selectedThreat.ds_conflict },
                       ].map((s, i) => (
                         <div key={i} className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-center">
                           <div className="text-[10px] text-gray-500 mb-0.5">{s.label}</div>
-                          <div className={`font-mono font-bold text-sm ${s.color}`}>{s.value}</div>
+                          <div className={`font-mono font-bold text-sm ${s.color} mb-1`}>{s.value}</div>
+                          <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${Math.min(s.bar * 100, 100)}%` }}
+                              className="h-full rounded-full"
+                              style={{ backgroundColor: i === 0 ? '#22c55e' : i === 1 ? '#facc15' : '#ef4444' }}
+                            />
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
+
+                  {/* Pignistic Probability + Mass Sources (if available) */}
+                  {selectedThreat.pignistic && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Pignistic Transform</div>
+                        <div className="rounded-xl bg-white/[0.03] border border-white/10 p-3 flex justify-center">
+                          <PignisticGauge
+                            vandalism={selectedThreat.pignistic.vandalism}
+                            safe={selectedThreat.pignistic.safe}
+                          />
+                        </div>
+                      </div>
+                      {selectedThreat.mass_sources && (
+                        <div>
+                          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Evidence Mass Functions</div>
+                          <div className="rounded-xl bg-white/[0.03] border border-white/10 p-3">
+                            <MassSourceChart
+                              massSources={selectedThreat.mass_sources}
+                              massCombined={selectedThreat.mass_combined || { v: 0, s: 0, t: 1 }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Reliability + Entropy (if available) */}
+                  {selectedThreat.reliability && (
+                    <div>
+                      <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Source Reliability & Entropy</div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="rounded-xl bg-white/[0.03] border border-white/10 p-3">
+                          <div className="text-[9px] text-gray-500 font-bold mb-2">RELIABILITY WEIGHTS</div>
+                          <div className="space-y-1.5">
+                            {Object.entries(selectedThreat.reliability as Record<string, number>).map(([src, val]) => (
+                              <div key={src} className="flex items-center gap-2">
+                                <span className="text-[10px] text-gray-400 font-mono w-16 uppercase">{src}</span>
+                                <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                  <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${(val as number) * 100}%` }}
+                                    className="h-full bg-cyan-500 rounded-full"
+                                  />
+                                </div>
+                                <span className="text-[10px] text-gray-500 font-mono w-10 text-right">{((val as number) * 100).toFixed(0)}%</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="rounded-xl bg-white/[0.03] border border-white/10 p-3">
+                          <div className="text-[9px] text-gray-500 font-bold mb-2">INFORMATION THEORY</div>
+                          <div className="grid grid-cols-2 gap-2">
+                            {[
+                              { label: 'Shannon', value: selectedThreat.entropy, color: 'text-cyan-400' },
+                              { label: 'Deng', value: selectedThreat.deng_entropy, color: 'text-purple-400' },
+                              { label: 'Renyi-0.5', value: selectedThreat.renyi_05, color: 'text-blue-400' },
+                              { label: 'KL-Div', value: selectedThreat.kl_divergence, color: 'text-yellow-400' },
+                            ].map((e, i) => (
+                              <div key={i} className="text-center">
+                                <div className="text-[9px] text-gray-600">{e.label}</div>
+                                <div className={`font-mono text-xs font-bold ${e.color}`}>
+                                  {e.value != null ? Number(e.value).toFixed(2) : 'N/A'}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Edit Metadata */}
+                  {detail.comment && (
+                    <div>
+                      <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Edit Comment</div>
+                      <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-gray-400 italic font-mono">
+                        "{detail.comment}"
+                      </div>
+                    </div>
+                  )}
 
                   {/* Detection Flags */}
                   {detail.nlp_notes && (
@@ -581,7 +1082,7 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* Diff Viewer — word-level highlighting */}
+                  {/* Diff Viewer */}
                   <div>
                     <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Diff Viewer</div>
                     {(() => {
@@ -623,7 +1124,7 @@ export default function App() {
 
                 {/* Actions */}
                 <div className="px-6 py-4 border-t border-white/5 flex gap-3">
-                  <button className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 rounded-xl transition-all text-sm">
+                  <button className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 rounded-xl transition-all text-sm shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                     BLOCK USER
                   </button>
                   <a
@@ -640,6 +1141,14 @@ export default function App() {
           )}
         </AnimatePresence>
 
+        {/* Status Bar */}
+        <StatusBar
+          connected={!!data}
+          lastUpdate={data?.timestamp || null}
+          total={data?.total || 0}
+          distribution={data?.distribution || {}}
+          pipelineRunning={pipelineRunning}
+        />
       </main>
     </div>
   );
