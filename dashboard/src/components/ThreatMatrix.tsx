@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { AlertTriangle, ShieldCheck, Brain, Search, ArrowUpDown, Clock } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, Brain, Search, ArrowUpDown, Clock, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Threat {
@@ -43,15 +43,17 @@ interface Threat {
 interface Props {
   threats: Threat[];
   onSelect: (threat: Threat) => void;
+  onContextMenu?: (e: React.MouseEvent, threat: Threat) => void;
   selectedUser?: string;
   selectedTitle?: string;
+  bookmarks?: Set<string>;
 }
 
 export type { Threat };
 
 type SortKey = 'score' | 'time' | 'belief';
 
-export const ThreatMatrix: React.FC<Props> = ({ threats, onSelect, selectedUser, selectedTitle }) => {
+export const ThreatMatrix: React.FC<Props> = ({ threats, onSelect, onContextMenu, selectedUser, selectedTitle, bookmarks }) => {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<SortKey>('score');
 
@@ -148,6 +150,7 @@ export const ThreatMatrix: React.FC<Props> = ({ threats, onSelect, selectedUser,
             transition={{ delay: Math.min(idx * 0.03, 0.5) }}
             key={`${threat.user}-${threat.title}-${idx}`}
             onClick={() => onSelect(threat)}
+            onContextMenu={(e) => { e.preventDefault(); onContextMenu?.(e, threat); }}
             className={`cursor-pointer p-4 rounded-xl border transition-all duration-300 threat-card glass-panel ${
               isSelected ? 'border-cyan-500/50 bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.1)]' : 'hover:border-white/20'
             }`}
@@ -195,7 +198,12 @@ export const ThreatMatrix: React.FC<Props> = ({ threats, onSelect, selectedUser,
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-xs text-blue-400 font-mono">{threat.user}</span>
+              <div className="flex items-center gap-1.5">
+                {bookmarks?.has(`${threat.user}::${threat.title}`) && (
+                  <Bookmark size={10} className="text-cyan-400 fill-cyan-400" />
+                )}
+                <span className="text-xs text-blue-400 font-mono">{threat.user}</span>
+              </div>
               <div className="flex gap-1.5 items-center">
                 {/* DS Belief mini badge */}
                 <span className="text-[9px] font-mono text-gray-500 bg-white/5 px-1.5 py-0.5 rounded">

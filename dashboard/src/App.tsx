@@ -32,6 +32,9 @@ import {
   Table2,
   Volume2,
   VolumeX,
+  Bookmark,
+  BookmarkCheck,
+  Eye,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlobeView } from './components/GlobeView';
@@ -50,6 +53,13 @@ import { NetworkGraph } from './components/NetworkGraph';
 import { DataTable } from './components/DataTable';
 import { EvidenceFlow } from './components/EvidenceFlow';
 import { SettingsPanel } from './components/SettingsPanel';
+import { NotificationCenter } from './components/NotificationCenter';
+import { Confetti } from './components/Confetti';
+import { ContextMenu } from './components/ContextMenu';
+import { OnboardingTour } from './components/OnboardingTour';
+import { ShareButton } from './components/ShareButton';
+import type { Notification } from './components/NotificationCenter';
+import type { ContextMenuItem } from './components/ContextMenu';
 import type { Settings } from './components/SettingsPanel';
 import type { Action } from './components/CommandPalette';
 import type { Threat } from './components/ThreatMatrix';
@@ -120,6 +130,13 @@ export default function App() {
     autoRefresh: true,
     refreshInterval: 10000,
   });
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [confettiActive, setConfettiActive] = useState(false);
+  const [contextMenu, setContextMenu] = useState<{ open: boolean; x: number; y: number; threat: Threat | null }>({ open: false, x: 0, y: 0, threat: null });
+  const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
+    try { return new Set(JSON.parse(localStorage.getItem('wikistream_bookmarks') || '[]')); } catch { return new Set(); }
+  });
+  const notifIdRef = useRef(0);
   const [sparkHistory, setSparkHistory] = useState<{ total: number[]; threats: number[]; confidence: number[] }>({
     total: [], threats: [], confidence: [],
   });
@@ -127,10 +144,30 @@ export default function App() {
   const selectedThreatRef = useRef(selectedThreat);
   selectedThreatRef.current = selectedThreat;
 
+  // -- Bookmark helpers --
+  const toggleBookmark = useCallback((threat: Threat) => {
+    const key = `${threat.user}::${threat.title}`;
+    setBookmarks(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      localStorage.setItem('wikistream_bookmarks', JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
+
+  const isBookmarked = useCallback((threat: Threat) => bookmarks.has(`${threat.user}::${threat.title}`), [bookmarks]);
+
+  // -- Notification helper --
+  const addNotification = useCallback((message: string, type: Notification['type']) => {
+    const id = ++notifIdRef.current;
+    setNotifications(prev => [...prev.slice(-49), { id, message, type, time: new Date(), read: false }]);
+  }, []);
+
   // -- Toast System --
   const addToast = useCallback((message: string, type: Toast['type'] = 'info') => {
     const id = ++toastId;
     setToasts(prev => [...prev.slice(-4), { id, message, type }]);
+    addNotification(message, type);
     setTimeout(() => {
       setToasts(prev => prev.map(t => t.id === id ? { ...t, exiting: true } : t));
       setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 300);
@@ -217,6 +254,8 @@ export default function App() {
             fetchData();
             setPipelineRunning(false);
             addToast('Pipeline complete! Intelligence updated.', 'success');
+            setConfettiActive(true);
+            setTimeout(() => setConfettiActive(false), 4000);
           }
         } catch { /* keep polling */ }
       }, 5000);
@@ -448,6 +487,26 @@ export default function App() {
   // -- Main Render --
   return (
     <div className="h-screen w-screen flex bg-background overflow-hidden text-gray-200">
+      {/* Confetti celebration */}
+      <Confetti active={confettiActive} />
+
+      {/* Onboarding Tour (first visit only) */}
+      <OnboardingTour />
+
+      {/* Right-click context menu */}
+      <ContextMenu
+        x={contextMenu.x}
+        y={contextMenu.y}
+        open={contextMenu.open}
+        onClose={() => setContextMenu(c => ({ ...c, open: false }))}
+        items={contextMenu.threat ? [
+          { label: 'View Case Analysis', icon: Eye, action: () => { if (contextMenu.threat) setSelectedThreat(contextMenu.threat); } },
+          { label: isBookmarked(contextMenu.threat) ? 'Remove Bookmark' : 'Bookmark Threat', icon: isBookmarked(contextMenu.threat) ? BookmarkCheck : Bookmark, action: () => { if (contextMenu.threat) { toggleBookmark(contextMenu.threat); addToast(isBookmarked(contextMenu.threat) ? 'Bookmark removed' : 'Threat bookmarked', 'success'); } } },
+          { label: 'Copy Evidence', icon: Copy, action: () => { if (contextMenu.threat) { const t = contextMenu.threat; navigator.clipboard.writeText(`${t.action} | ${t.title} | ${t.user} | Score: ${t.score.toFixed(1)}%`); addToast('Evidence copied', 'success'); } } },
+          { label: 'View on Wikipedia', icon: ExternalLink, separator: true, action: () => { if (contextMenu.threat) window.open(`https://en.wikipedia.org/wiki/${encodeURIComponent(contextMenu.threat.title)}`, '_blank'); } },
+        ] as ContextMenuItem[] : []}
+      />
+
       {/* Scanline + Noise overlay (toggleable) */}
       {settings.scanlines && <div className="scanline-overlay" />}
       {settings.scanlines && <div className="noise-overlay" />}
@@ -720,6 +779,12 @@ export default function App() {
                 <Minimize size={14} />
               </button>
             )}
+            <ShareButton data={data} addToast={addToast} />
+            <NotificationCenter
+              notifications={notifications}
+              onClear={() => setNotifications([])}
+              onMarkRead={(id) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))}
+            />
             <button
               onClick={exportData}
               className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
@@ -872,8 +937,10 @@ export default function App() {
                     <ThreatMatrix
                       threats={filteredThreats}
                       onSelect={setSelectedThreat}
+                      onContextMenu={(e, threat) => setContextMenu({ open: true, x: e.clientX, y: e.clientY, threat })}
                       selectedUser={selectedThreat?.user}
                       selectedTitle={selectedThreat?.title}
+                      bookmarks={bookmarks}
                     />
                   )}
                 </div>
