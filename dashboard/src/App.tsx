@@ -28,7 +28,7 @@ import {
   Copy,
   Check,
   Command,
-  Settings,
+  Settings as SettingsIcon,
   Table2,
   Volume2,
   VolumeX,
@@ -499,7 +499,7 @@ export default function App() {
           { id: 'act-export', label: 'Export Intelligence Data', description: 'Download JSON intelligence report', icon: Download, category: 'Actions', action: exportData },
           { id: 'act-terminal', label: 'Toggle Terminal', description: 'Show/hide forensic logs', icon: Terminal, category: 'Actions', shortcut: 'T', action: () => setTerminalOpen(t => !t) },
           { id: 'act-fullscreen', label: 'Toggle Fullscreen', description: 'Expand content area', icon: Maximize, category: 'Actions', shortcut: 'F', action: () => setFullscreen(f => !f) },
-          { id: 'act-settings', label: 'Settings', description: 'Accent color, sounds, density', icon: Settings, category: 'Actions', action: () => setSettingsOpen(true) },
+          { id: 'act-settings', label: 'Settings', description: 'Accent color, sounds, density', icon: SettingsIcon, category: 'Actions', action: () => setSettingsOpen(true) },
           { id: 'act-shortcuts', label: 'Keyboard Shortcuts', description: 'View all shortcuts', icon: Keyboard, category: 'Help', shortcut: '?', action: () => setShowShortcuts(true) },
         ] as Action[]}
       />
@@ -658,7 +658,7 @@ export default function App() {
             className="w-full flex items-center gap-4 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-white/5 hover:text-gray-400 transition-colors"
             title="Settings"
           >
-            <Settings size={18} />
+            <SettingsIcon size={18} />
             {sidebarOpen && <span className="text-xs">Settings</span>}
           </button>
           <button
