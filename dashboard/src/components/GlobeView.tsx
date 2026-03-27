@@ -7,7 +7,8 @@ import axios from 'axios';
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
 
 // NASA / Natural Earth textures via CDN
-const EARTH_TEXTURE = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-night.jpg';
+const EARTH_DAY = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-blue-marble.jpg';
+const EARTH_NIGHT = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-night.jpg';
 const EARTH_TOPO = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-topology.png';
 
 interface GeoMarker {
@@ -160,7 +161,8 @@ const EarthGlobe = ({ markers, onMarkerClick }: { markers: GeoMarker[]; onMarker
   const RADIUS = 2.5;
 
   // Load real NASA textures
-  const earthMap = useLoader(THREE.TextureLoader, EARTH_TEXTURE);
+  const dayMap = useLoader(THREE.TextureLoader, EARTH_DAY);
+  const nightMap = useLoader(THREE.TextureLoader, EARTH_NIGHT);
   const topoMap = useLoader(THREE.TextureLoader, EARTH_TOPO);
 
   useFrame(() => {
@@ -171,40 +173,47 @@ const EarthGlobe = ({ markers, onMarkerClick }: { markers: GeoMarker[]; onMarker
 
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.15} />
-      <directionalLight position={[5, 3, 5]} intensity={2} color="#ffffff" />
-      <pointLight position={[-10, -5, -10]} intensity={0.5} color="#06b6d4" />
+      {/* Lighting — bright enough to see continents clearly */}
+      <ambientLight intensity={1.0} />
+      <directionalLight position={[5, 3, 5]} intensity={3} color="#ffffff" />
+      <directionalLight position={[-5, -2, -5]} intensity={1} color="#4dc9f6" />
+      <pointLight position={[0, 8, 0]} intensity={0.8} color="#ffffff" />
 
       {/* Stars */}
       <Stars radius={120} depth={60} count={6000} factor={3} saturation={0} fade speed={0.4} />
 
       <group ref={groupRef}>
-        {/* Earth sphere with NASA texture */}
+        {/* Earth sphere — Blue Marble day texture + night lights glow */}
         <mesh>
           <sphereGeometry args={[RADIUS, 128, 128]} />
           <meshStandardMaterial
-            map={earthMap}
+            map={dayMap}
             bumpMap={topoMap}
-            bumpScale={0.03}
-            roughness={0.7}
-            metalness={0.05}
-            emissiveMap={earthMap}
-            emissive={new THREE.Color('#ffffff')}
-            emissiveIntensity={0.6}
+            bumpScale={0.04}
+            roughness={0.8}
+            metalness={0.0}
+            emissiveMap={nightMap}
+            emissive={new THREE.Color('#ffddaa')}
+            emissiveIntensity={1.5}
           />
         </mesh>
 
-        {/* Atmosphere glow - inner */}
+        {/* Atmosphere glow - inner (bright cyan rim) */}
         <mesh>
-          <sphereGeometry args={[RADIUS + 0.04, 64, 64]} />
-          <meshBasicMaterial color="#4dc9f6" transparent opacity={0.06} side={THREE.BackSide} />
+          <sphereGeometry args={[RADIUS + 0.03, 64, 64]} />
+          <meshBasicMaterial color="#60d5f7" transparent opacity={0.08} side={THREE.BackSide} />
         </mesh>
 
-        {/* Atmosphere glow - outer */}
+        {/* Atmosphere glow - mid */}
         <mesh>
-          <sphereGeometry args={[RADIUS + 0.18, 64, 64]} />
-          <meshBasicMaterial color="#06b6d4" transparent opacity={0.03} side={THREE.BackSide} />
+          <sphereGeometry args={[RADIUS + 0.1, 64, 64]} />
+          <meshBasicMaterial color="#38bdf8" transparent opacity={0.05} side={THREE.BackSide} />
+        </mesh>
+
+        {/* Atmosphere glow - outer haze */}
+        <mesh>
+          <sphereGeometry args={[RADIUS + 0.25, 48, 48]} />
+          <meshBasicMaterial color="#0ea5e9" transparent opacity={0.025} side={THREE.BackSide} />
         </mesh>
 
         {/* Threat markers */}
