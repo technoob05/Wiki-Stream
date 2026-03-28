@@ -283,9 +283,13 @@ export default function App() {
         setPipelineRunning(false);
         fetchData();
       }, 600000);
-    } catch {
+    } catch (err: any) {
       setPipelineRunning(false);
-      addToast('Pipeline failed to start.', 'threat');
+      if (err.response?.status === 503) {
+        addToast('Pipeline unavailable in cloud deployment — run locally to update.', 'info');
+      } else {
+        addToast('Pipeline failed to start.', 'threat');
+      }
     }
   };
 
