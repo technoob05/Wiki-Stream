@@ -216,14 +216,23 @@ export default function App() {
       }
       setLastDataHash(hash);
     } catch (err: any) {
-      if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        setApiError('Connection timed out. Is the API server running?');
-      } else if (err.response?.status === 404) {
-        setApiError('No intelligence data found. Run the pipeline first to generate reports.');
+      if (err.response?.status === 404) {
+        // No local pipeline data — normal in cloud/demo deployments.
+        // Load the dashboard with empty state so globe/map still works.
+        setData({
+          total: 0,
+          distribution: { BLOCK: 0, FLAG: 0, REVIEW: 0, SAFE: 0 },
+          top_threats: [],
+          all_verdicts: [],
+          statistics: { avg_uncertainty: null, total_processed: 0 },
+        });
+        setApiError(null);
+      } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+        setApiError('Connection timed out.');
       } else if (!err.response) {
-        setApiError(`Cannot reach API at ${API_BASE}. Start the server: python experiments/api_service.py`);
+        setApiError('Cannot reach API. Check your connection.');
       } else {
-        setApiError(`API error: ${err.response?.status} — ${err.response?.statusText}`);
+        setApiError(`API error: ${err.response?.status}`);
       }
       console.error("Failed to fetch data", err);
     } finally {
