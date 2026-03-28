@@ -1052,8 +1052,20 @@ export const GlobeView: React.FC<{ onThreatClick?: (user: string, title: string)
   return (
     <div className="w-full h-full min-h-[400px] relative bg-[#030712]">
 
-      {/* Threat filter buttons */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex gap-1 sm:gap-2 flex-wrap justify-center" style={{ maxWidth: 'calc(100vw - 160px)' }}>
+      {/* Threat Radar label — compact on mobile */}
+      <div
+        className="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md px-2.5 sm:px-4 py-1.5 sm:py-3 rounded-lg border border-white/10 cursor-pointer hover:bg-white/5 transition-colors"
+        onClick={() => setLegendOpen(!legendOpen)}
+      >
+        <h3 className="text-[10px] sm:text-sm font-mono text-cyan-400 uppercase tracking-widest font-bold">Threat Radar</h3>
+        <p className="text-[9px] sm:text-xs text-gray-400 mt-0.5">
+          {markers.length > 0 ? `${filteredMarkers.length} threats · ${regions.length} regions` : 'Scanning...'}
+        </p>
+        <p className="hidden sm:block text-[9px] text-gray-600 mt-0.5">Click globe to explore location</p>
+      </div>
+
+      {/* Threat filter buttons — left-aligned below label on mobile, centered on sm+ */}
+      <div className="absolute top-[3.75rem] sm:top-4 left-4 sm:left-1/2 sm:-translate-x-1/2 z-10 flex gap-1 sm:gap-2 flex-wrap">
         {[
           { action: 'BLOCK',  count: blockCount,   show: showBlock,  set: setShowBlock,  active: 'bg-red-500/20 text-red-400 border-red-500/40' },
           { action: 'FLAG',   count: flagCount,    show: showFlag,   set: setShowFlag,   active: 'bg-orange-500/20 text-orange-400 border-orange-500/40' },
@@ -1061,66 +1073,58 @@ export const GlobeView: React.FC<{ onThreatClick?: (user: string, title: string)
           { action: 'SAFE',   count: safeGeoCount > 0 ? safeGeoCount : safeCount, show: showSafe, set: setShowSafe, active: 'bg-green-500/20 text-green-400 border-green-500/40' },
         ].map(({ action, count, show, set, active }) => (
           <button key={action} onClick={() => set(!show)}
-            className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] font-bold border transition-all ${show ? active : 'bg-white/5 text-gray-600 border-white/10'}`}
+            className={`px-1.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold border transition-all ${show ? active : 'bg-white/5 text-gray-600 border-white/10'}`}
           >
             {action} ({count})
           </button>
         ))}
       </div>
 
-      {/* Layer toggle buttons */}
+      {/* Layer toggle buttons — icon-only on mobile */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-1.5">
         {/* View mode toggle */}
         <button
           onClick={() => { setViewMode(v => v === 'globe' ? 'map' : 'globe'); closePanel(); }}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold border transition-all bg-cyan-500/15 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/25 mb-0.5"
+          className="flex items-center justify-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-[10px] font-bold border transition-all bg-cyan-500/15 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/25 mb-0.5"
+          title={viewMode === 'globe' ? 'Flat Map' : '3D Globe'}
         >
-          {viewMode === 'globe' ? <><Map size={10} /> FLAT MAP</> : <><Globe2 size={10} /> 3D GLOBE</>}
+          {viewMode === 'globe' ? <><Map size={10} /><span className="hidden sm:inline"> FLAT MAP</span></> : <><Globe2 size={10} /><span className="hidden sm:inline"> 3D GLOBE</span></>}
         </button>
         <button
           onClick={() => setShowISS(!showISS)}
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
+          className={`flex items-center justify-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
             showISS ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40' : 'bg-white/5 text-gray-600 border-white/10'
           }`}
+          title="ISS Live"
         >
           <Satellite size={10} />
-          ISS LIVE
+          <span className="hidden sm:inline">ISS LIVE</span>
           {showISS && issPosition && (
-            <span className="ml-0.5 w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse inline-block" />
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse inline-block" />
           )}
         </button>
         <button
           onClick={() => setShowQuakes(!showQuakes)}
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
+          className={`flex items-center justify-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
             showQuakes ? 'bg-orange-500/20 text-orange-400 border-orange-500/40' : 'bg-white/5 text-gray-600 border-white/10'
           }`}
+          title={`Earthquakes (${earthquakes.length})`}
         >
           <AlertTriangle size={10} />
-          QUAKES ({earthquakes.length})
+          <span className="hidden sm:inline">QUAKES ({earthquakes.length})</span>
         </button>
         {viewMode === 'globe' && (
           <button
             onClick={() => setShowDayNight(!showDayNight)}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
+            className={`flex items-center justify-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
               showDayNight ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40' : 'bg-white/5 text-gray-600 border-white/10'
             }`}
+            title="Day/Night"
           >
             <Sun size={10} />
-            DAY/NIGHT
+            <span className="hidden sm:inline">DAY/NIGHT</span>
           </button>
         )}
-      </div>
-
-      {/* Threat Radar label */}
-      <div
-        className="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md px-4 py-3 rounded-lg border border-white/10 cursor-pointer hover:bg-white/5 transition-colors"
-        onClick={() => setLegendOpen(!legendOpen)}
-      >
-        <h3 className="text-sm font-mono text-cyan-400 uppercase tracking-widest font-bold">Threat Radar</h3>
-        <p className="text-xs text-gray-400 mt-0.5">
-          {markers.length > 0 ? `${filteredMarkers.length} threats · ${regions.length} regions` : 'Scanning...'}
-        </p>
-        <p className="text-[9px] text-gray-600 mt-0.5">Click globe to explore location</p>
       </div>
 
       {/* Legend popup */}
@@ -1147,8 +1151,8 @@ export const GlobeView: React.FC<{ onThreatClick?: (user: string, title: string)
         </div>
       )}
 
-      {/* Coordinate display */}
-      <div className="absolute bottom-4 right-4 z-10 font-mono bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/5 flex flex-col items-end gap-0.5">
+      {/* Coordinate display — hidden on mobile */}
+      <div className="hidden sm:flex absolute bottom-4 right-4 z-10 font-mono bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/5 flex-col items-end gap-0.5">
         {cursorLatLon ? (
           <>
             <span className="text-[10px] text-cyan-400">
