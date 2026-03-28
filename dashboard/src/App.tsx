@@ -322,10 +322,13 @@ export default function App() {
 
   useEffect(() => {
     if (selectedThreat) {
+      setDetail({}); // open panel immediately with threat data
       axios.get(`${API_BASE}/edits/detail`, {
         params: { user: selectedThreat.user, title: selectedThreat.title }
       }).then(res => setDetail(res.data))
-        .catch(() => setDetail(null));
+        .catch(() => {}); // keep {} on failure — panel stays open
+    } else {
+      setDetail(null);
     }
   }, [selectedThreat]);
 
@@ -356,7 +359,7 @@ export default function App() {
       if (e.key === 'Escape') {
         if (cmdPaletteOpen) { setCmdPaletteOpen(false); return; }
         if (showShortcuts) { setShowShortcuts(false); return; }
-        if (detail) { setDetail(null); return; }
+        if (selectedThreat) { setSelectedThreat(null); return; }
         if (fullscreen) { setFullscreen(false); return; }
       }
       if (e.key === '?' && !e.ctrlKey && !e.metaKey && !(e.target instanceof HTMLInputElement)) {
@@ -376,7 +379,7 @@ export default function App() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [detail, pipelineRunning, showShortcuts, cmdPaletteOpen, fullscreen]);
+  }, [selectedThreat, pipelineRunning, showShortcuts, cmdPaletteOpen, fullscreen]);
 
   // -- Boot Sequence --
   useEffect(() => {
@@ -1252,7 +1255,7 @@ export default function App() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                onClick={() => setDetail(null)}
+                onClick={() => setSelectedThreat(null)}
                 className="absolute inset-0 z-[80] bg-black/40 backdrop-blur-sm"
                 style={{ top: '5rem' }}
               />
@@ -1272,7 +1275,7 @@ export default function App() {
                   </h3>
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] text-gray-500 font-mono">ESC to close</span>
-                    <button onClick={() => setDetail(null)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
+                    <button onClick={() => setSelectedThreat(null)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
                       <X size={16} />
                     </button>
                   </div>
