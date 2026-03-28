@@ -61,7 +61,7 @@ import { ShareButton } from './components/ShareButton';
 import { ParticleField } from './components/ParticleField';
 import { MouseSpotlight } from './components/MouseSpotlight';
 import { MatrixRain } from './components/MatrixRain';
-import type { Notification } from './components/NotificationCenter';
+import type { AppNotification } from './components/NotificationCenter';
 import type { ContextMenuItem } from './components/ContextMenu';
 import type { Settings } from './components/SettingsPanel';
 import type { Action } from './components/CommandPalette';
@@ -133,7 +133,7 @@ export default function App() {
     autoRefresh: true,
     refreshInterval: 10000,
   });
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [confettiActive, setConfettiActive] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ open: boolean; x: number; y: number; threat: Threat | null }>({ open: false, x: 0, y: 0, threat: null });
   const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
@@ -160,17 +160,13 @@ export default function App() {
 
   const isBookmarked = useCallback((threat: Threat) => bookmarks.has(`${threat.user}::${threat.title}`), [bookmarks]);
 
-  // -- Notification helper --
-  const addNotification = useCallback((message: string, type: Notification['type']) => {
-    const id = ++notifIdRef.current;
-    setNotifications(prev => [...prev.slice(-49), { id, message, type, time: new Date(), read: false }]);
-  }, []);
-
-  // -- Toast System --
+  // -- Toast + Notification System --
   const addToast = useCallback((message: string, type: Toast['type'] = 'info') => {
     const id = ++toastId;
     setToasts(prev => [...prev.slice(-4), { id, message, type }]);
-    addNotification(message, type);
+    // Also push to notification center
+    const nid = ++notifIdRef.current;
+    setNotifications(prev => [...prev.slice(-49), { id: nid, message, type, time: new Date(), read: false }]);
     setTimeout(() => {
       setToasts(prev => prev.map(t => t.id === id ? { ...t, exiting: true } : t));
       setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 300);
@@ -506,12 +502,12 @@ export default function App() {
         y={contextMenu.y}
         open={contextMenu.open}
         onClose={() => setContextMenu(c => ({ ...c, open: false }))}
-        items={contextMenu.threat ? [
-          { label: 'View Case Analysis', icon: Eye, action: () => { if (contextMenu.threat) setSelectedThreat(contextMenu.threat); } },
-          { label: isBookmarked(contextMenu.threat) ? 'Remove Bookmark' : 'Bookmark Threat', icon: isBookmarked(contextMenu.threat) ? BookmarkCheck : Bookmark, action: () => { if (contextMenu.threat) { toggleBookmark(contextMenu.threat); addToast(isBookmarked(contextMenu.threat) ? 'Bookmark removed' : 'Threat bookmarked', 'success'); } } },
-          { label: 'Copy Evidence', icon: Copy, action: () => { if (contextMenu.threat) { const t = contextMenu.threat; navigator.clipboard.writeText(`${t.action} | ${t.title} | ${t.user} | Score: ${t.score.toFixed(1)}%`); addToast('Evidence copied', 'success'); } } },
-          { label: 'View on Wikipedia', icon: ExternalLink, separator: true, action: () => { if (contextMenu.threat) window.open(`https://en.wikipedia.org/wiki/${encodeURIComponent(contextMenu.threat.title)}`, '_blank'); } },
-        ] as ContextMenuItem[] : []}
+        items={contextMenu.threat ? (() => { const ct = contextMenu.threat!; const bk = isBookmarked(ct); return [
+          { label: 'View Case Analysis', icon: Eye, action: () => setSelectedThreat(ct) },
+          { label: bk ? 'Remove Bookmark' : 'Bookmark Threat', icon: bk ? BookmarkCheck : Bookmark, action: () => { toggleBookmark(ct); addToast(bk ? 'Bookmark removed' : 'Threat bookmarked', 'success'); } },
+          { label: 'Copy Evidence', icon: Copy, action: () => { navigator.clipboard.writeText(`${ct.action} | ${ct.title} | ${ct.user} | Score: ${ct.score.toFixed(1)}%`); addToast('Evidence copied', 'success'); } },
+          { label: 'View on Wikipedia', icon: ExternalLink, separator: true, action: () => window.open(`https://en.wikipedia.org/wiki/${encodeURIComponent(ct.title)}`, '_blank') },
+        ] as ContextMenuItem[]; })() : []}
       />
 
       {/* Scanline + Noise overlay (toggleable) */}

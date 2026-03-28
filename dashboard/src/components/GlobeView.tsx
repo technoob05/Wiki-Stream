@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Stars, Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -402,6 +402,3 @@ export const GlobeView: React.FC<{ onThreatClick?: (user: string, title: string)
     </div>
   );
 };
-
-// Need Suspense for useLoader
-import { Suspense } from 'react';

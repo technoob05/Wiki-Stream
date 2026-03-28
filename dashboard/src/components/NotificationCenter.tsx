@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, X, Trash2, AlertTriangle, Zap, Activity, CheckCircle } from 'lucide-react';
 
-export interface Notification {
+export interface AppNotification {
   id: number;
   message: string;
   type: 'threat' | 'info' | 'success';
@@ -11,7 +11,7 @@ export interface Notification {
 }
 
 interface NotificationCenterProps {
-  notifications: Notification[];
+  notifications: AppNotification[];
   onClear: () => void;
   onMarkRead: (id: number) => void;
 }
