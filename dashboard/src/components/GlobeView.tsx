@@ -10,6 +10,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
 const EARTH_DAY = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-blue-marble.jpg';
 const EARTH_NIGHT = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-night.jpg';
 const EARTH_TOPO = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-topology.png';
+const EARTH_CLOUDS = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-clouds.png';
 
 interface GeoMarker {
   lat: number;
@@ -110,6 +111,44 @@ const ThreatMarker = ({ marker, radius, onClick }: { marker: GeoMarker; radius: 
   );
 };
 
+// ── Animated arc with flowing particle ──
+const AnimatedArc = ({ start, end, radius, index }: { start: [number, number, number]; end: [number, number, number]; radius: number; index: number }) => {
+  const particleRef = useRef<THREE.Mesh>(null);
+  const mid = useMemo(() => {
+    return new THREE.Vector3(
+      (start[0] + end[0]) / 2, (start[1] + end[1]) / 2, (start[2] + end[2]) / 2,
+    ).normalize().multiplyScalar(radius + 0.7);
+  }, [start, end, radius]);
+
+  const curve = useMemo(() => new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(...start), mid, new THREE.Vector3(...end),
+  ), [start, mid, end]);
+
+  const geometry = useMemo(() => new THREE.BufferGeometry().setFromPoints(curve.getPoints(24)), [curve]);
+
+  useFrame((state) => {
+    if (particleRef.current) {
+      const t = ((state.clock.elapsedTime * 0.3 + index * 0.15) % 1);
+      const pos = curve.getPoint(t);
+      particleRef.current.position.copy(pos);
+    }
+  });
+
+  return (
+    <group>
+      <line>
+        <primitive object={geometry} attach="geometry" />
+        <lineBasicMaterial color="#06b6d4" transparent opacity={0.15} />
+      </line>
+      {/* Flowing particle */}
+      <mesh ref={particleRef}>
+        <sphereGeometry args={[0.025, 6, 6]} />
+        <meshBasicMaterial color="#22d3ee" />
+      </mesh>
+    </group>
+  );
+};
+
 // ── Arc connections between threats from same user ──
 const ThreatArcs = ({ markers, radius }: { markers: GeoMarker[]; radius: number }) => {
   const arcs = useMemo(() => {
@@ -128,28 +167,14 @@ const ThreatArcs = ({ markers, radius }: { markers: GeoMarker[]; radius: number 
         });
       }
     });
-    return result.slice(0, 25);
+    return result.slice(0, 20);
   }, [markers, radius]);
 
   return (
     <>
-      {arcs.map((arc, i) => {
-        const mid = new THREE.Vector3(
-          (arc.start[0] + arc.end[0]) / 2,
-          (arc.start[1] + arc.end[1]) / 2,
-          (arc.start[2] + arc.end[2]) / 2,
-        ).normalize().multiplyScalar(radius + 0.7);
-        const curve = new THREE.QuadraticBezierCurve3(
-          new THREE.Vector3(...arc.start), mid, new THREE.Vector3(...arc.end),
-        );
-        const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(20));
-        return (
-          <line key={i}>
-            <primitive object={geometry} attach="geometry" />
-            <lineBasicMaterial color="#06b6d4" transparent opacity={0.18} />
-          </line>
-        );
-      })}
+      {arcs.map((arc, i) => (
+        <AnimatedArc key={i} start={arc.start} end={arc.end} radius={radius} index={i} />
+      ))}
     </>
   );
 };
@@ -160,14 +185,21 @@ const EarthGlobe = ({ markers, onMarkerClick }: { markers: GeoMarker[]; onMarker
   const isDragging = useRef(false);
   const RADIUS = 2.5;
 
+  const cloudRef = useRef<THREE.Mesh>(null);
+
   // Load real NASA textures
   const dayMap = useLoader(THREE.TextureLoader, EARTH_DAY);
   const nightMap = useLoader(THREE.TextureLoader, EARTH_NIGHT);
   const topoMap = useLoader(THREE.TextureLoader, EARTH_TOPO);
+  const cloudMap = useLoader(THREE.TextureLoader, EARTH_CLOUDS);
 
   useFrame(() => {
     if (groupRef.current && !isDragging.current) {
       groupRef.current.rotation.y += 0.0006;
+    }
+    // Clouds rotate slightly faster than Earth
+    if (cloudRef.current) {
+      cloudRef.current.rotation.y += 0.0001;
     }
   });
 
@@ -214,6 +246,18 @@ const EarthGlobe = ({ markers, onMarkerClick }: { markers: GeoMarker[]; onMarker
         <mesh>
           <sphereGeometry args={[RADIUS + 0.25, 48, 48]} />
           <meshBasicMaterial color="#0ea5e9" transparent opacity={0.025} side={THREE.BackSide} />
+        </mesh>
+
+        {/* Cloud layer — semi-transparent rotating */}
+        <mesh ref={cloudRef}>
+          <sphereGeometry args={[RADIUS + 0.06, 96, 96]} />
+          <meshStandardMaterial
+            map={cloudMap}
+            transparent
+            opacity={0.2}
+            depthWrite={false}
+            side={THREE.DoubleSide}
+          />
         </mesh>
 
         {/* Threat markers */}

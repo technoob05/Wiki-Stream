@@ -58,6 +58,9 @@ import { Confetti } from './components/Confetti';
 import { ContextMenu } from './components/ContextMenu';
 import { OnboardingTour } from './components/OnboardingTour';
 import { ShareButton } from './components/ShareButton';
+import { ParticleField } from './components/ParticleField';
+import { MouseSpotlight } from './components/MouseSpotlight';
+import { MatrixRain } from './components/MatrixRain';
 import type { Notification } from './components/NotificationCenter';
 import type { ContextMenuItem } from './components/ContextMenu';
 import type { Settings } from './components/SettingsPanel';
@@ -388,7 +391,8 @@ export default function App() {
     ];
 
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center bg-background font-mono">
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-background font-mono relative">
+        <ParticleField />
         <div className="w-full max-w-lg space-y-1 px-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)]">
@@ -487,6 +491,9 @@ export default function App() {
   // -- Main Render --
   return (
     <div className="h-screen w-screen flex bg-background overflow-hidden text-gray-200">
+      {/* Mouse spotlight effect */}
+      <MouseSpotlight />
+
       {/* Confetti celebration */}
       <Confetti active={confettiActive} />
 
@@ -628,7 +635,7 @@ export default function App() {
           </div>
           {sidebarOpen && (
             <div>
-              <span className="font-bold tracking-tight text-white text-lg">WIKI-STREAM</span>
+              <span className="font-bold tracking-tight text-white text-lg neon-text">WIKI-STREAM</span>
               <div className="text-[9px] text-cyan-500/60 font-mono tracking-widest">INTELLIGENCE v2.0</div>
             </div>
           )}
@@ -741,7 +748,7 @@ export default function App() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden relative grid-bg">
         {/* Top Header */}
-        <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-background/80 backdrop-blur-md z-40 shrink-0">
+        <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-background/80 backdrop-blur-md z-40 shrink-0 data-stream-bg">
           <div className="flex gap-6">
             {[
               { label: 'Total Edits', value: data.total, icon: Database, animated: true, spark: sparkHistory.total, sparkColor: '#06b6d4' },
@@ -852,7 +859,8 @@ export default function App() {
                     exit={{ opacity: 0, y: 20 }}
                     className="absolute bottom-16 left-6 w-[33%] h-56 glass-panel overflow-hidden flex flex-col z-10"
                   >
-                    <div className="h-10 border-b border-white/5 bg-white/5 px-4 flex items-center gap-2 shrink-0">
+                    <MatrixRain />
+                    <div className="h-10 border-b border-white/5 bg-white/5 px-4 flex items-center gap-2 shrink-0 relative z-10">
                       <Terminal size={16} className="text-cyan-400" />
                       <span className="text-xs font-mono text-gray-400 tracking-wide">FORENSIC LOGS</span>
                       <div className="ml-auto flex gap-1">
