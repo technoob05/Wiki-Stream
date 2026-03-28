@@ -77,7 +77,7 @@ const LocationInfoPanel: React.FC<{
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 12, scale: 0.96 }}
       transition={{ duration: 0.18 }}
-      className="absolute bottom-16 right-4 z-20 w-72 bg-black/92 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+      className="absolute bottom-16 right-4 z-20 w-72 max-w-[calc(100vw-2rem)] bg-black/92 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
     >
       <div className="px-4 py-3 border-b border-white/5 flex items-start justify-between bg-cyan-500/5">
         <div>
@@ -187,7 +187,7 @@ const ArticlePreviewPanel: React.FC<{
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.18 }}
-      className="absolute bottom-16 right-4 z-20 w-72 bg-black/92 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+      className="absolute bottom-16 right-4 z-20 w-72 max-w-[calc(100vw-2rem)] bg-black/92 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
     >
       <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between bg-purple-500/5">
         <div className="flex items-center gap-2">
@@ -1053,7 +1053,7 @@ export const GlobeView: React.FC<{ onThreatClick?: (user: string, title: string)
     <div className="w-full h-full min-h-[400px] relative bg-[#030712]">
 
       {/* Threat filter buttons */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex gap-1 sm:gap-2 flex-wrap justify-center" style={{ maxWidth: 'calc(100vw - 160px)' }}>
         {[
           { action: 'BLOCK',  count: blockCount,   show: showBlock,  set: setShowBlock,  active: 'bg-red-500/20 text-red-400 border-red-500/40' },
           { action: 'FLAG',   count: flagCount,    show: showFlag,   set: setShowFlag,   active: 'bg-orange-500/20 text-orange-400 border-orange-500/40' },
@@ -1061,7 +1061,7 @@ export const GlobeView: React.FC<{ onThreatClick?: (user: string, title: string)
           { action: 'SAFE',   count: safeGeoCount > 0 ? safeGeoCount : safeCount, show: showSafe, set: setShowSafe, active: 'bg-green-500/20 text-green-400 border-green-500/40' },
         ].map(({ action, count, show, set, active }) => (
           <button key={action} onClick={() => set(!show)}
-            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${show ? active : 'bg-white/5 text-gray-600 border-white/10'}`}
+            className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] font-bold border transition-all ${show ? active : 'bg-white/5 text-gray-600 border-white/10'}`}
           >
             {action} ({count})
           </button>

@@ -134,6 +134,7 @@ export default function App() {
   });
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [confettiActive, setConfettiActive] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ open: boolean; x: number; y: number; threat: Threat | null }>({ open: false, x: 0, y: 0, threat: null });
   const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem('wikistream_bookmarks') || '[]')); } catch { return new Set(); }
@@ -560,7 +561,7 @@ export default function App() {
       />
 
       {/* Toast Notifications */}
-      <div className="fixed top-24 right-6 z-[200] flex flex-col gap-2 pointer-events-none">
+      <div className="fixed top-20 right-3 left-3 sm:top-24 sm:left-auto sm:right-6 z-[200] flex flex-col gap-2 pointer-events-none">
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
@@ -618,7 +619,7 @@ export default function App() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={e => e.stopPropagation()}
-              className="bg-[#0f0f13] border border-white/10 rounded-2xl p-6 w-[420px] shadow-2xl"
+              className="bg-[#0f0f13] border border-white/10 rounded-2xl p-6 w-[calc(100vw-2rem)] max-w-[420px] shadow-2xl"
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-bold text-white flex items-center gap-2">
@@ -660,7 +661,7 @@ export default function App() {
       <motion.nav
         initial={false}
         animate={{ width: fullscreen ? 0 : sidebarOpen ? 260 : 80, opacity: fullscreen ? 0 : 1 }}
-        className={`h-full border-r border-white/5 bg-[#0f0f13] flex flex-col z-50 p-4 shrink-0 ${fullscreen ? 'overflow-hidden pointer-events-none' : ''}`}
+        className={`h-full border-r border-white/5 bg-[#0f0f13] hidden md:flex flex-col z-50 p-4 shrink-0 ${fullscreen ? 'overflow-hidden pointer-events-none' : ''}`}
       >
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.5)] cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -778,56 +779,127 @@ export default function App() {
         </div>
       </motion.nav>
 
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileNavOpen(false)}
+              className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm md:hidden"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed left-0 top-0 bottom-0 z-[70] w-64 bg-[#0f0f13] border-r border-white/5 flex flex-col p-4 md:hidden"
+            >
+              <div className="flex items-center justify-between mb-8 px-1">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+                    <Shield size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <span className="font-bold tracking-tight text-white neon-text">WIKI-STREAM</span>
+                    <div className="text-[9px] text-cyan-500/60 font-mono tracking-widest">INTELLIGENCE v2.0</div>
+                  </div>
+                </div>
+                <button onClick={() => setMobileNavOpen(false)} className="p-2 hover:bg-white/10 rounded-lg">
+                  <X size={16} className="text-gray-400" />
+                </button>
+              </div>
+              <div className="flex-1 space-y-1">
+                <button onClick={() => { setCmdPaletteOpen(true); setMobileNavOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:bg-white/5 transition-colors text-sm">
+                  <Command size={16} className="text-gray-500" /> Command Palette
+                </button>
+                <button onClick={() => { setSettingsOpen(true); setMobileNavOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:bg-white/5 transition-colors text-sm">
+                  <SettingsIcon size={16} className="text-gray-500" /> Settings
+                </button>
+                <button onClick={() => { setShowShortcuts(true); setMobileNavOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:bg-white/5 transition-colors text-sm">
+                  <Keyboard size={16} className="text-gray-500" /> Shortcuts
+                </button>
+                <button onClick={() => { exportData(); setMobileNavOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:bg-white/5 transition-colors text-sm">
+                  <Download size={16} className="text-gray-500" /> Export Data
+                </button>
+                <button
+                  onClick={() => { if (!pipelineRunning) runPipeline(); setMobileNavOpen(false); }}
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-bold"
+                >
+                  <RefreshCw size={16} className={pipelineRunning ? 'animate-spin' : ''} />
+                  {pipelineRunning ? 'Pipeline Running…' : 'Trigger Pipeline'}
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden relative grid-bg">
         {/* Top Header */}
-        <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-background/80 backdrop-blur-md z-40 shrink-0 data-stream-bg">
-          <div className="flex gap-6">
-            {[
-              { label: 'Total Edits', value: data.total, icon: Database, animated: true, spark: sparkHistory.total, sparkColor: '#06b6d4' },
-              { label: 'Active Threats', value: activeThreats, icon: Shield, color: 'text-red-500', animated: true, spark: sparkHistory.threats, sparkColor: '#ef4444' },
-              { label: 'AI Confidence', value: aiConfidence != null ? `${aiConfidence}%` : 'N/A', icon: Brain, color: 'text-purple-400', spark: sparkHistory.confidence, sparkColor: '#a855f7' },
-              { label: 'Entropy', value: data.statistics?.avg_deng_entropy?.toFixed(2) || 'N/A', icon: Fingerprint, color: 'text-blue-400' },
-              { label: 'Blocked', value: data.distribution['BLOCK'] || 0, icon: AlertTriangle, color: 'text-red-400', animated: true },
-            ].map((stat, i) => (
-              <TiltCard key={i} intensity={6} glare={false} className="flex items-center gap-3 px-2 py-1 rounded-lg cursor-default">
-                <div className="p-2 rounded-lg bg-white/5"><stat.icon size={16} className="text-gray-400" /></div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">{stat.label}</div>
-                  <div className="flex items-center gap-2">
-                    <div className={`font-mono font-bold ${stat.color || 'text-white'}`}>
-                      {stat.animated && typeof stat.value === 'number'
-                        ? <AnimatedNumber value={stat.value} />
-                        : stat.value}
+        <header className="h-14 md:h-20 border-b border-white/5 flex items-center justify-between px-2 md:px-8 bg-background/80 backdrop-blur-md z-40 shrink-0 data-stream-bg gap-2">
+          <div className="flex items-center gap-1 md:gap-6 min-w-0 flex-1">
+            {/* Hamburger — mobile only */}
+            <button
+              onClick={() => setMobileNavOpen(true)}
+              className="md:hidden shrink-0 p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 transition-colors"
+              title="Menu"
+            >
+              <Menu size={18} />
+            </button>
+            {/* Stats */}
+            <div className="flex gap-1 md:gap-6 overflow-x-auto no-scrollbar">
+              {[
+                { label: 'Total Edits', value: data.total, icon: Database, animated: true, spark: sparkHistory.total, sparkColor: '#06b6d4' },
+                { label: 'Active Threats', value: activeThreats, icon: Shield, color: 'text-red-500', animated: true, spark: sparkHistory.threats, sparkColor: '#ef4444' },
+                { label: 'AI Confidence', value: aiConfidence != null ? `${aiConfidence}%` : 'N/A', icon: Brain, color: 'text-purple-400', spark: sparkHistory.confidence, sparkColor: '#a855f7' },
+                { label: 'Entropy', value: data.statistics?.avg_deng_entropy?.toFixed(2) || 'N/A', icon: Fingerprint, color: 'text-blue-400' },
+                { label: 'Blocked', value: data.distribution['BLOCK'] || 0, icon: AlertTriangle, color: 'text-red-400', animated: true },
+              ].map((stat, i) => (
+                <TiltCard key={i} intensity={6} glare={false} className={`flex items-center gap-2 md:gap-3 px-2 py-1 rounded-lg cursor-default shrink-0${i >= 2 ? ' hidden sm:flex' : ''}`}>
+                  <div className="p-1.5 md:p-2 rounded-lg bg-white/5"><stat.icon size={14} className="text-gray-400" /></div>
+                  <div>
+                    <div className="text-[9px] md:text-[10px] uppercase tracking-wider text-gray-500 font-bold">{stat.label}</div>
+                    <div className="flex items-center gap-1 md:gap-2">
+                      <div className={`font-mono font-bold text-sm ${stat.color || 'text-white'}`}>
+                        {stat.animated && typeof stat.value === 'number'
+                          ? <AnimatedNumber value={stat.value} />
+                          : stat.value}
+                      </div>
+                      {stat.spark && stat.spark.length > 1 && (
+                        <span className="hidden md:block"><Sparkline data={stat.spark} width={48} height={16} color={stat.sparkColor} /></span>
+                      )}
                     </div>
-                    {stat.spark && stat.spark.length > 1 && (
-                      <Sparkline data={stat.spark} width={48} height={16} color={stat.sparkColor} />
-                    )}
                   </div>
-                </div>
-              </TiltCard>
-            ))}
+                </TiltCard>
+              ))}
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 md:gap-3 shrink-0">
             {fullscreen && (
               <button
                 onClick={() => setFullscreen(false)}
-                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
+                className="hidden md:flex p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
                 title="Exit fullscreen (F)"
               >
                 <Minimize size={14} />
               </button>
             )}
-            <ShareButton data={data} addToast={addToast} />
-            <NotificationCenter
-              notifications={notifications}
-              onClear={() => setNotifications([])}
-              onMarkRead={(id) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))}
-            />
+            <div className="hidden md:block"><ShareButton data={data} addToast={addToast} /></div>
+            <div className="hidden md:block">
+              <NotificationCenter
+                notifications={notifications}
+                onClear={() => setNotifications([])}
+                onMarkRead={(id) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))}
+              />
+            </div>
             <button
               onClick={exportData}
-              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
+              className="hidden md:flex p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-all border border-white/5"
               title="Export intelligence data"
             >
               <Download size={14} />
@@ -835,21 +907,21 @@ export default function App() {
             <button
               id="btn-trigger-pipeline"
               onClick={pipelineRunning ? cancelPipeline : runPipeline}
-              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+              className={`px-2 md:px-4 py-1.5 md:py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 md:gap-2 ${
                 pipelineRunning
                   ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30'
                   : 'bg-cyan-500 hover:bg-cyan-600 text-black shadow-[0_0_20px_rgba(6,182,212,0.3)] ripple'
               }`}
             >
-              <RefreshCw size={14} className={pipelineRunning ? 'animate-spin' : ''} />
-              {pipelineRunning ? 'CANCEL' : 'TRIGGER PIPELINE'}
+              <RefreshCw size={13} className={pipelineRunning ? 'animate-spin' : ''} />
+              <span className="hidden sm:inline">{pipelineRunning ? 'CANCEL' : 'TRIGGER PIPELINE'}</span>
             </button>
-            <div className="px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full flex items-center gap-2">
+            <div className="px-2 md:px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-green-500 pulse-ring" />
-              <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Live</span>
+              <span className="hidden sm:inline text-[10px] font-bold text-green-500 uppercase tracking-widest">Live</span>
             </div>
             {/* Uptime */}
-            <div className="text-[10px] text-gray-600 font-mono flex items-center gap-1.5">
+            <div className="hidden md:flex text-[10px] text-gray-600 font-mono items-center gap-1.5">
               <Clock size={10} />
               {data.timestamp ? new Date(data.timestamp).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '--:--'}
             </div>
@@ -889,7 +961,7 @@ export default function App() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
-                    className="absolute bottom-16 left-6 w-[33%] h-56 glass-panel overflow-hidden flex flex-col z-10"
+                    className="absolute bottom-16 left-4 w-[calc(100%-2rem)] sm:w-[50%] md:w-[33%] h-56 glass-panel overflow-hidden flex flex-col z-10"
                   >
                     <MatrixRain />
                     <div className="h-10 border-b border-white/5 bg-white/5 px-4 flex items-center gap-2 shrink-0 relative z-10">
@@ -1236,7 +1308,7 @@ export default function App() {
                   </div>
 
                   {/* Signal Radar + Signals Grid side by side */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Signal Radar</div>
                       <div className="rounded-xl bg-white/[0.03] border border-white/10 p-2">
@@ -1295,7 +1367,7 @@ export default function App() {
 
                   {/* Pignistic Probability + Mass Sources (if available) */}
                   {selectedThreat.pignistic && (
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2">Pignistic Transform</div>
                         <div className="rounded-xl bg-white/[0.03] border border-white/10 p-3 flex justify-center">
@@ -1458,6 +1530,9 @@ export default function App() {
           )}
         </AnimatePresence>
 
+        {/* Mobile bottom nav spacer */}
+        <div className="h-14 md:hidden shrink-0" />
+
         {/* Status Bar */}
         <StatusBar
           connected={!!data}
@@ -1467,6 +1542,32 @@ export default function App() {
           pipelineRunning={pipelineRunning}
         />
       </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#0f0f13]/95 backdrop-blur-md border-t border-white/5 flex items-center justify-around h-14 px-1 safe-area-pb">
+        {([
+          { id: 'ov', label: 'Globe', icon: Activity },
+          { id: 'an', label: 'Charts', icon: BarChart3 },
+          { id: 'dt', label: 'Table', icon: Table2 },
+          { id: 'ng', label: 'Network', icon: GitBranch },
+          { id: 'tl', label: 'Timeline', icon: Timer },
+          { id: 'fl', label: 'Forensic', icon: Microscope },
+        ] as const).map((item) => {
+          const isActive = activePage === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActivePage(item.id)}
+              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all ${
+                isActive ? 'text-cyan-400' : 'text-gray-600 hover:text-gray-400'
+              }`}
+            >
+              <item.icon size={19} />
+              <span className="text-[9px] font-bold leading-none">{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }

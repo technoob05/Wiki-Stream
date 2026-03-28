@@ -22,6 +22,10 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 .glass-panel {
   background: rgba(22, 22, 26, 0.7);
   backdrop-filter: blur(12px);
