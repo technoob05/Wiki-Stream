@@ -12,6 +12,7 @@ import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import { fileURLToPath } from 'url';
+import { parse } from 'csv-parse/sync';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -169,5 +170,64 @@ if (fs.existsSync(REPORT)) {
 } else {
   console.warn('⚠️   final_forensic_report.md not found — skipping');
 }
+
+// ── 4. edit_details.json — detail data for top_threats (for Vercel) ──
+const DATA_DIR = path.join(ROOT, 'experiments', 'data');
+const topThreats = master.top_threats || [];
+
+function globCSVFiles(dir) {
+  const results = [];
+  if (!fs.existsSync(dir)) return results;
+  const walk = (d) => {
+    for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+      const full = path.join(d, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.endsWith('_attributed.csv')) results.push(full);
+    }
+  };
+  walk(dir);
+  return results;
+}
+
+console.log('🔍  Building edit_details lookup from attributed CSVs…');
+const allDetailRows = {};
+const csvFiles = globCSVFiles(DATA_DIR);
+console.log(`   Found ${csvFiles.length} attributed CSV files`);
+
+for (const file of csvFiles) {
+  try {
+    const content = fs.readFileSync(file, 'utf-8');
+    const records = parse(content, { columns: true, skip_empty_lines: true, relax_column_count: true });
+    for (const row of records) {
+      if (!row.user || !row.title) continue;
+      const key = `${row.user}::${row.title}`;
+      allDetailRows[key] = {
+        comment:       row.comment      || '',
+        diff_added:    row.diff_added   || '',
+        diff_removed:  row.diff_removed || '',
+        nlp_notes:     row.nlp_notes    || '',
+        wiki_url:      row.wiki_url     || '',
+      };
+    }
+  } catch (e) {
+    console.warn(`   ⚠️  Skip ${path.basename(file)}: ${e.message}`);
+  }
+}
+
+// Only store entries matching top_threats to keep the file small
+const editDetails = {};
+let detailFound = 0;
+for (const threat of topThreats) {
+  const key = `${threat.user}::${threat.title}`;
+  if (allDetailRows[key]) {
+    editDetails[key] = allDetailRows[key];
+    detailFound++;
+  }
+}
+
+const detailsPath = path.join(OUT_DIR, 'edit_details.json');
+fs.writeFileSync(detailsPath, JSON.stringify(editDetails));
+console.log(`✅  edit_details.json → ${(fs.statSync(detailsPath).size / 1024).toFixed(0)} KB`);
+console.log(`   ${detailFound}/${topThreats.length} top threats have edit detail data`);
 
 console.log('\n✅  Done. Commit public/data/ and redeploy to Vercel.\n');
