@@ -7,14 +7,8 @@ interface TimelineProps {
   onSelect: (threat: any) => void;
 }
 
-const actionColor: Record<string, string> = {
-  BLOCK: '#ef4444',
-  FLAG: '#f97316',
-  REVIEW: '#facc15',
-  SAFE: '#22c55e',
-};
 
-export const ThreatTimeline: React.FC<TimelineProps> = ({ threats, onSelect }) => {
+export const ThreatTimeline: React.FC<TimelineProps> = ({ threats, onSelect: _onSelect }) => {
   const sorted = useMemo(() => {
     return [...threats]
       .filter(t => t.timestamp)
@@ -31,7 +25,7 @@ export const ThreatTimeline: React.FC<TimelineProps> = ({ threats, onSelect }) =
 
   const minTime = Number(sorted[0].timestamp);
   const maxTime = Number(sorted[sorted.length - 1].timestamp);
-  const range = maxTime - minTime || 1;
+  void (maxTime - minTime || 1); // range used for bucket width calculation below
 
   // Group by hour for density visualization
   const hourBuckets: Record<number, { count: number; block: number; flag: number; review: number; safe: number }> = {};

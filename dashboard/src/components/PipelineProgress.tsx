@@ -43,7 +43,7 @@ export const PipelineProgress: React.FC<PipelineProgressProps> = ({ running, cur
           {stages.map((stage, i) => {
             const isDone = i < active;
             const isCurrent = i === active;
-            const isPending = i > active;
+            const _isPending = i > active; void _isPending;
 
             return (
               <div key={stage.id} className="flex-1 flex flex-col items-center gap-1.5">

@@ -30,8 +30,6 @@ import {
   Command,
   Settings as SettingsIcon,
   Table2,
-  Volume2,
-  VolumeX,
   Bookmark,
   BookmarkCheck,
   Eye,
@@ -467,7 +465,7 @@ export default function App() {
       .replace(/\{\{[^}]*\}\}/g, '')
       .replace(/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/g, '$1')
       .replace(/<[^>]+>/g, '')
-      .replace(/[{}\[\]|='#*]/g, '')
+      .replace(/[{}[\]|='#*]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
   };

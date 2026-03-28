@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, X, Sparkles, Globe, BarChart3, Table2, GitBranch, Microscope, Command } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Sparkles, Globe, BarChart3, Table2, GitBranch, Microscope, Command } from 'lucide-react';
 
 interface TourStep {
   title: string;

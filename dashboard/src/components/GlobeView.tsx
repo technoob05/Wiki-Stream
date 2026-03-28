@@ -567,18 +567,6 @@ const EarthquakeMarkers = ({ quakes, radius }: { quakes: EarthquakeFeature[]; ra
   </>
 );
 
-// ── Camera fly-to controller ──
-const CameraController = ({ target }: { target: THREE.Vector3 | null }) => {
-  const { camera } = useThree();
-  const targetRef = useRef<THREE.Vector3 | null>(null);
-  useEffect(() => { targetRef.current = target ? target.clone() : null; }, [target]);
-  useFrame(() => {
-    if (!targetRef.current) return;
-    camera.position.lerp(targetRef.current, 0.04);
-    if (camera.position.distanceTo(targetRef.current) < 0.05) targetRef.current = null;
-  });
-  return null;
-};
 
 // ── Earth Globe ──
 const EarthGlobe = ({

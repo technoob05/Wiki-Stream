@@ -1,6 +1,5 @@
 import { useRef, useMemo, useEffect, useState, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { ZoomIn, ZoomOut, Maximize2, RotateCcw } from 'lucide-react';
+import { ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 
 interface NetworkGraphProps {
   threats: any[];
@@ -40,7 +39,6 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({ threats, onNodeClick
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
   const [dragging, setDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const nodesRef = useRef<Node[]>([]);
   const edgesRef = useRef<Edge[]>([]);
   const animRef = useRef<number>(0);

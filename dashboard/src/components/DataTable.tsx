@@ -14,7 +14,7 @@ type SortDir = 'asc' | 'desc';
 const ACTION_ORDER: Record<string, number> = { BLOCK: 0, FLAG: 1, REVIEW: 2, SAFE: 3 };
 const PAGE_SIZES = [25, 50, 100];
 
-export const DataTable: React.FC<DataTableProps> = ({ threats, onSelect, onExport }) => {
+export const DataTable: React.FC<DataTableProps> = ({ threats, onSelect, onExport: _onExport }) => {
   const [sortField, setSortField] = useState<SortField>('score');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [page, setPage] = useState(0);
@@ -139,7 +139,7 @@ export const DataTable: React.FC<DataTableProps> = ({ threats, onSelect, onExpor
             <div className="absolute right-0 top-full mt-1 bg-[#0f0f13] border border-white/10 rounded-lg p-2 z-20 min-w-[140px]">
               {Object.entries(visibleCols).map(([key, visible]) => (
                 <label key={key} className="flex items-center gap-2 py-1 px-1 text-xs text-gray-400 hover:text-white cursor-pointer">
-                  <input type="checkbox" checked={visible} onChange={() => setVisibleCols(v => ({ ...v, [key]: !v[key] }))} className="accent-cyan-500" />
+                  <input type="checkbox" checked={visible} onChange={() => setVisibleCols(v => ({ ...v, [key]: !v[key as keyof typeof v] }))} className="accent-cyan-500" />
                   {key.toUpperCase()}
                 </label>
               ))}

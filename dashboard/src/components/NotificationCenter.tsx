@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, X, Trash2, AlertTriangle, Zap, Activity, CheckCircle } from 'lucide-react';
+import { Bell, X, Trash2, AlertTriangle, Activity, CheckCircle } from 'lucide-react';
 
 export interface AppNotification {
   id: number;

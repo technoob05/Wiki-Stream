@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Palette, Volume2, VolumeX, Eye, Monitor, Sun, Moon } from 'lucide-react';
+import { X, Palette, Volume2, VolumeX, Eye, Monitor, Sun } from 'lucide-react';
 
 interface Settings {
   accentColor: string;

@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search, Activity, BarChart3, Microscope, Terminal, RefreshCw,
-  Download, Keyboard, Shield, Globe, ArrowRight, Command,
+  Search, ArrowRight, Command,
 } from 'lucide-react';
 
 interface Action {

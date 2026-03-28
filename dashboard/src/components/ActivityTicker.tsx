@@ -2,15 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap } from 'lucide-react';
 
-interface TickerItem {
-  id: number;
-  user: string;
-  title: string;
-  action: string;
-  score: number;
-  domain: string;
-}
-
 interface Props {
   threats: any[];
 }
@@ -24,7 +15,7 @@ const actionColor: Record<string, string> = {
 
 export const ActivityTicker: React.FC<Props> = ({ threats }) => {
   const [current, setCurrent] = useState(0);
-  const idRef = useRef(0);
+  const _idRef = useRef(0); void _idRef;
 
   useEffect(() => {
     if (!threats.length) return;

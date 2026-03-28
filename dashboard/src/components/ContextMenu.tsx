@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Copy, ExternalLink, Shield, Bookmark, BookmarkCheck, Eye, Download } from 'lucide-react';
 
 interface ContextMenuItem {
   label: string;

@@ -252,7 +252,7 @@ export function apiPlugin(): Plugin {
             for (const file of csvFiles) {
               try {
                 const content = fs.readFileSync(file, 'utf-8');
-                const records = parse(content, { columns: true, skip_empty_lines: true });
+                const records = parse(content, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
                 for (const row of records) {
                   if (row.user === user && row.title === title) found.push(row);
                 }
