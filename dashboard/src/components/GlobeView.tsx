@@ -4,7 +4,7 @@ import { Stars, Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
 
 // NASA / Natural Earth textures via CDN
 const EARTH_DAY = 'https://unpkg.com/three-globe@2.41.12/example/img/earth-blue-marble.jpg';

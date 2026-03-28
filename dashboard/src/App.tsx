@@ -67,7 +67,7 @@ import type { Settings } from './components/SettingsPanel';
 import type { Action } from './components/CommandPalette';
 import type { Threat } from './components/ThreatMatrix';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
 
 // -- Notification Toast System --
 interface Toast {
