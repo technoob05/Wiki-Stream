@@ -61,6 +61,7 @@ import { ShareButton } from './components/ShareButton';
 import { ParticleField } from './components/ParticleField';
 import { MouseSpotlight } from './components/MouseSpotlight';
 import { MatrixRain } from './components/MatrixRain';
+import { TiltCard } from './components/TiltCard';
 import type { AppNotification } from './components/NotificationCenter';
 import type { ContextMenuItem } from './components/ContextMenu';
 import type { Settings } from './components/SettingsPanel';
@@ -140,6 +141,8 @@ export default function App() {
     try { return new Set(JSON.parse(localStorage.getItem('wikistream_bookmarks') || '[]')); } catch { return new Set(); }
   });
   const notifIdRef = useRef(0);
+  const pipelineIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pipelineTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [sparkHistory, setSparkHistory] = useState<{ total: number[]; threats: number[]; confidence: number[] }>({
     total: [], threats: [], confidence: [],
   });
@@ -239,17 +242,27 @@ export default function App() {
     }
   };
 
+  const cancelPipeline = () => {
+    if (pipelineIntervalRef.current) clearInterval(pipelineIntervalRef.current);
+    if (pipelineTimeoutRef.current) clearTimeout(pipelineTimeoutRef.current);
+    pipelineIntervalRef.current = null;
+    pipelineTimeoutRef.current = null;
+    setPipelineRunning(false);
+    addToast('Pipeline monitoring cancelled.', 'info');
+  };
+
   const runPipeline = async () => {
     setPipelineRunning(true);
     addToast('Pipeline started — analyzing incoming edits...', 'info');
     try {
       await axios.post(`${API_BASE}/pipeline/run`);
-      const pollInterval = setInterval(async () => {
+      pipelineIntervalRef.current = setInterval(async () => {
         try {
           const status = await axios.get(`${API_BASE}/status`);
           const lastUpdated = status.data.last_updated;
           if (lastUpdated && Date.now() / 1000 - lastUpdated < 10) {
-            clearInterval(pollInterval);
+            if (pipelineIntervalRef.current) clearInterval(pipelineIntervalRef.current);
+            if (pipelineTimeoutRef.current) clearTimeout(pipelineTimeoutRef.current);
             fetchData();
             setPipelineRunning(false);
             addToast('Pipeline complete! Intelligence updated.', 'success');
@@ -258,8 +271,8 @@ export default function App() {
           }
         } catch { /* keep polling */ }
       }, 5000);
-      setTimeout(() => {
-        clearInterval(pollInterval);
+      pipelineTimeoutRef.current = setTimeout(() => {
+        if (pipelineIntervalRef.current) clearInterval(pipelineIntervalRef.current);
         setPipelineRunning(false);
         fetchData();
       }, 600000);
@@ -282,6 +295,12 @@ export default function App() {
   };
 
   // -- Effects --
+  useEffect(() => {
+    // Minimum boot animation time = last line delay (1500ms) + animation (300ms) + buffer
+    const t = setTimeout(() => setBootComplete(true), 1900);
+    return () => clearTimeout(t);
+  }, []);
+
   useEffect(() => {
     fetchData();
     if (!settings.autoRefresh && data) return;
@@ -374,7 +393,7 @@ export default function App() {
     : null;
 
   // -- Loading / Boot Sequence --
-  if (loading && !data) {
+  if (loading || !bootComplete) {
     const bootLines = [
       { text: 'WIKI-STREAM INTELLIGENCE PLATFORM v2.0', delay: 0 },
       { text: 'Initializing Dempster-Shafer fusion engine...', delay: 200 },
@@ -391,10 +410,10 @@ export default function App() {
         <ParticleField />
         <div className="w-full max-w-lg space-y-1 px-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+            <div className="w-10 h-10 rounded-lg bg-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)] float-animation">
               <Shield size={22} className="text-white" />
             </div>
-            <span className="font-bold text-white text-lg tracking-tight">WIKI-STREAM</span>
+            <span className="font-bold text-lg tracking-tight holo-text">WIKI-STREAM</span>
           </div>
           {bootLines.map((line, i) => (
             <div
@@ -407,8 +426,15 @@ export default function App() {
               {i === bootLines.length - 1 && <span className="cursor-blink ml-1" />}
             </div>
           ))}
-          <div className="mt-6 flex items-center gap-2 text-gray-500 text-xs">
-            <RefreshCw size={12} className="animate-spin" /> Establishing connection...
+          {/* Progress bar — fills over 1800ms matching full animation duration */}
+          <div className="mt-6">
+            <div className="h-px w-full bg-white/5 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-400 rounded-full boot-progress" />
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-gray-600 text-[10px]">
+              <RefreshCw size={10} className="animate-spin" />
+              {loading ? 'Establishing connection...' : 'Finalizing boot sequence...'}
+            </div>
           </div>
         </div>
       </div>
@@ -660,7 +686,7 @@ export default function App() {
               >
                 <item.icon size={22} className={isActive ? 'text-cyan-400' : ''} />
                 {sidebarOpen && (
-                  <span className={`text-sm font-medium ${isActive ? 'text-cyan-400' : ''}`}>{item.label}</span>
+                  <span className={`text-sm font-medium animated-underline ${isActive ? 'text-cyan-400' : ''}`}>{item.label}</span>
                 )}
                 {sidebarOpen && isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />}
               </button>
@@ -753,7 +779,7 @@ export default function App() {
               { label: 'Entropy', value: data.statistics?.avg_deng_entropy?.toFixed(2) || 'N/A', icon: Fingerprint, color: 'text-blue-400' },
               { label: 'Blocked', value: data.distribution['BLOCK'] || 0, icon: AlertTriangle, color: 'text-red-400', animated: true },
             ].map((stat, i) => (
-              <div key={i} className="flex items-center gap-3">
+              <TiltCard key={i} intensity={6} glare={false} className="flex items-center gap-3 px-2 py-1 rounded-lg cursor-default">
                 <div className="p-2 rounded-lg bg-white/5"><stat.icon size={16} className="text-gray-400" /></div>
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">{stat.label}</div>
@@ -768,7 +794,7 @@ export default function App() {
                     )}
                   </div>
                 </div>
-              </div>
+              </TiltCard>
             ))}
           </div>
 
@@ -797,16 +823,15 @@ export default function App() {
             </button>
             <button
               id="btn-trigger-pipeline"
-              onClick={runPipeline}
-              disabled={pipelineRunning}
+              onClick={pipelineRunning ? cancelPipeline : runPipeline}
               className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
                 pipelineRunning
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-cyan-500 hover:bg-cyan-600 text-black shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+                  ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30'
+                  : 'bg-cyan-500 hover:bg-cyan-600 text-black shadow-[0_0_20px_rgba(6,182,212,0.3)] ripple'
               }`}
             >
               <RefreshCw size={14} className={pipelineRunning ? 'animate-spin' : ''} />
-              {pipelineRunning ? 'RUNNING...' : 'TRIGGER PIPELINE'}
+              {pipelineRunning ? 'CANCEL' : 'TRIGGER PIPELINE'}
             </button>
             <div className="px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 pulse-ring" />
@@ -956,7 +981,7 @@ export default function App() {
           </motion.div>
         ) : activePage === 'an' ? (
           /* ── Analytics ── */
-          <motion.div key="an" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-hidden">
+          <motion.div key="an" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-y-auto">
             <AnalyticsView data={data} />
           </motion.div>
         ) : activePage === 'dt' ? (

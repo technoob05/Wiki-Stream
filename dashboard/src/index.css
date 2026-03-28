@@ -361,6 +361,63 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+/* Boot progress bar fill animation */
+@keyframes progressFill {
+  0% { width: 0%; }
+  10% { width: 8%; }
+  30% { width: 35%; }
+  60% { width: 65%; }
+  80% { width: 82%; }
+  95% { width: 95%; }
+  100% { width: 100%; }
+}
+
+.boot-progress {
+  width: 0%;
+  animation: progressFill 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ── Flat Map animations ── */
+@keyframes fmSweep {
+  0%   { left: -6%; }
+  100% { left: 106%; }
+}
+.fm-sweep {
+  position: absolute;
+  top: 0; height: 100%;
+  width: 5%;
+  background: linear-gradient(90deg, transparent, rgba(6,182,212,0.07), rgba(6,182,212,0.13), rgba(6,182,212,0.07), transparent);
+  animation: fmSweep 9s linear infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes fmPulse {
+  0%   { transform: translate(-50%,-50%) scale(1); opacity: 0.7; }
+  100% { transform: translate(-50%,-50%) scale(3.5); opacity: 0; }
+}
+.fm-pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  animation: fmPulse 2.2s ease-out infinite;
+}
+
+@keyframes fmIssPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(250,204,21,0.9),  0 0 20px rgba(250,204,21,0.4); }
+  50%       { box-shadow: 0 0 18px rgba(250,204,21,1),   0 0 40px rgba(250,204,21,0.7), 0 0 70px rgba(250,204,21,0.2); }
+}
+.fm-iss-core {
+  animation: fmIssPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes fmBracketGlow {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.9; }
+}
+.fm-bracket {
+  animation: fmBracketGlow 3s ease-in-out infinite;
+}
+
 /* Data stream effect for header */
 @keyframes dataStream {
   0% { background-position: 0% 50%; }
